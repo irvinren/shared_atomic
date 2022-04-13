@@ -33,5 +33,9 @@ Installation
     pip install shared_atomic
 
 
+Sourcecode Repo:
+https://github.com/irvinren/shared_atomic.git
+https://gitee.com/irvinren/shared_atomic.git
+
 For documentation, please go to:
 https://shared-atomic.readthedocs.io/en/latest/

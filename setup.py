@@ -7,7 +7,7 @@ with open("readme.rst") as f:
 
 setup(
     name='shared_atomic',
-    version="1.0.11",
+    version="1.0.12",
     author="Xiquan Ren",
     author_email="xiquanren@yandex.com",
     description="Shared atomicity with multiprocessing shared ctypes",
