@@ -1,6 +1,6 @@
-docs/build/*
 .DS_Store
 .idea/
 MANIFEST
 build/
 dist/
+docs/build/.DS_Store
