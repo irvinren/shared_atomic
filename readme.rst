@@ -62,6 +62,7 @@ can be used in python version above 3.0 till the latest 3.11
     for i in range(10000):
         processlist[i].join()
 
+ - Currently concurrent.futures.ProcessPoolExecutor and concurrent.futures.ThreadPoolExecutor cannot be used to start multiple executions ,since the cdll function cannot be serilized by pickle.
 
 Sourcecode Repo:
 
@@ -70,6 +71,7 @@ Sourcecode Repo:
  https://gitee.com/irvinren/shared_atomic.git
 
 For documentation, please go to:
+
  https://shared-atomic.readthedocs.io/en/latest/
 
 The project is licensed under GPL v3.0
