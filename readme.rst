@@ -1,6 +1,7 @@
 With the help of multiprocessing shared ctypes,
 we have achieved shared variables and arrays. but synchronization could be achieved by locks.
 this package provided a second way to access those primitive ctypes with atomic operations.
+can be used in python version above 3.0 till the latest 3.11
 
 Usage
     #load the compiled .so file with ctypes
