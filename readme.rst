@@ -39,3 +39,5 @@ https://gitee.com/irvinren/shared_atomic.git
 
 For documentation, please go to:
 https://shared-atomic.readthedocs.io/en/latest/
+
+The project is licensed under GPL v3.0
