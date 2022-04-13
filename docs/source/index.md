@@ -1,7 +1,7 @@
 Welcome to shared_atomic's documentation!
 =========================================
 
-<big> The module can be used for atomic operations on multiprocessing shared ctypes value and arrays.
+<big> The module can be used for atomic operations on shared ctypes value and arrays under multiple processs and multiple threads condition.
 
 The module should be built upon CFFI>1.0, can be loaded dynamically by [ctypes.CDLL](https://docs.python.org/3/library/ctypes.html?highlight=ctypes%20cdll#ctypes.CDLL) .
 

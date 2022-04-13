@@ -19,3 +19,14 @@ You need the following steps to utilize the module:
 4) pass the pointer to atomic functions
     
     `atomic.long_get_and_set(aref,ctypes.c_long(100))`
+    
+    `processlist = []`
+    
+    `for i in range(10000):`
+    `    processlist.append(Process(target=atomic.long_get_and_set, args=(aref,ctypes.c_long(100))))`
+
+    `for i in range(10000):`
+    `    processlist[i].start()`
+
+    `for i in range(10000):`
+    `    processlist[i].join()`

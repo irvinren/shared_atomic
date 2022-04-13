@@ -2,6 +2,7 @@
 #include <sys/types.h>
 
 
+
 void bool_store(_Bool *v, _Bool *n) {
     __atomic_store(v, n, __ATOMIC_SEQ_CST);
 };
