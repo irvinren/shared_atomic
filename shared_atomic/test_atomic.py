@@ -30,14 +30,6 @@ def test_atomic():
     atomic.long_get_and_set(aref, ctypes.c_long(100))
     assert a[0] == 100
 
-def size_t_sub_100(ref, delta):
-    """
-    function to decrease a size_t integer
-    :param ref: pointer to the ctypes
-    :param delta: number to decrease
-    :return: None
-    """
-    atomic.size_t_sub_and_fetch(ref, ctypes.c_size_t(delta))
 
 
 def test_thread_atomic():
@@ -51,7 +43,7 @@ def test_thread_atomic():
     threadlist=[]
 
     for i in range(10000):
-        threadlist.append(Thread(target=size_t_sub_100, args=(vref, 100)))
+        threadlist.append(Thread(target=atomic.size_t_sub_and_fetch, args=(vref, ctypes.c_size_t(100))))
 
     for i in range(10000):
         threadlist[i].start()
@@ -72,7 +64,7 @@ def test_processing_atomic():
 
     processlist = []
     for i in range(10000):
-        processlist.append(Process(target=size_t_sub_100, args=(vref, 100)))
+        processlist.append(Process(target=atomic.size_t_sub_and_fetch, args=(vref, ctypes.c_size_t(100))))
 
     for i in range(10000):
         processlist[i].start()

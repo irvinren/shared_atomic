@@ -3,41 +3,73 @@ we have achieved shared variables and arrays. but synchronization could be achie
 this package provided a second way to access those primitive ctypes with atomic operations.
 can be used in python version above 3.0 till the latest 3.11
 
-Usage
-    #load the compiled .so file with ctypes
+- Installation
+
+ - To install shared_atomic, use pip:
+
+    pip install shared_atomic
+
+- Usage
+
+ - load the compiled .so file with ctypes
 
     import ctypes
 
     atomic = ctypes.CDLL('shared_atomic.cpython-36m-darwin.so')
 
 
-    #create shared variables
+ - in multiple threads condition:
 
-    v = Value(ctypes.c_long, 100, lock=False)
+  - get pointer address by ctypes.byref
 
-    a = Array(ctypes.c_long, 100, lock=False)
+    v = ctypes.c_size_t(2 ** 63 - 1)
+
+    vref = ctypes.byref(v)
+
+  - start multiple threads
+
+    threadlist=[]
+
+    for i in range(10000):
+        threadlist.append(Thread(target=atomic.size_t_sub_and_fetch, args=(vref, ctypes.c_size_t(100))))
+
+    for i in range(10000):
+        threadlist[i].start()
+
+    for i in range(10000):
+        threadlist[i].join()
 
 
-    #get pointer address by ctypes.byref
+ - in multiple processing condition:
 
-    aref = ctypes.byref(a, 0)
+  - get pointer address by ctypes.byref
+
+    v = multiprocessing.Value(ctypes.c_size_t, 2 ** 63 - 1, lock=False)
+
+    vref = ctypes.byref(v)
 
 
-    #atomic operations can be used at last
+  - start multiple processes
 
-    atomic.long_get_and_set(aref,ctypes.c_long(100))
+    processlist = []
 
-Installation
-    #To install shared_atomic, use pip:
+    for i in range(10000):
+        processlist.append(Process(target=atomic.size_t_sub_and_fetch, args=(vref, ctypes.c_size_t(100))))
 
-    pip install shared_atomic
+    for i in range(10000):
+        processlist[i].start()
+
+    for i in range(10000):
+        processlist[i].join()
 
 
 Sourcecode Repo:
-https://github.com/irvinren/shared_atomic.git
-https://gitee.com/irvinren/shared_atomic.git
+
+ https://github.com/irvinren/shared_atomic.git
+
+ https://gitee.com/irvinren/shared_atomic.git
 
 For documentation, please go to:
-https://shared-atomic.readthedocs.io/en/latest/
+ https://shared-atomic.readthedocs.io/en/latest/
 
 The project is licensed under GPL v3.0
