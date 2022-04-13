@@ -31,3 +31,7 @@ Installation
     #To install shared_atomic, use pip:
 
     pip install shared_atomic
+
+
+For documentation, please go to:
+https://shared-atomic.readthedocs.io/en/latest/
