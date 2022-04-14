@@ -4,10 +4,12 @@ Created on 28 Mar 2022
 @author: philren
 '''
 
-import cffi
+import sys
 import subprocess
 import re
 from pathlib import Path
+import cffi
+
 
 ffi = cffi.FFI()
 
@@ -30,12 +32,14 @@ end = result.index('End of search list.')
 
 result_include = ["-I" + re.sub(r" *\(framework directory\)$", "", i).strip() for i in result[start + 1:end]]
 
+result_link = result_include + "-latomic" if sys.platform == 'linux' else result_include
+
 ffi.set_source('shared_atomic', """
     #include <stddef.h>
     #include <sys/types.h>""" + header,
                sources=[str(cfilepath)],
                extra_compile_args=result_include,
-               extra_link_args=result_include)
+               extra_link_args=result_link)
 
 
 def main():
