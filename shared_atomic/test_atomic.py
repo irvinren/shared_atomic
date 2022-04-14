@@ -8,13 +8,22 @@ from multiprocessing import Array, Value, Process
 from threading import Thread
 import ctypes
 import os
+import sys
 
 atomic=None
 
 def setup_function():
     global atomic
-    os.chdir('/Users/philren/PycharmProjects/shared_atomic/build/lib.macosx-11.5-x86_64-3.6')
-    atomic = ctypes.CDLL('shared_atomic.cpython-36m-darwin.so')
+
+    if sys.platform in ('darwin','linux'):
+        dlltype = ctypes.CDLL
+        os.chdir('/Users/philren/PycharmProjects/shared_atomic/build/lib.macosx-11.5-x86_64-3.6')
+        filename = 'shared_atomic.cpython-36m-darwin.so'
+    elif sys.platform == "win32":
+        dlltype = ctypes.windll
+    else:
+        return
+    atomic = ctypes.LibraryLoader(dlltype).LoadLibrary(filename)
 
 def teardown_function():
     global atomic
