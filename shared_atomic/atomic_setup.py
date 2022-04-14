@@ -32,7 +32,7 @@ end = result.index('End of search list.')
 
 result_include = ["-I" + re.sub(r" *\(framework directory\)$", "", i).strip() for i in result[start + 1:end]]
 
-result_link = result_include + "-latomic" if sys.platform == 'linux' else result_include
+result_link = result_include + ["-latomic"] if sys.platform == 'linux' else result_include
 
 ffi.set_source('shared_atomic', """
     #include <stddef.h>
