@@ -9,13 +9,13 @@ can be used in python version above 3.0 till the latest 3.11
 
     - the package requires libatomic installed on Linux platform
 
-    - cffi >=1.0 to compile through on Linux/MacOSX platform
+    - cffi ==1.15 to compile through on Linux/MacOSX platform
 
     - gcc >= 4.8 to include the atomic APIs.
 
  - Windows
 
-    - 
+    - TBD
 
 - Installation
 

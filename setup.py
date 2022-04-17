@@ -6,10 +6,10 @@ with open("readme.rst") as f:
 
 setup(
     name='shared_atomic',
-    version="1.0.20",
+    version="1.0.21",
     author="Xiquan Ren",
     author_email="xiquanren@yandex.com",
-    description="Shared atomicity with multiprocessing shared ctypes",
+    description="Shared atomicity with multiprocessing/ multithreads shared ctypes",
     url='https://github.com/irvinren/shared_atomic.git',
     long_description=readme,
     ext_modules=[atomic_setup.ffi.distutils_extension()],
