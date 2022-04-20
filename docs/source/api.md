@@ -54,10 +54,6 @@ floating types supports only 1 kind,
 
 `void bool_store(_Bool *, _Bool *);`
 
-`_Bool bool_add_and_fetch(_Bool *, _Bool);`
-
-`_Bool bool_sub_and_fetch(_Bool *, _Bool);`
-
 `_Bool bool_get_and_set(_Bool *, _Bool);`
 
 `_Bool bool_compare_and_set(_Bool *, _Bool *, _Bool);`
