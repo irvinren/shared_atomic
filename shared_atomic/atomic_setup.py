@@ -36,7 +36,8 @@ result_link = result_include + ["-latomic"] if sys.platform == 'linux' else resu
 
 ffi.set_source('shared_atomic', """
     #include <stddef.h>
-    #include <sys/types.h>""" + header,
+    #include <sys/types.h>
+    #include <stdbool.h>""" + header,
                sources=[str(cfilepath)],
                extra_compile_args=result_include,
                extra_link_args=result_link)

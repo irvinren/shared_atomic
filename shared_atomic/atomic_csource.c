@@ -6,12 +6,7 @@
 void bool_store(_Bool *v, _Bool *n) {
     __atomic_store(v, n, __ATOMIC_SEQ_CST);
 };
-_Bool bool_add_and_fetch(_Bool *v, _Bool i) {
-    return __atomic_add_fetch(v, i, __ATOMIC_SEQ_CST);
-};
-_Bool bool_sub_and_fetch(_Bool *v, _Bool i) {
-    return __atomic_sub_fetch(v, i, __ATOMIC_SEQ_CST);
-};
+
 _Bool bool_get_and_set(_Bool *v, _Bool n) {
     return __atomic_exchange_n(v, n, __ATOMIC_SEQ_CST);
 };
