@@ -7,6 +7,7 @@ Created on 28 Mar 2022
 import sys
 import subprocess
 import re
+import os
 from pathlib import Path
 import cffi
 
@@ -21,23 +22,25 @@ with hfilepath.open() as hfile:
     
 ffi.cdef(header)
 
-result = subprocess.run('gcc -x c -v -E /dev/null'.split(),
-                        stdout=subprocess.PIPE,
-                        stderr=subprocess.PIPE)
+if sys.platform in('darwin','linux'):
+    result = subprocess.run('gcc -x c -v -E /dev/null'.split(),
+                            stdout=subprocess.PIPE,
+                            stderr=subprocess.PIPE)
 
-result = bytes.decode(result.stderr).split("\n")
+    result = bytes.decode(result.stderr).split("\n")
 
-start = result.index('#include <...> search starts here:')
-end = result.index('End of search list.')
+    start = result.index('#include <...> search starts here:')
+    end = result.index('End of search list.')
 
-result_include = ["-I" + re.sub(r" *\(framework directory\)$", "", i).strip() for i in result[start + 1:end]]
+    result_include = ["-I" + re.sub(r" *\(framework directory\)$", "", i).strip() for i in result[start + 1:end]]
+else:
+    result_include = ""
 
 result_link = result_include + ["-latomic"] if sys.platform == 'linux' else result_include
 
 ffi.set_source('shared_atomic', """
     #include <stddef.h>
-    #include <sys/types.h>
-    #include <stdbool.h>""" + header,
+    #include <sys/types.h>""" + header,
                sources=[str(cfilepath)],
                extra_compile_args=result_include,
                extra_link_args=result_link)
