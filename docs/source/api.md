@@ -58,7 +58,7 @@ floating types supports only 1 kind,
 
 `_Bool bool_compare_and_set(_Bool *, _Bool *, _Bool);`
 
-## byte atomic functions:
+## byte atomic functions(Not supported on windows):
 
 `void byte_store(char *, char *);`
 
@@ -130,7 +130,7 @@ floating types supports only 1 kind,
 
 `_Bool uint_compare_and_set(unsigned int *, unsigned int *, unsigned int);`
 
-## wchar atomic functions:
+## wchar atomic functions(Not supported on windows):
 
 `void wchar_store(wchar_t *, wchar_t *);`
 
@@ -142,7 +142,7 @@ floating types supports only 1 kind,
 
 `_Bool wchar_compare_and_set(wchar_t *, wchar_t *, wchar_t);`
 
-## long atomic functions:
+## long atomic functions(64bit on Linux/Macos, 32bit on Windows):
 
 `void long_store(long *, long *);`
 

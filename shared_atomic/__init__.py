@@ -4,6 +4,10 @@ from pathlib import Path
 
 win_ddl = None
 def loaddll():
+    """
+    function to load the dynamiclly linked library to scope
+    :return: class with atomic operation functins
+    """
     if sys.platform == 'darwin':
         filepatten = 'shared_atomic.cpython-*-darwin.so'
     elif sys.platform == 'linux':

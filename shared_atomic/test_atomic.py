@@ -156,6 +156,10 @@ elif sys.platform == 'win32':
 addlist = sublist
 
 def setup_function():
+    """
+    pre function for pytest
+    :return: None
+    """
     global atomic
     # if sys.platform in ('darwin','linux'):
     #     dlltype = ctypes.CDLL
@@ -171,6 +175,10 @@ def setup_function():
     atomic=loaddll()
 
 def teardown_function():
+    """
+    post function for pytest
+    :return: None
+    """
     global atomic
     atomic = None
 
