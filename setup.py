@@ -34,7 +34,5 @@ elif sys.platform == 'win32':
         install_requires=[
             'cppyy ==2.3.1',
         ],
-        package_data={'shared_atomic':['shared_atomic/atomic_csource.c',
-                                        'shared_atomic/atomic_csource.h'],
-                      '': ['readme.rst','LICENSE']}
+		include_package_data=True
     )

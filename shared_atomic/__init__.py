@@ -66,6 +66,23 @@ def loaddll():
         lib.ubyte_compare_and_set.restype = ctypes.c_bool
         lib.ubyte_compare_and_set.argtypes = [ctypes.c_void_p, ctypes.c_void_p, ctypes.c_ubyte]
 
+        # wchar functions
+
+        lib.wchar_store.restype = None
+        lib.wchar_store.argtypes = [ctypes.c_void_p, ctypes.c_void_p]
+
+        lib.wchar_add_and_fetch.restype = ctypes.c_wchar
+        lib.wchar_add_and_fetch.argtypes = [ctypes.c_void_p, ctypes.c_wchar]
+
+        lib.wchar_sub_and_fetch.restype = ctypes.c_wchar
+        lib.wchar_sub_and_fetch.argtypes = [ctypes.c_void_p, ctypes.c_wchar]
+
+        lib.wchar_get_and_set.restype = ctypes.c_wchar
+        lib.wchar_get_and_set.argtypes = [ctypes.c_void_p, ctypes.c_wchar]
+
+        lib.wchar_compare_and_set.restype = ctypes.c_bool
+        lib.wchar_compare_and_set.argtypes = [ctypes.c_void_p, ctypes.c_void_p, ctypes.c_wchar]
+
         # short functions
 
         lib.short_store.restype = None
@@ -280,6 +297,22 @@ def loaddll():
             @staticmethod
             def bool_compare_and_set(v: ctypes.c_void_p, e: ctypes.c_void_p, n: ctypes.c_bool)->bool:
                 return win_ddl.bool_get_and_set(v, e, n)
+
+            @staticmethod
+            def ubyte_store(v: ctypes.c_void_p, n: ctypes.c_void_p):
+                win_ddl.ubyte_store(v, n)
+            @staticmethod
+            def ubyte_add_and_fetch(v: ctypes.c_void_p, n: ctypes.c_ubyte)->int:
+                return int.from_bytes(win_ddl.ubyte_add_and_fetch(v, n.value).encode(encoding='latin1'), byteorder=sys.byteorder)
+            @staticmethod
+            def ubyte_sub_and_fetch(v: ctypes.c_void_p, n: ctypes.c_ubyte)->int:
+                return int.from_bytes(win_ddl.ubyte_sub_and_fetch(v, n.value).encode(encoding='latin1'), byteorder=sys.byteorder)
+            @staticmethod
+            def ubyte_get_and_set(v: ctypes.c_void_p, n: ctypes.c_ubyte)->int:
+                return int.from_bytes(win_ddl.ubyte_get_and_set(v, n.value).encode(encoding='latin1'), byteorder=sys.byteorder)
+            @staticmethod
+            def ubyte_compare_and_set(v: ctypes.c_void_p, e: ctypes.c_void_p, n: ctypes.c_ubyte)->bool:
+                return win_ddl.ubyte_compare_and_set(v, e, n.value)
 
             @staticmethod
             def short_store(v: ctypes.c_void_p, n: ctypes.c_void_p):
