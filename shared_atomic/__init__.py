@@ -2,7 +2,7 @@ import sys
 import ctypes
 from pathlib import Path
 
-
+win_ddl = None
 def loaddll():
     if sys.platform == 'darwin':
         filepatten = 'shared_atomic.cpython-*-darwin.so'
@@ -254,17 +254,207 @@ def loaddll():
         return lib
 
     elif sys.platform == "win32":
-        import cppyy
-        cfilepath = Path.joinpath(Path(__file__).parent, 'atomic_csource.c')
-        with open(cfilepath, 'r') as cfile:
-            ctext = cfile.read()
-        cppyy.cppdef('''
-        #if defined(_MSC_VER)
-        #include <BaseTsd.h>
-        typedef SSIZE_T ssize_t;
-        #endif
-        typedef bool _Bool;
-        ''' + ctext)
-        return cppyy.gbl
+        global win_ddl
+        if win_ddl is None:
+            import cppyy
+            cfilepath = Path.joinpath(Path(__file__).parent, 'atomic_csource.c')
+            with open(cfilepath, 'r') as cfile:
+                ctext = cfile.read()
+            cppyy.cppdef('''
+            #if defined(_MSC_VER)
+            #include <BaseTsd.h>
+            typedef SSIZE_T ssize_t;
+            #endif
+            typedef bool _Bool;
+            ''' + ctext)
+            win_ddl = cppyy.gbl
+
+        class result_dll:
+
+            @staticmethod
+            def bool_store(v: ctypes.c_void_p, n: ctypes.c_void_p):
+                win_ddl.bool_store(v, n)
+            @staticmethod
+            def bool_get_and_set(v: ctypes.c_void_p, n: ctypes.c_bool)->bool:
+                return win_ddl.bool_get_and_set(v, n)
+            @staticmethod
+            def bool_compare_and_set(v: ctypes.c_void_p, e: ctypes.c_void_p, n: ctypes.c_bool)->bool:
+                return win_ddl.bool_get_and_set(v, e, n)
+
+            @staticmethod
+            def short_store(v: ctypes.c_void_p, n: ctypes.c_void_p):
+                win_ddl.short_store(v, n)
+            @staticmethod
+            def short_add_and_fetch(v: ctypes.c_void_p, n: ctypes.c_short)->int:
+                return win_ddl.short_add_and_fetch(v, n.value)
+            @staticmethod
+            def short_sub_and_fetch(v: ctypes.c_void_p, n: ctypes.c_short)->int:
+                return win_ddl.short_sub_and_fetch(v, n.value)
+            @staticmethod
+            def short_get_and_set(v: ctypes.c_void_p, n: ctypes.c_short)->int:
+                return win_ddl.short_get_and_set(v, n.value)
+            @staticmethod
+            def short_compare_and_set(v: ctypes.c_void_p, e: ctypes.c_void_p, n: ctypes.c_int)->bool:
+                return win_ddl.short_compare_and_set(v, e, n.value)
+
+            @staticmethod
+            def ushort_store(v: ctypes.c_void_p, n: ctypes.c_void_p):
+                win_ddl.ushort_store(v, n)
+            @staticmethod
+            def ushort_add_and_fetch(v: ctypes.c_void_p, n: ctypes.c_ushort)->int:
+                return win_ddl.ushort_add_and_fetch(v, n.value)
+            @staticmethod
+            def ushort_sub_and_fetch(v: ctypes.c_void_p, n: ctypes.c_ushort)->int:
+                return win_ddl.ushort_sub_and_fetch(v, n.value)
+            @staticmethod
+            def ushort_get_and_set(v: ctypes.c_void_p, n: ctypes.c_ushort)->int:
+                return win_ddl.ushort_get_and_set(v, n.value)
+            @staticmethod
+            def ushort_compare_and_set(v: ctypes.c_void_p, e: ctypes.c_void_p, n: ctypes.c_ushort)->bool:
+                return win_ddl.ushort_compare_and_set(v, e, n.value)
+
+            @staticmethod
+            def int_store(v: ctypes.c_void_p, n: ctypes.c_void_p):
+                win_ddl.int_store(v, n)
+            @staticmethod
+            def int_add_and_fetch(v: ctypes.c_void_p, n: ctypes.c_int)->int:
+                return win_ddl.int_add_and_fetch(v, n.value)
+            @staticmethod
+            def int_sub_and_fetch(v: ctypes.c_void_p, n: ctypes.c_int)->int:
+                return win_ddl.int_sub_and_fetch(v, n.value)
+            @staticmethod
+            def int_get_and_set(v: ctypes.c_void_p, n: ctypes.c_int)->int:
+                return win_ddl.int_get_and_set(v, n.value)
+            @staticmethod
+            def int_compare_and_set(v: ctypes.c_void_p, e: ctypes.c_void_p, n: ctypes.c_int)->bool:
+                return win_ddl.int_get_and_set(v, e, n.value)
+
+            @staticmethod
+            def uint_store(v: ctypes.c_void_p, n: ctypes.c_void_p):
+                win_ddl.uint_store(v, n)
+            @staticmethod
+            def uint_add_and_fetch(v: ctypes.c_void_p, n: ctypes.c_uint) -> int:
+                return win_ddl.uint_add_and_fetch(v, n.value)
+            @staticmethod
+            def uint_sub_and_fetch(v: ctypes.c_void_p, n: ctypes.c_uint) -> int:
+                return win_ddl.uint_sub_and_fetch(v, n.value)
+            @staticmethod
+            def uint_get_and_set(v: ctypes.c_void_p, n: ctypes.c_uint) -> int:
+                return win_ddl.uint_get_and_set(v, n.value)
+            @staticmethod
+            def uint_compare_and_set(v: ctypes.c_void_p, e: ctypes.c_void_p, n: ctypes.c_uint) -> bool:
+                return win_ddl.uint_get_and_set(v, e, n.value)
+
+            @staticmethod
+            def long_store(v: ctypes.c_void_p, n: ctypes.c_void_p):
+                win_ddl.long_store(v, n)
+            @staticmethod
+            def long_add_and_fetch(v: ctypes.c_void_p, n: ctypes.c_long) -> int:
+                return win_ddl.long_add_and_fetch(v, n.value)
+            @staticmethod
+            def long_sub_and_fetch(v: ctypes.c_void_p, n: ctypes.c_long) -> int:
+                return win_ddl.long_sub_and_fetch(v, n.value)
+            @staticmethod
+            def long_get_and_set(v: ctypes.c_void_p, n: ctypes.c_long) -> int:
+                return win_ddl.long_get_and_set(v, n.value)
+            @staticmethod
+            def long_compare_and_set(v: ctypes.c_void_p, e: ctypes.c_void_p, n: ctypes.c_long) -> bool:
+                return win_ddl.long_get_and_set(v, e, n.value)
+
+            @staticmethod
+            def ulong_store(v: ctypes.c_void_p, n: ctypes.c_void_p):
+                win_ddl.ulong_store(v, n)
+            @staticmethod
+            def ulong_add_and_fetch(v: ctypes.c_void_p, n: ctypes.c_long) -> int:
+                return win_ddl.ulong_add_and_fetch(v, n.value)
+            @staticmethod
+            def ulong_sub_and_fetch(v: ctypes.c_void_p, n: ctypes.c_long) -> int:
+                return win_ddl.ulong_sub_and_fetch(v, n.value)
+            @staticmethod
+            def ulong_get_and_set(v: ctypes.c_void_p, n: ctypes.c_long) -> int:
+                return win_ddl.ulong_get_and_set(v, n.value)
+            @staticmethod
+            def ulong_compare_and_set(v: ctypes.c_void_p, e: ctypes.c_void_p, n: ctypes.c_ulong) -> bool:
+                return win_ddl.ulong_get_and_set(v, e, n.value)
+
+            @staticmethod
+            def longlong_store(v: ctypes.c_void_p, n: ctypes.c_void_p):
+                win_ddl.longlong_store(v, n)
+            @staticmethod
+            def longlong_add_and_fetch(v: ctypes.c_void_p, n: ctypes.c_longlong) -> int:
+                return win_ddl.longlong_add_and_fetch(v, n.value)
+            @staticmethod
+            def longlong_sub_and_fetch(v: ctypes.c_void_p, n: ctypes.c_longlong) -> int:
+                return win_ddl.longlong_sub_and_fetch(v, n.value)
+            @staticmethod
+            def longlong_get_and_set(v: ctypes.c_void_p, n: ctypes.c_longlong) -> int:
+                return win_ddl.longlong_get_and_set(v, n.value)
+            @staticmethod
+            def longlong_compare_and_set(v: ctypes.c_void_p, e: ctypes.c_void_p, n: ctypes.c_longlong) -> bool:
+                return win_ddl.longlong_get_and_set(v, e, n.value)
+
+            @staticmethod
+            def ulonglong_store(v: ctypes.c_void_p, n: ctypes.c_void_p):
+                win_ddl.ulonglong_store(v, n)
+            @staticmethod
+            def ulonglong_add_and_fetch(v: ctypes.c_void_p, n: ctypes.c_ulonglong) -> int:
+                return win_ddl.ulonglong_add_and_fetch(v, n.value)
+            @staticmethod
+            def ulonglong_sub_and_fetch(v: ctypes.c_void_p, n: ctypes.c_ulonglong) -> int:
+                return win_ddl.ulonglong_sub_and_fetch(v, n.value)
+            @staticmethod
+            def ulonglong_get_and_set(v: ctypes.c_void_p, n: ctypes.c_ulonglong) -> int:
+                return win_ddl.ulonglong_get_and_set(v, n.value)
+            @staticmethod
+            def ulonglong_compare_and_set(v: ctypes.c_void_p, e: ctypes.c_void_p, n: ctypes.c_ulonglong) -> bool:
+                return win_ddl.ulonglong_get_and_set(v, e, n.value)
+
+            @staticmethod
+            def size_t_store(v: ctypes.c_void_p, n: ctypes.c_void_p):
+                win_ddl.size_t_store(v, n)
+            @staticmethod
+            def size_t_add_and_fetch(v: ctypes.c_void_p, n: ctypes.c_size_t) -> int:
+                return win_ddl.size_t_add_and_fetch(v, n.value)
+            @staticmethod
+            def size_t_sub_and_fetch(v: ctypes.c_void_p, n: ctypes.c_size_t) -> int:
+                return win_ddl.size_t_sub_and_fetch(v, n.value)
+            @staticmethod
+            def size_t_get_and_set(v: ctypes.c_void_p, n: ctypes.c_size_t) -> int:
+                return win_ddl.size_t_get_and_set(v, n.value)
+            @staticmethod
+            def size_t_compare_and_set(v: ctypes.c_void_p, e: ctypes.c_void_p, n: ctypes.c_size_t) -> bool:
+                return win_ddl.size_t_get_and_set(v, e, n.value)
+
+            @staticmethod
+            def ssize_t_store(v: ctypes.c_void_p, n: ctypes.c_void_p):
+                win_ddl.size_t_store(v, n)
+            @staticmethod
+            def ssize_t_add_and_fetch(v: ctypes.c_void_p, n: ctypes.c_ssize_t) -> int:
+                return win_ddl.size_t_add_and_fetch(v, n.value)
+            @staticmethod
+            def ssize_t_sub_and_fetch(v: ctypes.c_void_p, n: ctypes.c_ssize_t) -> int:
+                return win_ddl.size_t_sub_and_fetch(v, n.value)
+            @staticmethod
+            def ssize_t_get_and_set(v: ctypes.c_void_p, n: ctypes.c_ssize_t) -> int:
+                return win_ddl.size_t_get_and_set(v, n.value)
+            @staticmethod
+            def ssize_t_compare_and_set(v: ctypes.c_void_p, e: ctypes.c_void_p, n: ctypes.c_ssize_t) -> bool:
+                return win_ddl.size_t_get_and_set(v, e, n.value)
+
+            @staticmethod
+            def float_store(v: ctypes.c_void_p, n: ctypes.c_void_p):
+                win_ddl.float_store(v, n)
+
+            @staticmethod
+            def double_store(v: ctypes.c_void_p, n: ctypes.c_void_p):
+                win_ddl.double_store(v, n)
+
+            @staticmethod
+            def longdouble_store(v: ctypes.c_void_p, n: ctypes.c_void_p):
+                win_ddl.longdouble_store(v, n)
+
+        return result_dll
+
+
     else:
         return
