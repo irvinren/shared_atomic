@@ -15,7 +15,11 @@ can be used in python version above 3.0 till the latest 3.11
 
  - Windows
 
-    - TBD
+    - cppyy == 2.3.1
+
+    - cling installed, refer to https://github.com/vgvassilev/cling/tree/master/tools/packaging
+
+    - only support single thread/multiple threads modes, multiprocessing mode is not supported on windows
 
 - Installation
 
@@ -29,6 +33,10 @@ can be used in python version above 3.0 till the latest 3.11
  - load the compiled .so file with ctypes
 
     import ctypes
+    from shared_atomic loaddll
+    atomic = loaddll()
+
+    you can also import by CDLL, but not recommended since the CDLL will casting all the return type to c_int. For the 64bit integer, it will return the wrong result.
 
     atomic = ctypes.CDLL('shared_atomic.cpython-36m-darwin.so')
 
