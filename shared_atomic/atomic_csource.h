@@ -84,20 +84,8 @@ unsigned long long ulonglong_get_and_set(unsigned long long *, unsigned long lon
 _Bool ulonglong_compare_and_set(unsigned long long *, unsigned long long *, unsigned long long);
 
 void float_store(float *v, float *n);
-/*float float_add_and_fetch(float *v, float i);
-float float_sub_and_fetch(float *v, float i);
-float float_get_and_set(float *v, float n);
-_Bool float_compare_and_set(float *v, float *e, float n);*/
 
 void double_store(double *v, double *n);
-/*double double_add_and_fetch(double *v, double i);
-double double_sub_and_fetch(double *v, double i);
-double double_get_and_set(double *v, double n);
-_Bool double_compare_and_set(double *v, double *e, double n);*/
-
 
 void longdouble_store(long double *v, long double *n);
-/*long double longdouble_add_and_fetch(long double *v, long double i);
-long double longdouble_sub_and_fetch(long double *v, long double i);
-long double longdouble_get_and_set(long double *v, long double n);
-_Bool longdouble_compare_and_set(long double *v, long double *e, long double n);*/
+

@@ -10,7 +10,7 @@ with open("readme.rst") as f:
 if sys.platform in('darwin','linux'):
     distutils_setup(
         name='shared_atomic',
-        version="1.0.24",
+        version="2.0.0",
         author="Xiquan Ren",
         author_email="xiquanren@yandex.com",
         description="Shared atomicity with multiprocessing/ multithreads shared ctypes",
@@ -25,14 +25,16 @@ if sys.platform in('darwin','linux'):
 elif sys.platform == 'win32':
     setuptools_setup(
         name='shared_atomic',
-        version="1.0.24",
+        version="2.0.0",
         author="Xiquan Ren",
         author_email="xiquanren@yandex.com",
+        description="Shared atomicity with multiprocessing/ multithreads shared ctypes",
         packages=['shared_atomic'],
-        requires=[
-            'cppyy==2.3.1',
+        python_requires=">=3.0",
+        install_requires=[
+            'cppyy ==2.3.1',
         ],
-        package_data=[('shared_atomic',['shared_atomic/atomic_csource.c',
-                                        'shared_atomic/atomic_csource.h']),
-                    ('', ['readme.rst','LICENSE'])]
+        package_data={'shared_atomic':['shared_atomic/atomic_csource.c',
+                                        'shared_atomic/atomic_csource.h'],
+                      '': ['readme.rst','LICENSE']}
     )
