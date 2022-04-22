@@ -36,7 +36,7 @@ can be used in python version above 3.0 till the latest 3.11
     from shared_atomic loaddll
     atomic = loaddll()
 
-    you can also import by CDLL, but not recommended since the CDLL will casting all the return type to c_int. For the 64bit integer, it will return the wrong result.
+ - you can also import by CDLL, but not recommended since the CDLL will casting all the return type to c_int. For the 64bit integer, it will return the wrong result.
 
     atomic = ctypes.CDLL('shared_atomic.cpython-36m-darwin.so')
 
