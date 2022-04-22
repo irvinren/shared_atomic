@@ -2,15 +2,19 @@
 
 You need the following steps to utilize the module:
 
-1) dynamically linked library is loaded by ctypes.CDLL,
+1) dynamically linked library is loaded by shared_atomic.loaddll(),
 
-    `atomic = ctypes.CDLL('shared_atomic.cpython-36m-darwin.so')`
+    `atomic = shared_atomic.loaddll()`
 
-2) define shared ctypes between processes
+2) define shared ctypes between processes / threads
 
     `v = multiprocessing.Value(ctypes.c_long, 100, lock=False)`
     
     `a = multiprocessing.Array(ctypes.c_long, 100, lock=False)`
+    
+    if only threads are needed
+    
+    `a = ctypes.c_long(100)`
     
 3) get the pointer from ctypes.byref
     
