@@ -17,8 +17,6 @@ can be used in python version above 3.0 till the latest 3.11
 
     - cppyy == 2.3.1
 
-    - cling installed, refer to https://github.com/vgvassilev/cling/tree/master/tools/packaging
-
     - only support single thread/multiple threads modes, multiprocessing mode is not supported on windows
 
 - Installation
