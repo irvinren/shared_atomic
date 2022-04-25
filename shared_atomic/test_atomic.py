@@ -283,14 +283,15 @@ if sys.platform in ('linux','darwin'):
         assert v.value == 2 ** 63 - 1 - 100 * 10000
 
 if sys.platform == 'darwin':
+    """
+
     def test_compile():
-        """
         test compile
         :return: None
-        """
         os.chdir('/Users/philren/PycharmProjects/shared_atomic')
         from shared_atomic import atomic_setup
         atomic_setup.main()
+    """
 
 
 def test_loaddll():

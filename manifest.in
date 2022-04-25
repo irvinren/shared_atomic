@@ -1,2 +1,3 @@
 include shared_atomic/atomic_csource.h
 include shared_atomic/atomic_csource.c
+prune /

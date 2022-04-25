@@ -1,6 +1,7 @@
 import sys
 import ctypes
 from pathlib import Path
+import sysconfig
 
 win_ddl = None
 def loaddll():
@@ -8,15 +9,20 @@ def loaddll():
     function to load the dynamiclly linked library to scope
     :return: class with atomic operation functins
     """
-    if sys.platform == 'darwin':
-        filepatten = 'shared_atomic.cpython-*-darwin.so'
-    elif sys.platform == 'linux':
-        filepatten = 'shared_atomic.cpython-*-linux-gnu.so'
 
     result = None
     if sys.platform in ('darwin', 'linux'):
+        filepatten = {
+            'darwin': {'PyPy': 'shared_atomic.pypy*-darwin.so',
+                       '': 'shared_atomic.cpython-*-darwin.so'},
+            'linux': {'PyPy': 'shared_atomic.pypy*-linux-gnu.so',
+                      '': 'shared_atomic.cpython-*-linux-gnu.so'},
+        }
         for search_path in sys.path:
-            dll_list = Path(search_path).glob(filepatten)
+            dll_list = Path(search_path).glob(
+                filepatten[sys.platform]
+                ['' if sysconfig.get_config_var('implementation') is None else sysconfig.get_config_var('implementation')]
+            )
             try:
                 result = next(dll_list)
                 break

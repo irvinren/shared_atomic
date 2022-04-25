@@ -3,7 +3,7 @@ from distutils.core import setup as distutils_setup
 from setuptools import setup as setuptools_setup
 from shared_atomic import atomic_setup
 
-__version__="2.0.4"
+__version__="2.0.5"
 __package_name__='shared_atomic'
 __author__="Xiquan Ren"
 __author_email__="xiquanren@yandex.com"
@@ -24,6 +24,7 @@ if sys.platform in('darwin','linux'):
         url=__url__,
         long_description=readme,
         ext_modules=[atomic_setup.ffi.distutils_extension()],
+        #cffi_modules=["shared_atomic/atomic_setup.py:ffi"],
         packages=__packages__,
         data_files=[('shared_atomic',['shared_atomic/atomic_csource.c',
                                         'shared_atomic/atomic_csource.h']),
