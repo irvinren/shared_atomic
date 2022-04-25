@@ -4,7 +4,7 @@ from distutils.core import setup as distutils_setup
 from setuptools import setup as setuptools_setup
 from shared_atomic import atomic_setup
 
-__version__="2.0.5"
+__version__="2.0.7"
 __package_name__='shared_atomic'
 __author__="Xiquan Ren"
 __author_email__="xiquanren@yandex.com"
@@ -45,7 +45,7 @@ elif sys.platform == 'win32':
         packages=__packages__,
         python_requires=">=3.0",
         install_requires=[
-            'cppyy ==2.3.1',
+            'cppyy >=1.5.0,<=2.3.1',
         ],
 		include_package_data=True
     )

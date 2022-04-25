@@ -1,7 +1,17 @@
 With the help of multiprocessing shared ctypes,
 we have achieved shared variables and arrays. but synchronization could be achieved by locks.
 this package provided a second way to access those primitive ctypes with atomic operations.
-can be used in python version above 3.0 till the latest 3.11
+can be used in
+
+- Environment,
+
+ - LINUX/MacOSX
+    - CPython 3.0 - 3.11
+    - Pypy 3.0 - 3.9
+
+ - Windows
+    - CPython 3.0 - 3.11
+    - Pypy not supported
 
 - Requirement,
 
@@ -9,13 +19,13 @@ can be used in python version above 3.0 till the latest 3.11
 
     - the package requires libatomic installed on Linux platform
 
-    - cffi ==1.15 to compile through on Linux/MacOSX platform
+    - cffi >= 1.0.0 <= 1.1.15 to compile through on Linux/MacOSX platform
 
     - gcc >= 4.8 to include the atomic APIs.
 
  - Windows
 
-    - cppyy == 2.3.1
+    - cppyy >= 1.5.0 <=2.3.1
 
     - only support single thread/multiple threads modes, multiprocessing mode is not supported on windows
 

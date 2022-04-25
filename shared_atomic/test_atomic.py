@@ -182,7 +182,7 @@ def teardown_function():
     global atomic
     atomic = None
 
-def test_atomic():
+def test_value_atomic():
     """
     test single process single thread
     :return: None
