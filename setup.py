@@ -1,4 +1,5 @@
 import sys
+import sysconfig
 from distutils.core import setup as distutils_setup
 from setuptools import setup as setuptools_setup
 from shared_atomic import atomic_setup
@@ -31,6 +32,8 @@ if sys.platform in('darwin','linux'):
                     ('', ['readme.rst','LICENSE'])]
     )
 elif sys.platform == 'win32':
+    if sysconfig.get_config_var('implementation') == 'PyPy':
+        raise NotImplementedError('PyPy is not supported on Windows Platform!')
     setuptools_setup(
         name=__package_name__,
         version=__version__,
