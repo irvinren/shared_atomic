@@ -32,7 +32,7 @@ can be used in python version above 3.0 till the latest 3.11
 
     import ctypes
     
-    from shared_atomic loaddll
+    from shared_atomic import loaddll
     
     atomic = loaddll()
 
