@@ -11,26 +11,27 @@ import os
 import re
 import sys
 from shared_atomic import loaddll
+import random
 
 atomic = None
 if sys.platform in ('linux','darwin'):
-    types = (ctypes.c_bool,
-             ctypes.c_wchar,
-             ctypes.c_byte,
-             ctypes.c_ubyte,
-             ctypes.c_short,
-             ctypes.c_ushort,
-             ctypes.c_int,
-             ctypes.c_uint,
-             ctypes.c_long,
-             ctypes.c_ulong,
-             ctypes.c_longlong,
-             ctypes.c_ulonglong,
-             ctypes.c_size_t,
-             ctypes.c_ssize_t,
-             ctypes.c_float,
-             ctypes.c_double,
-             ctypes.c_longdouble)
+    types = ('ctypes.c_bool',
+             'ctypes.c_wchar',
+             'ctypes.c_byte',
+             'ctypes.c_ubyte',
+             'ctypes.c_short',
+             'ctypes.c_ushort',
+             'ctypes.c_int',
+             'ctypes.c_uint',
+             'ctypes.c_long',
+             'ctypes.c_ulong',
+             'ctypes.c_longlong',
+             'ctypes.c_ulonglong',
+             'ctypes.c_size_t',
+             'ctypes.c_ssize_t',
+             'ctypes.c_float',
+             'ctypes.c_double',
+             'ctypes.c_longdouble')
     inlist = (False,
               '国',
               0,
@@ -83,24 +84,25 @@ if sys.platform in ('linux','darwin'):
         100,
         100,
     )
+
 elif sys.platform == 'win32':
-    types = (ctypes.c_bool,
-             #ctypes.c_wchar,
-             #ctypes.c_byte,
-             ctypes.c_ubyte,
-             ctypes.c_short,
-             ctypes.c_ushort,
-             ctypes.c_int,
-             ctypes.c_uint,
-             ctypes.c_long,
-             ctypes.c_ulong,
-             ctypes.c_longlong,
-             ctypes.c_ulonglong,
-             ctypes.c_size_t,
-             ctypes.c_ssize_t,
-             ctypes.c_float,
-             ctypes.c_double,
-             ctypes.c_longdouble)
+    types = ('ctypes.c_bool',
+             #'ctypes.c_wchar',
+             #'ctypes.c_byte',
+             'ctypes.c_ubyte',
+             'ctypes.c_short',
+             'ctypes.c_ushort',
+             'ctypes.c_int',
+             'ctypes.c_uint',
+             'ctypes.c_long',
+             'ctypes.c_ulong',
+             'ctypes.c_longlong',
+             'ctypes.c_ulonglong',
+             'ctypes.c_size_t',
+             'ctypes.c_ssize_t',
+             'ctypes.c_float',
+             'ctypes.c_double',
+             'ctypes.c_longdouble')
     inlist = (False,
               #'国',
               #0,
@@ -155,6 +157,19 @@ elif sys.platform == 'win32':
                )
 addlist = sublist
 
+r = random.Random()
+
+andlist = []
+orlist = []
+xorlist = []
+nandlist = []
+
+for i in range(len(types)):
+    andlist.append(r.randrange(0, 128))
+    orlist.append(r.randrange(0, 128))
+    xorlist.append(r.randrange(0, 128))
+    nandlist.append(r.randrange(0, 128))
+
 def setup_function():
     """
     pre function for pytest
@@ -182,22 +197,38 @@ def teardown_function():
     global atomic
     atomic = None
 
+def signed2unsigned(type, input):
+
+    if type in ('ctypes.c_ubyte',
+                'ctypes.c_ushort',
+                'ctypes.c_uint',
+                'ctypes.c_ulong',
+                'ctypes.c_ulonglong',
+                'ctypes.c_size_t'):
+        if input < 0:
+            return input + 2**(ctypes.sizeof(eval(type))*8)
+        return input
+    else:
+        return input
+
 def test_value_atomic():
     """
     test single process single thread
     :return: None
     """
     i = 0
-    result=None
+    result = None
     try:
         for type in types:
             result=[]
-            a = Value(type, lock=False)
+            t=[]
+            exec('t.append(' + type + ')')
+            a = Value(t[0], lock=False)
             aref = ctypes.byref(a, 0)
-            typetext=re.findall('c_.*', re.findall("'.*'", f'{type}')[0])[0][2:-1]
+            typetext=re.findall("c_.*", type)[0][2:]
             functext = typetext
 
-            if type == ctypes.c_wchar:
+            if type == 'ctypes.c_wchar':
                 exec('init = ctypes.c_'+typetext+"('" + f'{inlist[i]}' + "')")
                 exec('atomic.'+functext+'_store(aref,ctypes.byref(init))')
                 assert a.value == inlist[i]
@@ -205,6 +236,16 @@ def test_value_atomic():
                 #result[-1] = int.to_bytes(result[-1], ctypes.sizeof(ctypes.c_wchar), byteorder=sys.byteorder).decode('utf-16-le')[0:-1]
                 assert result[-1] == inlist[i]
                 assert a.value == exlist[i]
+                c = []
+                exec('c.append(ctypes.c_' + typetext + "('" + f'{exlist[i]}' + "'))")
+                exec('result.append(atomic.' + functext + '_compare_and_set(aref,ctypes.byref(c[-1]),ctypes.c_' + typetext + "('" + f'{inlist[i]}' + "')))")
+                assert result[-1]
+                assert a.value == inlist[i]
+                exec('c.append(ctypes.c_' + typetext + '("' + f'{inlist[i]}' + '"))')
+                exec('c.append(ctypes.c_' + typetext + '("' + f'{exlist[i]}' + '"))')
+                exec('result.append(atomic.' + functext + '_shift(aref, ctypes.byref(c[-1]), ctypes.byref(c[-2])))')
+                assert c[-1].value == a.value
+                assert c[-2].value == inlist[i]
                 exec('result.append(atomic.'+functext+'_add_and_fetch(aref,ctypes.c_'+typetext+"('" + f'{addlist[i]}' + "')))")
                 #result[-1] = int.to_bytes(result[-1], ctypes.sizeof(ctypes.c_wchar), byteorder=sys.byteorder).decode('utf-16-le')[0:-1]
                 assert result[-1] == int.to_bytes(
@@ -218,21 +259,83 @@ def test_value_atomic():
                 #result[-1] = int.to_bytes(result[-1], ctypes.sizeof(ctypes.c_wchar), byteorder=sys.byteorder).decode('utf-16-le')[0:-1]
                 assert result[-1] == exlist[i]
                 assert a.value == result[-1]
+                exec('result.append(atomic.'+functext+'_fetch_and_add(aref,ctypes.c_'+typetext+"('" + f'{addlist[i]}' + "')))")
+                #result[-1] = int.to_bytes(result[-1], ctypes.sizeof(ctypes.c_wchar), byteorder=sys.byteorder).decode('utf-16-le')[0:-1]
+                assert result[-1] == exlist[i]
+                assert a.value == int.to_bytes(
+                       int.from_bytes(exlist[i].encode("utf-16-le"), byteorder=sys.byteorder) + \
+                       int.from_bytes(addlist[i].encode("utf-16-le"), byteorder=sys.byteorder),
+                       length=ctypes.sizeof(ctypes.c_wchar),
+                       byteorder=sys.byteorder,
+                ).decode(encoding='utf-16-le')[0:-1]
+                exec('result.append(atomic.'+functext+'_fetch_and_sub(aref,ctypes.c_'+typetext+"('" + f'{addlist[i]}' + "')))")
+                #result[-1] = int.to_bytes(result[-1], ctypes.sizeof(ctypes.c_wchar), byteorder=sys.byteorder).decode('utf-16-le')[0:-1]
+                assert result[-1] == int.to_bytes(
+                       int.from_bytes(exlist[i].encode("utf-16-le"), byteorder=sys.byteorder) + \
+                       int.from_bytes(addlist[i].encode("utf-16-le"), byteorder=sys.byteorder),
+                       length=ctypes.sizeof(ctypes.c_wchar),
+                       byteorder=sys.byteorder,
+                ).decode(encoding='utf-16-le')[0:-1]
+                assert a.value == exlist[i]
+
             else:
                 exec('init = ctypes.c_'+typetext+"(" + f'{inlist[i]}' + ")")
                 exec('atomic.'+functext+'_store(aref,ctypes.byref(init))')
                 assert a.value == inlist[i]
-                if type not in (ctypes.c_float, ctypes.c_double, ctypes.c_longdouble):
+                if type not in ('ctypes.c_float', 'ctypes.c_double', 'ctypes.c_longdouble'):
                     exec('result.append(atomic.'+functext+'_get_and_set(aref,ctypes.c_'+typetext+"(" + f'{exlist[i]}' + ")))")
                     assert result[-1] == inlist[i]
                     assert a.value == exlist[i]
-                if type not in (ctypes.c_bool, ctypes.c_float, ctypes.c_double, ctypes.c_longdouble):
+                    c=[]
+                    exec('c.append(ctypes.c_'+typetext+'('+f'{exlist[i]}'+'))')
+                    exec('result.append(atomic.'+functext+'_compare_and_set(aref,ctypes.byref(c[-1]),ctypes.c_'+typetext+"(" + f'{inlist[i]}' + ")))")
+                    assert result[-1]
+                    assert a.value == inlist[i]
+                    exec('c.append(ctypes.c_'+typetext+'('+f'{inlist[i]}'+'))')
+                    exec('c.append(ctypes.c_'+typetext+'('+f'{exlist[i]}'+'))')
+                    exec('result.append(atomic.'+functext+'_shift(aref, ctypes.byref(c[-1]), ctypes.byref(c[-2])))')
+                    assert c[-1].value == a.value
+                    assert c[-2].value == inlist[i]
+                if type not in ('ctypes.c_bool', 'ctypes.c_float', 'ctypes.c_double', 'ctypes.c_longdouble'):
                     exec('result.append(atomic.'+functext+'_sub_and_fetch(aref,ctypes.c_'+typetext+"(" + f'{sublist[i]}' + ")))")
                     assert result[-1] == exlist[i] - addlist[i]
                     assert a.value == result[-1]
                     exec('result.append(atomic.'+functext+'_add_and_fetch(aref,ctypes.c_'+typetext+"(" + f'{addlist[i]}' + ")))")
                     assert result[-1] == exlist[i]
                     assert a.value == result[-1]
+                    exec('result.append(atomic.'+functext+'_and_and_fetch(aref,ctypes.c_'+typetext+"(" + f'{andlist[i]}' + ")))")
+                    assert result[-1] == signed2unsigned(type,exlist[i] & andlist[i])
+                    assert a.value == result[-1]
+                    exec('result.append(atomic.'+functext+'_or_and_fetch(aref,ctypes.c_'+typetext+"(" + f'{orlist[i]}' + ")))")
+                    assert result[-1] == signed2unsigned(type,(exlist[i] & andlist[i]) | orlist[i])
+                    assert a.value == result[-1]
+                    exec('result.append(atomic.'+functext+'_xor_and_fetch(aref,ctypes.c_'+typetext+"(" + f'{xorlist[i]}' + ")))")
+                    assert result[-1] == signed2unsigned(type,((exlist[i] & andlist[i]) | orlist[i]) ^ xorlist[i])
+                    assert a.value == result[-1]
+                    exec('result.append(atomic.'+functext+'_nand_and_fetch(aref,ctypes.c_'+typetext+"(" + f'{nandlist[i]}' + ")))")
+                    assert result[-1] == signed2unsigned(type,~((((exlist[i] & andlist[i]) | orlist[i]) ^ xorlist[i]) & nandlist[i]))
+                    assert a.value == result[-1]
+                    exec('init = ctypes.c_' + typetext + "(" + f'{exlist[i]}' + ")")
+                    exec('atomic.' + functext + '_store(aref,ctypes.byref(init))')
+                    exec('result.append(atomic.'+functext+'_fetch_and_sub(aref,ctypes.c_'+typetext+"(" + f'{sublist[i]}' + ")))")
+                    assert result[-1] == exlist[i]
+                    assert a.value == exlist[i] - sublist[i]
+                    exec('result.append(atomic.'+functext+'_fetch_and_add(aref,ctypes.c_'+typetext+"(" + f'{addlist[i]}' + ")))")
+                    assert result[-1] == exlist[i] - sublist[i]
+                    assert a.value == exlist[i]
+                    exec('result.append(atomic.'+functext+'_fetch_and_and(aref,ctypes.c_'+typetext+"(" + f'{andlist[i]}' + ")))")
+                    assert result[-1] == exlist[i]
+                    assert a.value == signed2unsigned(type,result[-1] & andlist[i])
+                    exec('result.append(atomic.'+functext+'_fetch_and_or(aref,ctypes.c_'+typetext+"(" + f'{orlist[i]}' + ")))")
+                    assert result[-1] == exlist[i] & andlist[i]
+                    assert a.value == signed2unsigned(type,(exlist[i] & andlist[i]) | orlist[i])
+                    exec('result.append(atomic.'+functext+'_fetch_and_xor(aref,ctypes.c_'+typetext+"(" + f'{xorlist[i]}' + ")))")
+                    assert result[-1] == (exlist[i] & andlist[i]) | orlist[i]
+                    assert a.value == signed2unsigned(type,((exlist[i] & andlist[i]) | orlist[i]) ^ xorlist[i])
+                    exec('result.append(atomic.'+functext+'_fetch_and_nand(aref,ctypes.c_'+typetext+"(" + f'{nandlist[i]}' + ")))")
+                    assert result[-1] == ((exlist[i] & andlist[i]) | orlist[i]) ^ xorlist[i]
+                    assert a.value == signed2unsigned(type,~((((exlist[i] & andlist[i]) | orlist[i]) ^ xorlist[i]) & nandlist[i]))
+
             i += 1
     except Exception as e:
         print(e)
