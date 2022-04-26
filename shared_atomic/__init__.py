@@ -720,7 +720,7 @@ def loaddll():
                 return win_ddl.bool_get_and_set(v, n)
             @staticmethod
             def bool_compare_and_set(v: ctypes.c_void_p, e: ctypes.c_void_p, n: ctypes.c_bool)->bool:
-                return win_ddl.bool_get_and_set(v, e, n)
+                return win_ddl.bool_compare_and_set(v, e, n)
 
             @staticmethod
             def ubyte_store(v: ctypes.c_void_p, n: ctypes.c_void_p):
