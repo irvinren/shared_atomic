@@ -2,7 +2,6 @@ import sys
 import ctypes
 from pathlib import Path
 import sysconfig
-
 win_ddl = None
 def loaddll():
     """
@@ -1298,3 +1297,7 @@ def loaddll():
 
     else:
         return
+
+
+
+from shared_atomic.atomic_bytearray import atomic_bytearray
