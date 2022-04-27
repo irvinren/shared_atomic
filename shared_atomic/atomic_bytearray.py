@@ -150,7 +150,7 @@ class atomic_bytearray:
         self._array_store(ctypes.byref(result), self.array_reference)
         return result.value
 
-    def get_bytes(self, trim=False):
+    def get_bytes(self, trim=True):
         result = self.type(0)
         self._array_store(ctypes.byref(result), self.array_reference)
         if trim:
