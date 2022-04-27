@@ -136,7 +136,7 @@ class atomic_bytearray:
                 self.mode = 's'
                 self.array = (ctypes.c_ubyte * self.size)()
             self.array_reference = ctypes.byref(self.array)
-        if sys.platform == 'win32':
+        elif sys.platform == 'win32':
             self.mode = 's'
             data = b'\0'*(self.size-len(data)) + data
             self.array = bytearray(data)
