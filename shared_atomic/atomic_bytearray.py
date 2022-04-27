@@ -176,8 +176,8 @@ class atomic_bytearray:
         self.set_bytes(data)
 
     def array_get_and_set(self, data: bytes):
-        integer = self.type(int.from_bytes(data, byteorder='big'))
-        prev = int.to_bytes(self._array_get_and_set(self.array_reference, integer),
+        integer = int.from_bytes(data, byteorder='big')
+        prev = int.to_bytes(self._array_get_and_set(self.array_reference, self.type(integer)),
                                                     length=self.size, byteorder='big')
         self.initial_length = len(data)
         return prev
@@ -188,88 +188,88 @@ class atomic_bytearray:
         self.initial_length = j.length
 
     def array_compare_and_set(self, i, n: bytes):
-        integer = self.type(int.from_bytes(n, byteorder='big'))
+        integer = int.from_bytes(n, byteorder='big')
         result = self._array_compare_and_set(self.array_reference,
-                                           i.array_reference, integer)
+                                           i.array_reference, self.type(integer))
         if result:
             self.initial_length = len(n)
 
         return result
 
     def array_add_and_fetch(self, n: bytes, trim=True):
-        integer = self.type(int.from_bytes(n, byteorder='big'))
+        integer = self.type(int.from_bytes(data, byteorder='big'))
         result = int.to_bytes(self._array_add_and_fetch(self.array_reference, self.type(integer)),
                           length=self.size, byteorder='big')
         return result.lstrip(b'\0') if trim else result
 
     def array_sub_and_fetch(self, n: bytes, trim=True):
-        integer = self.type(int.from_bytes(n, byteorder='big'))
+        integer = int.from_bytes(n, byteorder='big')
         result = int.to_bytes(self._array_sub_and_fetch(self.array_reference, self.type(integer)),
                             length=self.size, byteorder='big')
         return result.lstrip(b'\0') if trim else result
 
 
     def array_and_and_fetch(self, n: bytes, trim=True):
-        integer = self.type(int.from_bytes(n, byteorder='big'))
+        integer = int.from_bytes(n, byteorder='big')
         result = int.to_bytes(self._array_and_and_fetch(self.array_reference, self.type(integer)),
                             length=self.size, byteorder='big').lstrip(b'\0')
         return result.lstrip(b'\0') if trim else result
 
 
     def array_or_and_fetch(self, n: bytes, trim=True):
-        integer = self.type(int.from_bytes(n, byteorder='big'))
+        integer = int.from_bytes(n, byteorder='big')
         result = int.to_bytes(self._array_or_and_fetch(self.array_reference, self.type(integer)),
                             length=self.size, byteorder='big')
         return result.lstrip(b'\0') if trim else result
 
     def array_xor_and_fetch(self, n: bytes, trim=True):
-        integer = self.type(int.from_bytes(n, byteorder='big'))
+        integer = int.from_bytes(n, byteorder='big')
         result = int.to_bytes(self._array_xor_and_fetch(self.array_reference, self.type(integer)),
                             length=self.size, byteorder='big')
         return result.lstrip(b'\0') if trim else result
 
     def array_nand_and_fetch(self, n: bytes, trim=True):
-        integer = self.type(int.from_bytes(n, byteorder='big'))
+        integer = int.from_bytes(n, byteorder='big')
         result = int.to_bytes(self._array_nand_and_fetch(self.array_reference, self.type(integer)),
                             length=self.size, byteorder='big')
         return result.lstrip(b'\0') if trim else result
 
 
     def array_fetch_and_add(self, n: bytes, trim=True):
-        integer = self.type(int.from_bytes(n, byteorder='big'))
+        integer = int.from_bytes(n, byteorder='big')
         result = int.to_bytes(self._array_fetch_and_add(self.array_reference, self.type(integer)),
                             length=self.size, byteorder='big')
         return result.lstrip(b'\0') if trim else result
 
 
     def array_fetch_and_sub(self, n: bytes, trim=True):
-        integer = self.type(int.from_bytes(n, byteorder='big'))
+        integer = int.from_bytes(n, byteorder='big')
         result = int.to_bytes(self._array_fetch_and_sub(self.array_reference, self.type(integer)),
                             length=self.size, byteorder='big')
         return result.lstrip(b'\0') if trim else result
 
 
     def array_fetch_and_and(self, n: bytes, trim=True):
-        integer = self.type(int.from_bytes(n, byteorder='big'))
+        integer = int.from_bytes(n, byteorder='big')
         result = int.to_bytes(self._array_fetch_and_and(self.array_reference, self.type(integer)),
                             length=self.size, byteorder='big')
         return result.lstrip(b'\0') if trim else result
 
 
     def array_fetch_and_or(self, n: bytes, trim=True):
-        integer = self.type(int.from_bytes(n, byteorder='big'))
+        integer = int.from_bytes(n, byteorder='big')
         result = int.to_bytes(self._array_fetch_and_or(self.array_reference, self.type(integer)),
                                                      length=self.size, byteorder='big')
         return result.lstrip(b'\0') if trim else result
 
     def array_fetch_and_xor(self, n: bytes, trim=True):
-        integer = self.type(int.from_bytes(n, byteorder='big'))
+        integer = int.from_bytes(n, byteorder='big')
         result = int.to_bytes(self._array_fetch_and_xor(self.array_reference, self.type(integer)),
                                                       length=self.size, byteorder='big')
         return result.lstrip(b'\0') if trim else result
 
     def array_fetch_and_nand(self, n: bytes, trim=True):
-        integer = self.type(int.from_bytes(n, byteorder='big'))
+        integer = int.from_bytes(n, byteorder='big')
         result = int.to_bytes(self._array_fetch_and_nand(self.array_reference, self.type(integer)),
                                                        length=self.size, byteorder='big')
         return result.lstrip(b'\0') if trim else result
