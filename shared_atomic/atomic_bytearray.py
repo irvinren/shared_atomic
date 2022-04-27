@@ -220,7 +220,7 @@ class atomic_bytearray:
     def array_and_and_fetch(self, n: bytes, trim=True):
         integer = int.from_bytes(n, byteorder='big')
         result = int.to_bytes(self._array_and_and_fetch(self.array_reference, self.type(integer)),
-                            length=self.size, byteorder='big').lstrip(b'\0')
+                            length=self.size, byteorder='big')
         return result.lstrip(b'\0') if trim else result
 
 
@@ -282,22 +282,23 @@ class atomic_bytearray:
                                                        length=self.size, byteorder='big')
         return result.lstrip(b'\0') if trim else result
 
-    def change_mode(self, newmode='m'):
-        if newmode in ('m', 'multiprocessing'):
-            if self.mode == 's':
+    if sys.platform in ('darwin','linux'):
+        def change_mode(self, newmode='m'):
+            if newmode in ('m', 'multiprocessing'):
+                if self.mode == 's':
+                    data = self.get_bytes()
+                    self.array = Array(ctypes.c_ubyte, self.size, lock=False)
+                    self.array_reference = ctypes.byref(self.array)
+                    self.set_bytes(data)
+
+            elif newmode not in ('s', 'singleprocessing'):
+                raise ValueError("newmode has the wrong value, should be 'm','s','multiprocessing' or 'singleprocessing'")
+
+            elif self.mode == 'm':
                 data = self.get_bytes()
-                self.array = Array(ctypes.c_ubyte, self.size, lock=False)
+                self.array = (ctypes.c_ubyte * self.size)()
                 self.array_reference = ctypes.byref(self.array)
                 self.set_bytes(data)
-
-        elif newmode not in ('s', 'singleprocessing'):
-            raise ValueError("newmode has the wrong value, should be 'm','s','multiprocessing' or 'singleprocessing'")
-
-        elif self.mode == 'm':
-            data = self.get_bytes()
-            self.array = (ctypes.c_ubyte * self.size)()
-            self.array_reference = ctypes.byref(self.array)
-            self.set_bytes(data)
-        self.mode = newmode
+            self.mode = newmode
 
 
