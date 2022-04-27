@@ -138,6 +138,7 @@ class atomic_bytearray:
             self.array_reference = ctypes.byref(self.array)
         if sys.platform == 'win32':
             self.mode = 's'
+            data = b'\0'*(self.size-len(data)) + data
             self.array = bytearray(data)
             self.array_reference = memoryview(self.array)
 
@@ -204,7 +205,7 @@ class atomic_bytearray:
         return result
 
     def array_add_and_fetch(self, n: bytes, trim=True):
-        integer = self.type(int.from_bytes(data, byteorder='big'))
+        integer = int.from_bytes(n, byteorder='big')
         result = int.to_bytes(self._array_add_and_fetch(self.array_reference, self.type(integer)),
                           length=self.size, byteorder='big')
         return result.lstrip(b'\0') if trim else result
