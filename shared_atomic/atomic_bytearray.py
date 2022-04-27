@@ -1,6 +1,7 @@
 import ctypes
 from multiprocessing import Array
 from shared_atomic import loaddll
+import sys
 
 
 class atomic_bytearray:
@@ -127,15 +128,19 @@ class atomic_bytearray:
             self._array_fetch_and_xor = atomic.ulonglong_fetch_and_xor
             self._array_fetch_and_nand = atomic.ulonglong_fetch_and_nand
 
-
-        if mode in ('m', 'multiprocessing'):
-            self.mode = 'm'
-            self.array = Array(ctypes.c_ubyte, self.size, lock=False)
-        elif mode in ('s', 'singleprocessing'):
+        if sys.platform in ('darwin','linux'):
+            if mode in ('m', 'multiprocessing'):
+                self.mode = 'm'
+                self.array = Array(ctypes.c_ubyte, self.size, lock=False)
+            elif mode in ('s', 'singleprocessing'):
+                self.mode = 's'
+                self.array = (ctypes.c_ubyte * self.size)()
+            self.array_reference = ctypes.byref(self.array)
+        if sys.platform == 'win32':
             self.mode = 's'
-            self.array = (ctypes.c_ubyte * self.size)()
+            self.array = bytearray(data)
+            self.array_reference = memoryview(self.array)
 
-        self.array_reference = ctypes.byref(self.array)
 
         self.array_get_and_set(data)
 
