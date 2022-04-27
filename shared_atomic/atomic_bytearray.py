@@ -30,13 +30,15 @@ class atomic_bytearray:
                 elif trimming_direction in ('l', 'left'):
                     data = initial[input_length - length:]
 
-            if input_length < length:
+            elif input_length < length:
                 devision , remaining = divmod(length - input_length, len(paddingbytes))
                 padding = paddingbytes*devision + paddingbytes[:remaining]
                 if paddingdirection in ('l', 'left'):
                     data = padding + initial
                 elif paddingdirection in ('r', 'right'):
                     data = initial + padding
+            else:
+                data = initial
         else:
             data = initial
 
