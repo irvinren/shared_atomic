@@ -322,7 +322,7 @@ floating types supports only 1 kind,
 
 `wchar_t wchar_fetch_and_sub(wchar_t *, wchar_t);`
 
-## long atomic functions(64bit on Linux/MacOSX, 32bit on Windows):
+## long atomic functions(the size of long type is 64bit on Linux/MacOSX, 32bit on Windows):
 
 `void long_store(long *, long *);`
 
