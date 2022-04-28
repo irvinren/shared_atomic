@@ -1,4 +1,4 @@
-# Ctypes Example:
+# ctypes Example:
 
 You need the following steps to utilize the module:
 
