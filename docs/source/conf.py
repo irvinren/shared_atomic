@@ -62,10 +62,10 @@ exclude_patterns = []
 html_theme = 'alabaster'
 
 html_theme_options = {
-    'logo': 'sharedAtoms.jpg',
+    #'logo': 'sharedAtoms.jpg',
     'github_user': 'irvinren',
     'github_repo': 'shared_atomic',
-    #'description': 'Shared atomicity with multiprocessing/multithreads shared ctypes',
+    'description': 'Shared atomicity with multiprocessing/multithreads shared ctypes',
     'donate_url': 'https://paypal.me/xiquanren',
 
     #'github_banner': 'true',
