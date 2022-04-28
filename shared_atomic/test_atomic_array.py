@@ -1,7 +1,72 @@
 from shared_atomic import atomic_bytearray
 import ctypes
+import random
 
 a = None
+
+inlist = (
+         int.to_bytes(1, length=1, byteorder='big'),
+         int.to_bytes(2**8+1, length=2, byteorder='big'),
+         int.to_bytes(2**24+1, length=4, byteorder='big'),
+         int.to_bytes(2**56+1, length=8, byteorder='big'),
+)
+
+inintlist = (
+         1,
+         2 ** 8 + 1,
+         2 ** 24 + 1,
+         2 ** 56 + 1,
+)
+
+exlist = (int.to_bytes(255, length=1, byteorder='big'),
+          int.to_bytes(2 ** 16 - 1, length=2, byteorder='big'),
+          int.to_bytes(2 ** 32 - 1, length=4, byteorder='big'),
+          int.to_bytes(2 ** 64 - 1, length=8, byteorder='big'),
+          )
+exintlist = (255,
+          2 ** 16 - 1,
+          2 ** 32 - 1,
+          2 ** 64 - 1,
+          )
+
+sublist = (
+           int.to_bytes(100, length=1, byteorder='big'),
+           int.to_bytes(100, length=2, byteorder='big'),
+           int.to_bytes(100, length=4, byteorder='big'),
+           int.to_bytes(100, length=8, byteorder='big'),
+           )
+subintlist = (100,100,100,100)
+
+andlist = []
+orlist = []
+xorlist = []
+nandlist = []
+andintlist = []
+orintlist = []
+xorintlist = []
+nandintlist = []
+
+addlist = sublist
+addintlist = subintlist
+
+r = random.Random()
+
+for i in range(4):
+    andintlist.append(r.randrange(0, 128))
+    andlist.append(int.to_bytes(andintlist[i],length=1, byteorder='big'))
+    orintlist.append(r.randrange(0, 128))
+    orlist.append(int.to_bytes(orintlist[i],length=1, byteorder='big'))
+    xorintlist.append(r.randrange(0, 128))
+    xorlist.append(int.to_bytes(xorintlist[i],length=1, byteorder='big'))
+    nandintlist.append(r.randrange(0, 128))
+    nandlist.append(int.to_bytes(nandintlist[i],length=1, byteorder='big'))
+
+
+def signed2unsigned(input, i):
+    if input < 0:
+        return int.to_bytes(input + 2**((i+1)*8),length=i+1, byteorder='big').lstrip(b'\0')
+    return int.to_bytes(input,length=2**i, byteorder='big').lstrip(b'\0')
+
 
 def setup_function():
     """
@@ -69,3 +134,80 @@ def test_bytes():
     result = aa.array_fetch_and_and(bytes.fromhex('ff01'))
     assert result == b'ab'
     assert aa.get_bytes(trim=True) == b'a\x00'
+
+
+def test_value_bytearray():
+    """
+    test single process single thread
+    :return: None
+    """
+    i = 0
+    result = None
+    try:
+        for i in range(4):
+            a = atomic_bytearray(b'a'*(i+1))
+            result=[]
+            a.array_store(inlist[i])
+            assert a.get_bytes() == inlist[i]
+            result.append(a.array_get_and_set(exlist[i]))
+            assert result[-1] == inlist[i]
+            assert a.get_bytes() == exlist[i]
+            c = []
+            c.append(atomic_bytearray(exlist[i]))
+            result.append(a.array_compare_and_set(c[-1], inlist[i]))
+            assert result[-1]
+            assert a.get_bytes() == inlist[i]
+            c.append(atomic_bytearray(inlist[i]))
+            c.append(atomic_bytearray(exlist[i]))
+            result.append(a.array_shift(c[-1], c[-2]))
+            assert c[-1].get_bytes() == a.get_bytes()
+            assert c[-2].get_bytes() == inlist[i]
+            result.append(a.array_sub_and_fetch(sublist[i]))
+            assert result[-1] == int.to_bytes(exintlist[i] - addintlist[i], length=2**i,byteorder='big')
+            assert a.get_bytes() == result[-1]
+            result.append(a.array_add_and_fetch(addlist[i]))
+            assert result[-1] == exlist[i]
+            assert a.get_bytes() == result[-1]
+            result.append(a.array_and_and_fetch(andlist[i]))
+            assert result[-1] == signed2unsigned(exintlist[i] & andintlist[i],i)
+            assert a.get_bytes() == result[-1]
+            result.append(a.array_or_and_fetch(orlist[i]))
+            assert result[-1] == signed2unsigned((exintlist[i] & andintlist[i]) | orintlist[i],i)
+            assert a.get_bytes() == result[-1]
+            result.append(a.array_xor_and_fetch(xorlist[i]))
+            assert result[-1] == signed2unsigned(((exintlist[i] & andintlist[i]) | orintlist[i]) ^ xorintlist[i],i)
+            assert a.get_bytes() == result[-1]
+            result.append(a.array_nand_and_fetch(nandlist[i]))
+            assert result[-1] ==\
+                   signed2unsigned(
+                        ~((((exintlist[i] & andintlist[i]) | orintlist[i]) ^ xorintlist[i]) & nandintlist[i]),i
+                   ).rjust(a.size, b'\xff')
+
+            assert a.get_bytes() == result[-1]
+            a.array_store(exlist[i])
+            result.append(a.array_fetch_and_sub(sublist[i]))
+            assert result[-1] == exlist[i]
+            assert a.get_bytes() == int.to_bytes(exintlist[i] - subintlist[i], length=2**i,byteorder='big')
+            result.append(a.array_fetch_and_add(addlist[i]))
+            assert result[-1] == int.to_bytes(exintlist[i] - subintlist[i], length=2**i,byteorder='big')
+            assert a.get_bytes() == exlist[i]
+            result.append(a.array_fetch_and_and(andlist[i]))
+            assert result[-1] == exlist[i]
+            assert a.get_bytes() == signed2unsigned(exintlist[i] & andintlist[i],i)
+            result.append(a.array_fetch_and_or(orlist[i]))
+            assert result[-1] == signed2unsigned(exintlist[i] & andintlist[i],i)
+            assert a.get_bytes() == signed2unsigned((exintlist[i] & andintlist[i]) | orintlist[i],i)
+            result.append(a.array_fetch_and_xor(xorlist[i]))
+            assert result[-1] == signed2unsigned((exintlist[i] & andintlist[i]) | orintlist[i],i)
+            assert a.get_bytes() == signed2unsigned(((exintlist[i] & andintlist[i]) | orintlist[i]) ^ xorintlist[i],i)
+            result.append(a.array_fetch_and_nand(nandlist[i]))
+            assert result[-1] == signed2unsigned(((exintlist[i] & andintlist[i]) | orintlist[i]) ^ xorintlist[i],i)
+            assert a.get_bytes() == signed2unsigned(
+                ~((((exintlist[i] & andintlist[i]) | orintlist[i]) ^ xorintlist[i]) & nandintlist[i]),i
+            ).rjust(a.size, b'\xff')
+
+            i += 1
+    except Exception as e:
+        print(e)
+        print(i)
+        raise e

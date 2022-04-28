@@ -170,6 +170,9 @@ class atomic_bytearray:
         ctype_integer = self.type(integer)
         self._array_store(self.array_reference, ctypes.byref(ctype_integer))
 
+    value = property(fget=get_bytes, fset=set_bytes)
+    int_value = property(fget=get_int)
+
     def resize(self, newlength: int,
                  paddingdirection: str = 'right',
                  paddingbytes: bytes = b'\0',
@@ -183,17 +186,17 @@ class atomic_bytearray:
     def array_store(self, data: bytes):
         self.set_bytes(data)
 
-    def array_get_and_set(self, data: bytes):
+    def array_get_and_set(self, data: bytes, trim=True):
         integer = int.from_bytes(data, byteorder='big')
-        prev = int.to_bytes(self._array_get_and_set(self.array_reference, self.type(integer)),
+        result = int.to_bytes(self._array_get_and_set(self.array_reference, self.type(integer)),
                                                     length=self.size, byteorder='big')
         self.initial_length = len(data)
-        return prev
+        return result.lstrip(b'\0') if trim else result
 
     def array_shift(self, i, j):
         self._array_shift(self.array_reference,
                           i.array_reference, j.array_reference)
-        self.initial_length = j.length
+        self.initial_length = j.initial_length
 
     def array_compare_and_set(self, i, n: bytes):
         integer = int.from_bytes(n, byteorder='big')
