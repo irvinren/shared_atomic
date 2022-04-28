@@ -215,7 +215,10 @@ class atomic_bytearray:
         ctype_integer = self.type(integer)
         self._array_store(self.array_reference, ctypes.byref(ctype_integer))
 
-    value = property(fget=get_bytes, fset=set_bytes, doc="same with get_bytes with trimming and set_bytes")
+    def _get_full_bytes(self):
+        return self.get_bytes(trim=False)
+
+    value = property(fget=_get_full_bytes, fset=set_bytes, doc="same with get_bytes without trimming and set_bytes")
     int_value = property(fget=get_int, doc="same with get_int")
 
     def resize(self, newlength: int,
