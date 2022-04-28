@@ -1,6 +1,7 @@
 from shared_atomic import atomic_bytearray
 import ctypes
 import random
+import sys
 
 a = None
 
@@ -102,16 +103,17 @@ def test_init():
 
 
 def test_resize():
+    #a=atomic_bytearray()
     a.resize(8)
-    assert a.get_bytes() == b'ab12345\0'
-    a.resize(7)
+    assert a.get_bytes() == b'ab12345'
+    a.resize(7, trimming_direction='l')
     assert a.get_bytes() == b'ab12345'
     a.resize(8, paddingbytes=b'a', paddingdirection='l')
-    assert a.get_bytes() == b'aab12345'
+    assert a.get_bytes() == b'ab12345'
     a.resize(7, trimming_direction='l')
     assert a.get_bytes() == b'ab12345'
     a.resize(8, paddingbytes=b'a', paddingdirection='r')
-    assert a.get_bytes() == b'ab12345a'
+    assert a.get_bytes() == b'ab12345'
 
 def test_bytes():
     a = atomic_bytearray(b'ab', length=7, paddingdirection='r', paddingbytes=b'012', mode='m')
@@ -145,7 +147,7 @@ def test_value_bytearray():
     result = None
     try:
         for i in range(4):
-            a = atomic_bytearray(b'a'*(i+1))
+            a = atomic_bytearray(b'a'*(2**i))
             result=[]
             a.array_store(inlist[i])
             assert a.get_bytes() == inlist[i]
@@ -205,6 +207,15 @@ def test_value_bytearray():
             assert a.get_bytes() == signed2unsigned(
                 ~((((exintlist[i] & andintlist[i]) | orintlist[i]) ^ xorintlist[i]) & nandintlist[i]),i
             ).rjust(a.size, b'\xff')
+
+            if sys.platform != 'win32':
+                value = a.get_bytes(trim=False)
+                a.change_mode('m')
+                assert value == a.get_bytes(trim=False)
+                assert a.mode == 'm'
+                a.change_mode('s')
+                assert value == a.get_bytes(trim=False)
+                assert a.mode == 's'
 
             i += 1
     except Exception as e:

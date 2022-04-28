@@ -39,7 +39,7 @@ Integer types support 17 kinds of APIs could be used to achieve atomic operation
   
 - value exchange between 3 pointers in 2 groups atomically, store b in a after store a in c
 
-  *type* *type*_shift(*type* *a, *type* *b, *type* *c);
+  *type*_shift(*type* *a, *type* *b, *type* *c);
 
 - increment and fetch atomically
 
