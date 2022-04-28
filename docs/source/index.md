@@ -13,7 +13,7 @@ Welcome to shared_atomic's documentation!
 
 When calling those functions, the address of the shared variables could be get by [ctypes.byref](https://docs.python.org/3/library/ctypes.html?highlight=ctypes.byref#ctypes.byref)
 
-For example usage of the module, please visit this  [example](./example.md).
+For example usage of the module, please visit this  [ctypes_example](./ctypes_example.md) and [bytearray_example](./bytearray_example.md)
 
 For ctypes api references, please visit [ctypes api](./ctypes_api.md).
 

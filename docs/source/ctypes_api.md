@@ -23,8 +23,14 @@ are listed below:
 | c_double       | double_store     |
 | c_longdouble   | longdouble_store |
 
+## Module shared_atomic</big>
 
-Integer types support 17 kinds of APIs could be used to achieve atomic operations, 
+    ```{eval-rst}
+    .. automodule:: shared_atomic
+       :members:
+    ```
+
+## Integer types support 17 kinds of APIs could be used to achieve atomic operations, 
 
 - store value atomically
 
