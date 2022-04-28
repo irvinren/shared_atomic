@@ -1,4 +1,4 @@
-# API Referennce
+# ctypes API Referennce
 
 There are 16 kinds of numeric ctypes that could be updated atomically, these types
 are listed below:
@@ -22,6 +22,7 @@ are listed below:
 | c_float        | float_store      |
 | c_double       | double_store     |
 | c_longdouble   | longdouble_store |
+
 
 Integer types support 17 kinds of APIs could be used to achieve atomic operations, 
 
@@ -105,7 +106,7 @@ floating types supports only 1 kind,
 
 `void bool_shift(_Bool *v, _Bool *, _Bool *);`
 
-## byte atomic functions(Not supported on windows):
+## byte atomic functions(Not supported on Windows):
 
 `void byte_store(char *, char *);`
 
@@ -297,7 +298,7 @@ floating types supports only 1 kind,
 `unsigned int uint_fetch_and_xor(unsigned int *, unsigned int);`
 `unsigned int uint_fetch_and_nand(unsigned int *, unsigned int);`
 
-## wchar atomic functions(Not supported on windows):
+## wchar atomic functions(Not supported on Windows):
 
 `void wchar_store(wchar_t *, wchar_t *);`
 
@@ -315,7 +316,7 @@ floating types supports only 1 kind,
 
 `wchar_t wchar_fetch_and_sub(wchar_t *, wchar_t);`
 
-## long atomic functions(64bit on Linux/Macos, 32bit on Windows):
+## long atomic functions(64bit on Linux/MacOSX, 32bit on Windows):
 
 `void long_store(long *, long *);`
 

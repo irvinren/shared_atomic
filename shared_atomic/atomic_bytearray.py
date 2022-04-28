@@ -19,25 +19,12 @@ class atomic_bytearray:
         constructor to initialize the bytearray,
         the bytearray should be no longer than 8 bytes
 
-        :param initial: initial value of the bytearray, if the initial value
-        is longer than 8 bytes, please specify the trimming target length, or
-        else it would fail.
-        :param mode: the mode in which the bytearray will be shared.
-        'singleprocessing' or 's' for single process
-        'multiprocessing' or 'm' for multiprocessing,
-        on windows platform, only singleprocessing is supported, setting it
-        to 'm' or 'multiprocessing' will be ignored.
-        :param length: the expected length after padding/trimming for the input value,
-                if not specified, no padding or trimming performed, use original value.
-        :param paddingdirection: right, or left side the padding bytes would be added
-               if not specified, pad to the right side, use 'right' or 'r' to specify right side,
-               use 'left' or 'l' to specify the left side.
-        :param paddingbytes: bytes to pad to the original bytes, by default b'\\0'
-               can be multiple bytes like b'ab', will be padded to the original bytes
-               in circulation until the expected length is reached.
-        :param trimming_direction: if initial bytes are longer, on which side the bytes will
-               be trimmed. By default, on the right side, use 'right' or 'r' to specify right side,
-               use 'left' or 'l' to specify the left side.
+        :param initial: initial value of the bytearray, if the initial value is longer than 8 bytes, please specify the trimming target length, or else it would fail.
+        :param mode: the mode in which the bytearray will be shared. 'singleprocessing' or 's' for single process, 'multiprocessing' or 'm' for multiprocessing, on windows platform, only singleprocessing is supported, setting it to 'm' or 'multiprocessing' will be ignored.
+        :param length: the expected length after padding/trimming for the input value, if not specified, no padding or trimming performed, use original value.
+        :param paddingdirection: right, or left side the padding bytes would be added if not specified, pad to the right side, use 'right' or 'r' to specify right side, use 'left' or 'l' to specify the left side.
+        :param paddingbytes: bytes to pad to the original bytes, by default b'\\0' can be multiple bytes like b'ab', will be padded to the original bytes in circulation until the expected length is reached.
+        :param trimming_direction: if initial bytes are longer, on which side the bytes will be trimmed. By default, on the right side, use 'right' or 'r' to specify right side, use 'left' or 'l' to specify the left side.
         """
 
         input_length = len(initial)
@@ -176,6 +163,7 @@ class atomic_bytearray:
         """
         Get the integer representation from the bytearray,
         the whole array would be treated as a large integer
+
         :return: the integer representation
         """
         result = self.type(0)
@@ -186,6 +174,7 @@ class atomic_bytearray:
         """
         Get all the bytes from the bytearray atomically
         :param trim: if True, the leading b'\\0' would be trimmed, by default: True
+
         :return: all the bytes in the bytearray
         """
         result = self.type(0)
@@ -202,6 +191,7 @@ class atomic_bytearray:
         if the new data is longer than the original size of the array.
         it will expand the array accordingly which would lose atomicy.
         the size of the bytearray can be check with self.size
+
         :param data: input bytearray
         :return: None
         """
@@ -231,16 +221,11 @@ class atomic_bytearray:
         the original array wll be replaced with new array, if the original
         array is shared between threads/processes, other threads/processes
         will wouldn't be aware of the change, still use the old bytearray.
+
         :param newlength: the expected new length of the original bytes.
-        :param paddingdirection: if longer than original, left or right side
-        the original bytes should be padded, by default right side,use 'right'
-        or 'r' to specify right side, use 'left' or 'l' to specify the left side.
-        :param paddingbytes: bytes to pad to the original bytes, by default b'\\0'
-        can be multiple bytes like b'ab', will be padded to the original bytes
-        in circulation until the expected length is reached.
-        :param trimming_direction: if shorted than original, left or right side
-        the original bytes should be padded,use 'right' or 'r' to specify right
-        side,use 'left' or 'l' to specify the left side.
+        :param paddingdirection: if longer than original, left or right sidethe original bytes should be padded, by default right side,use 'right' or 'r' to specify right side, use 'left' or 'l' to specify the left side.
+        :param paddingbytes: bytes to pad to the original bytes, by default b'\\0' can be multiple bytes like b'ab', will be padded to the original bytes in circulation until the expected length is reached.
+        :param trimming_direction: if shorted than original, left or right side the original bytes should be padded,use 'right' or 'r' to specify right side,use 'left' or 'l' to specify the left side.
         :return: None
         """
 
@@ -253,6 +238,7 @@ class atomic_bytearray:
         """
         Atomically store bytes to the bytearray, if new data longer than the size,
         the function will fail.
+
         :param data: new bytes data
         :return:
         """
@@ -264,6 +250,7 @@ class atomic_bytearray:
     def array_get_and_set(self, data: bytes, trim=True):
         """
         Get and set atomically
+
         :param data: new data
         :param trim: whether of not to trim the returning '\\0' when get, default True
         :return:the original bytes
@@ -279,6 +266,7 @@ class atomic_bytearray:
         Value exchange between 3 pointers in 2 groups atomically,
         the initial_length field will be updated but not atomically.
         store i in itself after store itself in j
+
         :param i: one atomic_bytearray
         :param j: another atomic_bytearray
         :return: None
@@ -296,6 +284,7 @@ class atomic_bytearray:
         operation that writes n into self. If they are not equal,
         the operation is a read and the current contents of itself are written into
         i.
+
         :param i: the bytearray to be compared with
         :param n: another bytes to be ready to self if comparision return True
         :return: if self is equal to i return True, else return False
@@ -311,6 +300,7 @@ class atomic_bytearray:
     def array_add_and_fetch(self, n: bytes, trim=True):
         """
         Increment and fetch atomically
+
         :param n: bytes will be added to the array.
         :param trim: whether of not to trim the returning '\\0' when fetch, default True
         :return: the contents of resulted bytearray
@@ -323,6 +313,7 @@ class atomic_bytearray:
     def array_sub_and_fetch(self, n: bytes, trim=True):
         """
         Decrement and fetch atomically
+
         :param n: bytes will be subtracted from the array.
         :param trim: whether of not to trim the returning '\\0' when fetch, default True
         :return: the contents of resulted bytearray
@@ -336,6 +327,7 @@ class atomic_bytearray:
     def array_and_and_fetch(self, n: bytes, trim=True):
         """
         Bitwise AND and fetch the result atomically
+
         :param n: the other operand of AND operation.
         :param trim: whether of not to trim the returning '\\0' when fetch, default True
         :return: the contents of resulted bytearray
@@ -349,6 +341,7 @@ class atomic_bytearray:
     def array_or_and_fetch(self, n: bytes, trim=True):
         """
         bitsise OR and fetch the result atomically
+
         :param n: the other operand of OR operation
         :param trim: whether of not to trim the returning '\\0' when fetch, default True
         :return: the contents of resulted bytearray
@@ -361,6 +354,7 @@ class atomic_bytearray:
     def array_xor_and_fetch(self, n: bytes, trim=True):
         """
         bitsise XOR and fetch the result atomically
+
         :param n: the other operand of XOR operation
         :param trim: whether of not to trim the returning '\\0' when fetch, default True
         :return: the contents of resulted bytearray
@@ -373,6 +367,7 @@ class atomic_bytearray:
     def array_nand_and_fetch(self, n: bytes, trim=True):
         """
         bitsise NAND(AND first then NOT) and fetch the result atomically
+
         :param n:the other operand of NAND operation
         :param trim: whether of not to trim the returning '\\0' when fetch, default True
         :return: the contents of resulted bytearray
@@ -386,6 +381,7 @@ class atomic_bytearray:
     def array_fetch_and_add(self, n: bytes, trim=True):
         """
         fetch and increment atomically
+
         :param n:bytes will be added to the array
         :param trim: whether of not to trim the returning '\\0' when fetch, default True
         :return: the original contents of the bytearray
@@ -399,6 +395,7 @@ class atomic_bytearray:
     def array_fetch_and_sub(self, n: bytes, trim=True):
         """
         fetch and decrement atomically
+
         :param n:bytes will be substracted from the array
         :param trim: whether of not to trim the returning '\\0' when fetch, default True
         :return: the original contents of the bytearray
@@ -412,6 +409,7 @@ class atomic_bytearray:
     def array_fetch_and_and(self, n: bytes, trim=True):
         """
         Fetch then bitwise AND atomically
+
         :param n:the other operands of AND operation
         :param trim: whether of not to trim the returning '\\0' when fetch, default True
         :return: the original contents of the bytearray
@@ -425,6 +423,7 @@ class atomic_bytearray:
     def array_fetch_and_or(self, n: bytes, trim=True):
         """
         Fetch then bitwise OR atomically
+
         :param n:the other operands of OR operation
         :param trim: whether of not to trim the returning '\\0' when fetch, default True
         :return: the original contents of the bytearray
@@ -437,6 +436,7 @@ class atomic_bytearray:
     def array_fetch_and_xor(self, n: bytes, trim=True):
         """
         Fetch then bitwise XOR atomically
+
         :param n:the other operands of XOR operation
         :param trim: whether of not to trim the returning '\\0' when fetch, default True
         :return: the original contents of the bytearray
@@ -449,6 +449,7 @@ class atomic_bytearray:
     def array_fetch_and_nand(self, n: bytes, trim=True):
         """
         fetch then bitwise NAND(AND first then NOT) atomically
+
         :param n:the other operands of NAND operation
         :param trim: whether of not to trim the returning '\\0' when fetch, default True
         :return: the original contents of the bytearray
@@ -465,8 +466,8 @@ class atomic_bytearray:
             the function doesn't exists on windows, since only single processing mode
             is supported on windows platform.
             the contents will be copied , other threads/processes would not be aware of the change.
-            :param newmode: the mode to change to, 'm' or 'multiprocessing' for multiproessing,
-            's' or 'singleprocessing' for singleprocessing. default 'm'
+
+            :param newmode: the mode to change to, 'm' or 'multiprocessing' for multiproessing, 's' or 'singleprocessing' for singleprocessing. default 'm'
             :return: None
             """
             if newmode in ('m', 'multiprocessing'):

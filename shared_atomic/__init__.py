@@ -6,7 +6,8 @@ win_ddl = None
 def loaddll():
     """
     function to load the dynamiclly linked library to scope
-    :return: class with atomic operation functins
+
+    :return: class with atomic operation functions as class method
     """
 
     result = None

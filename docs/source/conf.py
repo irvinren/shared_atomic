@@ -12,7 +12,11 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath('.'))
+#sys.path.insert(0, os.path.abspath('.'))
+sys.path.insert(0, os.path.abspath('..'))
+sys.path.insert(2, os.path.abspath('../..'))
+
+
 
 
 # -- Project information -----------------------------------------------------
@@ -32,11 +36,14 @@ release = '1.0.11'
 # ones.
 extensions = [
         "myst_parser",
-        #"sphinx.ext.autodoc",
+        "sphinx.ext.autodoc",
         #"sphinx.ext.napoleon",
-        #"sphinx_autodoc_typehints",
+        "sphinx_autodoc_typehints",
 ]
 
+
+
+autoclass_content = "both"
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
 
@@ -51,7 +58,34 @@ exclude_patterns = []
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'sphinx_rtd_theme'
+#html_theme = 'sphinx_rtd_theme'
+html_theme = 'alabaster'
+
+html_theme_options = {
+    'logo': 'sharedAtoms.jpg',
+    'github_user': 'irvinren',
+    'github_repo': 'shared_atomic',
+    #'description': 'Shared atomicity with multiprocessing/multithreads shared ctypes',
+    'donate_url': 'https://paypal.me/xiquanren',
+
+    #'github_banner': 'true',
+    'github_button': 'true',
+    'show_powered_by': 'false',
+    'show_relbars': 'true',
+    'caption_font_family': 'serif',
+    'code_font_family': 'serif',
+    'font_family': 'serif',
+    'head_font_family': 'serif',
+    #'topic_bg': '#444',
+    'page_width': '1280px',
+    'sidebar_width': '300px'
+
+
+
+
+    #'fixed_sidebar': "true"
+}
+
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -59,8 +93,11 @@ html_theme = 'sphinx_rtd_theme'
 html_static_path = ['_static']
 
 html_sidebars = {
-  '**': [
+  '**': ["about.html",
+         "navigation.html",
+         "relations.html",
           "searchbox.html",
+          "donate.html"
   ]
 }
 html_title = "Documentation for shared_atomic"

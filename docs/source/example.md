@@ -2,7 +2,7 @@
 
 You need the following steps to utilize the module:
 
-1) dynamically linked library is loaded by shared_atomic.loaddll(),
+1) dynamically linked library is loaded by [shared_atomic.loaddll()](./bytearray_api.md),
 
     `atomic = shared_atomic.loaddll()`
 
