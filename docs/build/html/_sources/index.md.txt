@@ -23,7 +23,8 @@ For python bytearray api references, please visit [bytearray api](./bytearray_ap
 ```{eval-rst}
 .. toctree::
 
-   example.md
+   ctypes_example.md
+   bytearray_example.md
    ctypes_api.md
    bytearray_api.md
 
