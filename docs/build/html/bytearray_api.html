@@ -58,7 +58,7 @@ the bytearray should be no longer than 8 bytes</p>
 <li><p><strong>mode</strong> – the mode in which the bytearray will be shared. ‘singleprocessing’ or ‘s’ for single process, ‘multiprocessing’ or ‘m’ for multiprocessing, on windows platform, only singleprocessing is supported, setting it to ‘m’ or ‘multiprocessing’ will be ignored.</p></li>
 <li><p><strong>length</strong> – the expected length after padding/trimming for the input value, if not specified, no padding or trimming performed, use original value.</p></li>
 <li><p><strong>paddingdirection</strong> – right, or left side the padding bytes would be added if not specified, pad to the right side, use ‘right’ or ‘r’ to specify right side, use ‘left’ or ‘l’ to specify the left side.</p></li>
-<li><p><strong>paddingbytes</strong> – bytes to pad to the original bytes, by default b’0’ can be multiple bytes like b’ab’, will be padded to the original bytes in circulation until the expected length is reached.</p></li>
+<li><p><strong>paddingbytes</strong> – bytes to pad to the original bytes, by default b’\0’ can be multiple bytes like b’ab’, will be padded to the original bytes in circulation until the expected length is reached.</p></li>
 <li><p><strong>trimming_direction</strong> – if initial bytes are longer, on which side the bytes will be trimmed. By default, on the right side, use ‘right’ or ‘r’ to specify right side, use ‘left’ or ‘l’ to specify the left side.</p></li>
 </ul>
 </dd>
@@ -71,7 +71,7 @@ the bytearray should be no longer than 8 bytes</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>n</strong> – bytes will be added to the array.</p></li>
-<li><p><strong>trim</strong> – whether of not to trim the returning ‘0’ when fetch, default True</p></li>
+<li><p><strong>trim</strong> – whether of not to trim the returning b’\0’ when fetch, default True</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -88,7 +88,7 @@ the bytearray should be no longer than 8 bytes</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>n</strong> – the other operand of AND operation.</p></li>
-<li><p><strong>trim</strong> – whether of not to trim the returning ‘0’ when fetch, default True</p></li>
+<li><p><strong>trim</strong> – whether of not to trim the returning b’\0’ when fetch, default True</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -122,54 +122,102 @@ i.</p>
 <dt class="sig sig-object py" id="shared_atomic.atomic_bytearray.atomic_bytearray.array_fetch_and_add">
 <span class="sig-name descname"><span class="pre">array_fetch_and_add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#shared_atomic.atomic_bytearray.atomic_bytearray.array_fetch_and_add" title="Permalink to this definition">¶</a></dt>
 <dd><p>fetch and increment atomically</p>
-<p>:param n:bytes will be added to the array
-:param trim: whether of not to trim the returning ‘0’ when fetch, default True
-:return: the original contents of the bytearray</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n</strong> – the bytes will be added to the array</p></li>
+<li><p><strong>trim</strong> – whether of not to trim the returning b’\0’ when fetch, default True</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the original contents of the bytearray</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="shared_atomic.atomic_bytearray.atomic_bytearray.array_fetch_and_and">
 <span class="sig-name descname"><span class="pre">array_fetch_and_and</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#shared_atomic.atomic_bytearray.atomic_bytearray.array_fetch_and_and" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fetch then bitwise AND atomically</p>
-<p>:param n:the other operands of AND operation
-:param trim: whether of not to trim the returning ‘0’ when fetch, default True
-:return: the original contents of the bytearray</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n</strong> – the other operands of AND operation</p></li>
+<li><p><strong>trim</strong> – whether of not to trim the returning b’\0’ when fetch, default True</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the original contents of the bytearray</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="shared_atomic.atomic_bytearray.atomic_bytearray.array_fetch_and_nand">
 <span class="sig-name descname"><span class="pre">array_fetch_and_nand</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#shared_atomic.atomic_bytearray.atomic_bytearray.array_fetch_and_nand" title="Permalink to this definition">¶</a></dt>
 <dd><p>fetch then bitwise NAND(AND first then NOT) atomically</p>
-<p>:param n:the other operands of NAND operation
-:param trim: whether of not to trim the returning ‘0’ when fetch, default True
-:return: the original contents of the bytearray</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n</strong> – the other operands of NAND operation</p></li>
+<li><p><strong>trim</strong> – whether of not to trim the returning b’\0’ when fetch, default True</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the original contents of the bytearray</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="shared_atomic.atomic_bytearray.atomic_bytearray.array_fetch_and_or">
 <span class="sig-name descname"><span class="pre">array_fetch_and_or</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#shared_atomic.atomic_bytearray.atomic_bytearray.array_fetch_and_or" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fetch then bitwise OR atomically</p>
-<p>:param n:the other operands of OR operation
-:param trim: whether of not to trim the returning ‘0’ when fetch, default True
-:return: the original contents of the bytearray</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n</strong> – the other operands of OR operation</p></li>
+<li><p><strong>trim</strong> – whether of not to trim the returning b’\0’ when fetch, default True</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the original contents of the bytearray</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="shared_atomic.atomic_bytearray.atomic_bytearray.array_fetch_and_sub">
 <span class="sig-name descname"><span class="pre">array_fetch_and_sub</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#shared_atomic.atomic_bytearray.atomic_bytearray.array_fetch_and_sub" title="Permalink to this definition">¶</a></dt>
 <dd><p>fetch and decrement atomically</p>
-<p>:param n:bytes will be substracted from the array
-:param trim: whether of not to trim the returning ‘0’ when fetch, default True
-:return: the original contents of the bytearray</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n</strong> – the bytes will be substracted from the array</p></li>
+<li><p><strong>trim</strong> – whether of not to trim the returning b’\0’ when fetch, default True</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the original contents of the bytearray</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="shared_atomic.atomic_bytearray.atomic_bytearray.array_fetch_and_xor">
 <span class="sig-name descname"><span class="pre">array_fetch_and_xor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#shared_atomic.atomic_bytearray.atomic_bytearray.array_fetch_and_xor" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fetch then bitwise XOR atomically</p>
-<p>:param n:the other operands of XOR operation
-:param trim: whether of not to trim the returning ‘0’ when fetch, default True
-:return: the original contents of the bytearray</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n</strong> – the other operands of XOR operation</p></li>
+<li><p><strong>trim</strong> – whether of not to trim the returning b’\0’ when fetch, default True</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the original contents of the bytearray</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -180,11 +228,13 @@ i.</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>data</strong> – new data</p></li>
-<li><p><strong>trim</strong> – whether of not to trim the returning ‘0’ when get, default True</p></li>
+<li><p><strong>trim</strong> – whether of not to trim the returning b’\0’ when get, default True</p></li>
 </ul>
 </dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the original bytes</p>
+</dd>
 </dl>
-<p>:return:the original bytes</p>
 </dd></dl>
 
 <dl class="py method">
@@ -192,7 +242,7 @@ i.</p>
 <span class="sig-name descname"><span class="pre">array_nand_and_fetch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#shared_atomic.atomic_bytearray.atomic_bytearray.array_nand_and_fetch" title="Permalink to this definition">¶</a></dt>
 <dd><p>bitsise NAND(AND first then NOT) and fetch the result atomically</p>
 <p>:param n:the other operand of NAND operation
-:param trim: whether of not to trim the returning ‘0’ when fetch, default True
+:param trim: whether of not to trim the returning b’\0’ when fetch, default True
 :return: the contents of resulted bytearray</p>
 </dd></dl>
 
@@ -204,7 +254,7 @@ i.</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>n</strong> – the other operand of OR operation</p></li>
-<li><p><strong>trim</strong> – whether of not to trim the returning ‘0’ when fetch, default True</p></li>
+<li><p><strong>trim</strong> – whether of not to trim the returning b’\0’ when fetch, default True</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -255,7 +305,7 @@ the function will fail.</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>n</strong> – bytes will be subtracted from the array.</p></li>
-<li><p><strong>trim</strong> – whether of not to trim the returning ‘0’ when fetch, default True</p></li>
+<li><p><strong>trim</strong> – whether of not to trim the returning b’\0’ when fetch, default True</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -272,7 +322,7 @@ the function will fail.</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>n</strong> – the other operand of XOR operation</p></li>
-<li><p><strong>trim</strong> – whether of not to trim the returning ‘0’ when fetch, default True</p></li>
+<li><p><strong>trim</strong> – whether of not to trim the returning b’\0’ when fetch, default True</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -302,7 +352,7 @@ the contents will be copied , other threads/processes would not be aware of the 
 <dt class="sig sig-object py" id="shared_atomic.atomic_bytearray.atomic_bytearray.get_bytes">
 <span class="sig-name descname"><span class="pre">get_bytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#shared_atomic.atomic_bytearray.atomic_bytearray.get_bytes" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get all the bytes from the bytearray atomically
-:param trim: if True, the leading b’0’ would be trimmed, by default: True</p>
+:param trim: if True, the leading b’\0’ would be trimmed, by default: True</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>all the bytes in the bytearray</p>
@@ -341,7 +391,7 @@ will wouldn’t be aware of the change, still use the old bytearray.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>newlength</strong> – the expected new length of the original bytes.</p></li>
 <li><p><strong>paddingdirection</strong> – if longer than original, left or right sidethe original bytes should be padded, by default right side,use ‘right’ or ‘r’ to specify right side, use ‘left’ or ‘l’ to specify the left side.</p></li>
-<li><p><strong>paddingbytes</strong> – bytes to pad to the original bytes, by default b’0’ can be multiple bytes like b’ab’, will be padded to the original bytes in circulation until the expected length is reached.</p></li>
+<li><p><strong>paddingbytes</strong> – bytes to pad to the original bytes, by default b’\0’ can be multiple bytes like b’ab’, will be padded to the original bytes in circulation until the expected length is reached.</p></li>
 <li><p><strong>trimming_direction</strong> – if shorted than original, left or right side the original bytes should be padded,use ‘right’ or ‘r’ to specify right side,use ‘left’ or ‘l’ to specify the left side.</p></li>
 </ul>
 </dd>

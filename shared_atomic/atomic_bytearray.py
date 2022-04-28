@@ -15,7 +15,7 @@ class atomic_bytearray:
                  paddingdirection: str = 'right',
                  paddingbytes: bytes = b'\0',
                  trimming_direction: bool = 'right'):
-        """
+        r"""
         constructor to initialize the bytearray,
         the bytearray should be no longer than 8 bytes
 
@@ -171,7 +171,7 @@ class atomic_bytearray:
         return result.value
 
     def get_bytes(self, trim=True):
-        """
+        r"""
         Get all the bytes from the bytearray atomically
         :param trim: if True, the leading b'\\0' would be trimmed, by default: True
 
@@ -215,7 +215,7 @@ class atomic_bytearray:
                  paddingdirection: str = 'right',
                  paddingbytes: bytes = b'\0',
                  trimming_direction: bool = 'right'):
-        """
+        r"""
         trim or pad the original contents in the bytearray
         to a new length, the new length should be no longer than 8 bytes,
         the original array wll be replaced with new array, if the original
@@ -248,12 +248,13 @@ class atomic_bytearray:
             raise ValueError('New value too long! cannot achieve atomicy')
 
     def array_get_and_set(self, data: bytes, trim=True):
-        """
+        r"""
         Get and set atomically
 
         :param data: new data
-        :param trim: whether of not to trim the returning '\\0' when get, default True
-        :return:the original bytes
+        :param trim: whether of not to trim the returning b'\\0' when get, default True
+
+        :return: the original bytes
         """
         integer = int.from_bytes(data, byteorder='big')
         result = int.to_bytes(self._array_get_and_set(self.array_reference, self.type(integer)),
@@ -298,11 +299,11 @@ class atomic_bytearray:
         return result
 
     def array_add_and_fetch(self, n: bytes, trim=True):
-        """
+        r"""
         Increment and fetch atomically
 
         :param n: bytes will be added to the array.
-        :param trim: whether of not to trim the returning '\\0' when fetch, default True
+        :param trim: whether of not to trim the returning b'\\0' when fetch, default True
         :return: the contents of resulted bytearray
         """
         integer = int.from_bytes(n, byteorder='big')
@@ -311,11 +312,11 @@ class atomic_bytearray:
         return result.lstrip(b'\0') if trim else result
 
     def array_sub_and_fetch(self, n: bytes, trim=True):
-        """
+        r"""
         Decrement and fetch atomically
 
         :param n: bytes will be subtracted from the array.
-        :param trim: whether of not to trim the returning '\\0' when fetch, default True
+        :param trim: whether of not to trim the returning b'\\0' when fetch, default True
         :return: the contents of resulted bytearray
         """
         integer = int.from_bytes(n, byteorder='big')
@@ -325,11 +326,11 @@ class atomic_bytearray:
 
 
     def array_and_and_fetch(self, n: bytes, trim=True):
-        """
+        r"""
         Bitwise AND and fetch the result atomically
 
         :param n: the other operand of AND operation.
-        :param trim: whether of not to trim the returning '\\0' when fetch, default True
+        :param trim: whether of not to trim the returning b'\\0' when fetch, default True
         :return: the contents of resulted bytearray
         """
         integer = int.from_bytes(n, byteorder='big')
@@ -339,11 +340,11 @@ class atomic_bytearray:
 
 
     def array_or_and_fetch(self, n: bytes, trim=True):
-        """
+        r"""
         bitsise OR and fetch the result atomically
 
         :param n: the other operand of OR operation
-        :param trim: whether of not to trim the returning '\\0' when fetch, default True
+        :param trim: whether of not to trim the returning b'\\0' when fetch, default True
         :return: the contents of resulted bytearray
         """
         integer = int.from_bytes(n, byteorder='big')
@@ -352,11 +353,11 @@ class atomic_bytearray:
         return result.lstrip(b'\0') if trim else result
 
     def array_xor_and_fetch(self, n: bytes, trim=True):
-        """
+        r"""
         bitsise XOR and fetch the result atomically
 
         :param n: the other operand of XOR operation
-        :param trim: whether of not to trim the returning '\\0' when fetch, default True
+        :param trim: whether of not to trim the returning b'\\0' when fetch, default True
         :return: the contents of resulted bytearray
         """
         integer = int.from_bytes(n, byteorder='big')
@@ -365,11 +366,11 @@ class atomic_bytearray:
         return result.lstrip(b'\0') if trim else result
 
     def array_nand_and_fetch(self, n: bytes, trim=True):
-        """
+        r"""
         bitsise NAND(AND first then NOT) and fetch the result atomically
 
         :param n:the other operand of NAND operation
-        :param trim: whether of not to trim the returning '\\0' when fetch, default True
+        :param trim: whether of not to trim the returning b'\\0' when fetch, default True
         :return: the contents of resulted bytearray
         """
         integer = int.from_bytes(n, byteorder='big')
@@ -379,11 +380,12 @@ class atomic_bytearray:
 
 
     def array_fetch_and_add(self, n: bytes, trim=True):
-        """
+        r"""
         fetch and increment atomically
 
-        :param n:bytes will be added to the array
-        :param trim: whether of not to trim the returning '\\0' when fetch, default True
+        :param n: the bytes will be added to the array
+        :param trim: whether of not to trim the returning b'\\0' when fetch, default True
+
         :return: the original contents of the bytearray
         """
         integer = int.from_bytes(n, byteorder='big')
@@ -393,11 +395,11 @@ class atomic_bytearray:
 
 
     def array_fetch_and_sub(self, n: bytes, trim=True):
-        """
+        r"""
         fetch and decrement atomically
 
-        :param n:bytes will be substracted from the array
-        :param trim: whether of not to trim the returning '\\0' when fetch, default True
+        :param n: the bytes will be substracted from the array
+        :param trim: whether of not to trim the returning b'\\0' when fetch, default True
         :return: the original contents of the bytearray
         """
         integer = int.from_bytes(n, byteorder='big')
@@ -407,11 +409,11 @@ class atomic_bytearray:
 
 
     def array_fetch_and_and(self, n: bytes, trim=True):
-        """
+        r"""
         Fetch then bitwise AND atomically
 
-        :param n:the other operands of AND operation
-        :param trim: whether of not to trim the returning '\\0' when fetch, default True
+        :param n: the other operands of AND operation
+        :param trim: whether of not to trim the returning b'\\0' when fetch, default True
         :return: the original contents of the bytearray
         """
         integer = int.from_bytes(n, byteorder='big')
@@ -421,11 +423,11 @@ class atomic_bytearray:
 
 
     def array_fetch_and_or(self, n: bytes, trim=True):
-        """
+        r"""
         Fetch then bitwise OR atomically
 
-        :param n:the other operands of OR operation
-        :param trim: whether of not to trim the returning '\\0' when fetch, default True
+        :param n: the other operands of OR operation
+        :param trim: whether of not to trim the returning b'\\0' when fetch, default True
         :return: the original contents of the bytearray
         """
         integer = int.from_bytes(n, byteorder='big')
@@ -434,11 +436,11 @@ class atomic_bytearray:
         return result.lstrip(b'\0') if trim else result
 
     def array_fetch_and_xor(self, n: bytes, trim=True):
-        """
+        r"""
         Fetch then bitwise XOR atomically
 
-        :param n:the other operands of XOR operation
-        :param trim: whether of not to trim the returning '\\0' when fetch, default True
+        :param n: the other operands of XOR operation
+        :param trim: whether of not to trim the returning b'\\0' when fetch, default True
         :return: the original contents of the bytearray
         """
         integer = int.from_bytes(n, byteorder='big')
@@ -447,11 +449,11 @@ class atomic_bytearray:
         return result.lstrip(b'\0') if trim else result
 
     def array_fetch_and_nand(self, n: bytes, trim=True):
-        """
+        r"""
         fetch then bitwise NAND(AND first then NOT) atomically
 
-        :param n:the other operands of NAND operation
-        :param trim: whether of not to trim the returning '\\0' when fetch, default True
+        :param n: the other operands of NAND operation
+        :param trim: whether of not to trim the returning b'\\0' when fetch, default True
         :return: the original contents of the bytearray
         """
         integer = int.from_bytes(n, byteorder='big')
