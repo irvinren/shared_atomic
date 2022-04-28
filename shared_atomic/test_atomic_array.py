@@ -2,6 +2,8 @@ from shared_atomic import atomic_bytearray
 import ctypes
 import random
 import sys
+from threading import Thread
+from multiprocessing import Process
 
 a = None
 
@@ -222,3 +224,53 @@ def test_value_bytearray():
         print(e)
         print(i)
         raise e
+
+
+def thread_run(a):
+    a.array_sub_and_fetch(b'\x0F')
+
+
+def test_thread_atomic():
+    """
+    test single process multiple threads
+    :return: None
+    """
+    a = atomic_bytearray(b'ab', length=7, paddingdirection='r', paddingbytes=b'012', mode='s')
+
+    threadlist=[]
+
+    for i in range(10000):
+        threadlist.append(Thread(target=thread_run, args=(a,)))
+
+    for i in range(10000):
+        threadlist[i].start()
+
+    for i in range(10000):
+        threadlist[i].join()
+
+    assert a.value == int.to_bytes(27411031864108609,length=8,byteorder='big')
+
+
+if sys.platform != "win32":
+    def process_run(a):
+        a.array_sub_and_fetch(b'\x0F')
+
+    def test_process_atomic():
+        """
+        test multiple processes
+        :return: None
+        """
+        a = atomic_bytearray(b'ab', length=7, paddingdirection='r', paddingbytes=b'012', mode='m')
+
+        processlist = []
+        for i in range(10000):
+            processlist.append(Process(target=process_run, args=(a,)))
+
+        for i in range(10000):
+            processlist[i].start()
+
+        for i in range(10000):
+            processlist[i].join()
+
+        assert a.value == int.to_bytes(27411031864108609,length=8,byteorder='big')
+
