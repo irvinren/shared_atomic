@@ -4,7 +4,7 @@ from distutils.core import setup as distutils_setup
 from setuptools import setup as setuptools_setup
 from shared_atomic import atomic_setup
 
-__version__="2.0.10"
+__version__="2.1.0"
 __package_name__='shared_atomic'
 __author__="Xiquan Ren"
 __author_email__="xiquanren@yandex.com"
