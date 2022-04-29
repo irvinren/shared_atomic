@@ -717,7 +717,7 @@ def loaddll():
             return int.from_bytes(input.value.encode('utf-16-be'),
                            byteorder='big')
         def ushort2wchar(input: int):
-            return int.to_bytes(input,ctypes.sizeof(ctypes.c_wchar), byteorder='big').encode('utf-16-be')
+            return int.to_bytes(input,ctypes.sizeof(ctypes.c_wchar), byteorder='big').decode('utf-16-be')
 
         class result_dll:
 
