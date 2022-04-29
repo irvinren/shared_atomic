@@ -3,18 +3,18 @@ from multiprocessing import Array
 from shared_atomic import loaddll
 import sys
 
-
-class atomic_bytearray:
+class atomic_string:
     """
     bytearray provide atomic operations, the bytearray should be no longer than 8 bytes
     """
 
-    def __init__(self, initial: bytes,
+    def __init__(self, initial: str,
                  mode: str = 'singleprocessing',
                  length: int = None,
                  paddingdirection: str = 'right',
-                 paddingbytes: bytes = b'\0',
-                 trimming_direction: str = 'right'):
+                 paddingstr: str = ' ',
+                 trimming_direction: str = 'right',
+                 encoding='utf-8'):
         r"""
         constructor to initialize the bytearray,
         the bytearray should be no longer than 8 bytes
@@ -27,31 +27,33 @@ class atomic_bytearray:
         :param trimming_direction: if initial bytes are longer, on which side the bytes will be trimmed. By default, on the right side, use 'right' or 'r' to specify right side, use 'left' or 'l' to specify the left side.
         """
 
-        input_length = len(initial)
+        self.encoding = encoding
+        input_length = len(initial.encode(encoding=self.encoding))
 
         if length is not None:
-            if length > 8:
+            if length > 7:
                 raise ValueError("length is longer than expected, "
                                  "should be less than 9 bytes!")
 
-        elif input_length > 8 and length is None:
+        elif input_length > 7 and length is None:
             raise ValueError("input bytearray is longer than expected, "
                              "should be less than 9 bytes!")
 
         if length is not None:
             if input_length > length:
                 if trimming_direction in('r', 'right'):
-                    data = initial[:length]
+                    data = initial.encode(self.encoding)[:length].decode(self.encoding, 'ignore')
                 elif trimming_direction in ('l', 'left'):
-                    data = initial[input_length - length:]
+                    data = initial[::-1].encode(self.encoding)[:length].decode(self.encoding, 'ignore')[::-1]
 
             elif input_length < length:
+                paddingbytes = paddingstr.encode(self.encoding)
                 devision , remaining = divmod(length - input_length, len(paddingbytes))
-                padding = paddingbytes*devision + paddingbytes[:remaining]
+                padding = paddingstr*devision + paddingstr[:remaining]
                 if paddingdirection in ('l', 'left'):
-                    data = padding + initial
+                    data = (padding + initial)[::-1].encode(self.encoding)[:length].decode(self.encoding, 'ignore')[::-1]
                 elif paddingdirection in ('r', 'right'):
-                    data = initial + padding
+                    data = (initial + padding).encode(self.encoding)[:length].decode(self.encoding, 'ignore')
             else:
                 data = initial
         else:
@@ -59,29 +61,9 @@ class atomic_bytearray:
 
         atomic = loaddll()
 
-        self.initial_length = len(data)
-        if self.initial_length == 1:
+        self.initial_byte_length = self.str_byte_len(data)
 
-            self.size = 1
-            self.type = ctypes.c_ubyte
-            self._array_store = atomic.ubyte_store
-            self._array_get_and_set = atomic.ubyte_get_and_set
-            self._array_shift = atomic.ubyte_shift
-            self._array_compare_and_set = atomic.ubyte_compare_and_set
-            self._array_add_and_fetch = atomic.ubyte_add_and_fetch
-            self._array_sub_and_fetch = atomic.ubyte_sub_and_fetch
-            self._array_and_and_fetch = atomic.ubyte_and_and_fetch
-            self._array_or_and_fetch = atomic.ubyte_or_and_fetch
-            self._array_xor_and_fetch = atomic.ubyte_xor_and_fetch
-            self._array_nand_and_fetch = atomic.ubyte_nand_and_fetch
-            self._array_fetch_and_add = atomic.ubyte_fetch_and_add
-            self._array_fetch_and_sub = atomic.ubyte_fetch_and_sub
-            self._array_fetch_and_and = atomic.ubyte_fetch_and_and
-            self._array_fetch_and_or = atomic.ubyte_fetch_and_or
-            self._array_fetch_and_xor = atomic.ubyte_fetch_and_xor
-            self._array_fetch_and_nand = atomic.ubyte_fetch_and_nand
-
-        elif self.initial_length == 2:
+        if self.initial_byte_length == 1:
             self.size = 2
             self.type = ctypes.c_ushort
             self._array_store = atomic.ushort_store
@@ -101,7 +83,7 @@ class atomic_bytearray:
             self._array_fetch_and_xor = atomic.ushort_fetch_and_xor
             self._array_fetch_and_nand = atomic.ushort_fetch_and_nand
 
-        elif self.initial_length <= 4:
+        elif self.initial_byte_length <= 3:
             self.size = 4
             self.type = ctypes.c_uint
             self._array_store = atomic.uint_store
@@ -152,16 +134,26 @@ class atomic_bytearray:
             self.array_reference = ctypes.byref(self.array)
         elif sys.platform == 'win32':
             self.mode = 's'
-            data = b'\0'*(self.size-len(data)) + data
             self.array = bytearray(data)
             self.array_reference = memoryview(self.array)
 
+        self.string_get_and_set(data)
 
-        self.array_get_and_set(data)
+    def str_byte_len(self, input: str):
+        return len(input.encode(self.encoding))
+
+    def rpad_zero(self, input: str):
+        input_length = self.str_byte_len(input)
+        if self.str_byte_len(input) < self.size-1:
+            return input + (self.size-input_length-1) * '\0'
+        elif self.str_byte_len(input) > self.size-1:
+            raise ValueError('input length longer than its size!')
+        else:
+            return input
 
     def get_int(self):
         """
-        Get the integer representation from the bytearray,
+        Get the integer representation from the string,
         the whole array would be treated as a large integer
 
         :return: the integer representation
@@ -170,7 +162,17 @@ class atomic_bytearray:
         self._array_store(ctypes.byref(result), self.array_reference)
         return result.value
 
-    def get_bytes(self, trim=True):
+    def set_int(self, input: int):
+        """
+        Get the integer representation from the bytearray,
+        the whole array would be treated as a large integer
+
+        :return: the integer representation
+        """
+        result = self.type(input)
+        self._array_store(self.array_reference, ctypes.byref(result))
+
+    def get_string(self):
         r"""
         Get all the bytes from the bytearray atomically
         :param trim: if True, the leading b'\\0' would be trimmed, by default: True
@@ -179,11 +181,33 @@ class atomic_bytearray:
         """
         result = self.type(0)
         self._array_store(ctypes.byref(result), self.array_reference)
-        if trim:
-            result = int.to_bytes(result.value, length=self.size, byteorder='big').lstrip(b'\0')
-        else:
-            result = int.to_bytes(result.value, length=self.size, byteorder='big')
-        return result
+        
+        result_bytes=int.to_bytes(result.value, length=self.size, byteorder='big')
+        length=int.from_bytes(result_bytes[0:1], byteorder='big')
+        
+        result = int.to_bytes(result.value, length=self.size, byteorder='big')[1:length+1]
+
+        return result.decode(self.encoding)
+
+    def set_string(self, data: str):
+        """
+        Set the value in the bytearray,
+        if the new data is longer than the original size of the array.
+        it will expand the array accordingly which would lose atomicy.
+        the size of the bytearray can be check with self.size
+
+        :param data: input bytearray
+        :return: None
+        """
+        desiredlength = self.str_byte_len(data)
+        if 7 >= desiredlength > self.size:
+            self.resize(desiredlength)
+        elif desiredlength > 7:
+            raise ValueError()
+        data = chr(desiredlength) + self.rpad_zero(data)
+        integer = int.from_bytes(data.encode(self.encoding), byteorder='big')
+        ctype_integer = self.type(integer)
+        self._array_store(self.array_reference, ctypes.byref(ctype_integer))
 
     def set_bytes(self, data: bytes):
         """
@@ -196,25 +220,21 @@ class atomic_bytearray:
         :return: None
         """
         desiredlength = len(data)
-        if 8 >= desiredlength > self.size:
+        if 7 >= desiredlength > self.size:
             self.resize(desiredlength)
-        elif desiredlength > 8:
+        elif desiredlength > 7:
             raise ValueError()
+        data = int.to_bytes(desiredlength, byteorder='big') + data + b'\0'*(self.size - len(data) - 1)
         integer = int.from_bytes(data, byteorder='big')
         ctype_integer = self.type(integer)
         self._array_store(self.array_reference, ctypes.byref(ctype_integer))
-        self.initial_length = desiredlength
 
-    def _get_full_bytes(self):
-        return self.get_bytes(trim=False)
-
-    value = property(fget=_get_full_bytes, fset=set_bytes, doc="same with get_bytes without trimming and set_bytes")
-    int_value = property(fget=get_int, doc="same with get_int")
+    value = property(fget=get_string, fset=set_string, doc="same with get_string and set_string")
 
     def resize(self, newlength: int,
                  paddingdirection: str = 'right',
-                 paddingbytes: bytes = b'\0',
-                 trimming_direction: bool = 'right'):
+                 paddingstr: str = ' ',
+                 trimming_direction: str = 'right'):
         r"""
         trim or pad the original contents in the bytearray
         to a new length, the new length should be no longer than 8 bytes,
@@ -229,38 +249,41 @@ class atomic_bytearray:
         :return: None
         """
 
-        self.__init__(self.get_bytes(trim=False), mode=self.mode, length=newlength,
+        self.__init__(self.get_string(), mode=self.mode, length=newlength,
                                 paddingdirection=paddingdirection,
-                                paddingbytes=paddingbytes,
+                                paddingstr=paddingstr,
                                 trimming_direction=trimming_direction)
 
-    def array_store(self, i):
+    def string_store(self, i):
         """
-        Atomically store contents from another bytearray to the this bytearray,
-        if the other bytearray is different with this one in size , the function will fail.
+        Atomically store contents from another string to the this string,
+        if the other string is different with this one in size , the function will fail.
 
-        :param i: another bytearray to store its value to self
+        :param i: another string to store its value to self
         :return:
         """
+        if self.size != i.size:
+            raise ValueError("Input string has different size!")
         self._array_store(self.array_reference, i.array_reference)
-        self.initial_length = i.initial_length
 
-    def array_get_and_set(self, data: bytes, trim=True):
+    def string_get_and_set(self, data: str):
         r"""
         Get and set atomically
 
         :param data: new data
         :param trim: whether of not to trim the returning b'\\0' when get, default True
 
-        :return: the original bytes
+        :return: the original string
         """
-        integer = int.from_bytes(data, byteorder='big')
+        data_all = chr(self.str_byte_len(data)) + self.rpad_zero(data)
+        integer = int.from_bytes(data_all.encode(self.encoding), byteorder='big')
         result = int.to_bytes(self._array_get_and_set(self.array_reference, self.type(integer)),
                                                     length=self.size, byteorder='big')
-        self.initial_length = len(data)
-        return result.lstrip(b'\0') if trim else result
+        result_length = int.from_bytes(result[:1], byteorder='big')
+        result_all = result[1:result_length+1]
+        return result_all.decode(self.encoding)
 
-    def array_shift(self, i, j):
+    def string_shift(self, i, j):
         """
         Value exchange between 3 pointers in 2 groups atomically,
         the initial_length field will be updated but not atomically.
@@ -270,14 +293,10 @@ class atomic_bytearray:
         :param j: another atomic_bytearray
         :return: None
         """
-
         self._array_shift(self.array_reference,
                           i.array_reference, j.array_reference)
-        j.initial_length = self.initial_length
-        self.initial_length = i.initial_length
 
-
-    def array_compare_and_set(self, i, n: bytes) -> bool:
+    def string_compare_and_set(self, i, n: str) -> bool:
         """
         Compare and set atomically,This compares the contents of self
         with the contents of i. If equal, the operation is a read-modify-write
@@ -286,180 +305,21 @@ class atomic_bytearray:
         i.
 
         :param i: the bytearray to be compared with
-        :param n: another bytes to be ready to set to self if comparision return True
+        :param n: another bytes to be ready to self if comparision return True
         :return: if self is equal to i return True, else return False
         """
-
-        integer = int.from_bytes(n, byteorder='big')
-        result = self._array_compare_and_set(self.array_reference,
+        if self.size != i.size:
+            raise ValueError("Comparing string has different size!")
+        n = chr(self.str_byte_len(n)) + self.rpad_zero(n)
+        integer = int.from_bytes(n.encode(self.encoding), byteorder='big')
+        return self._array_compare_and_set(self.array_reference,
                                            i.array_reference, self.type(integer))
-        if result:
-            self.initial_length = len(n)
 
-        return result
-
-    def array_add_and_fetch(self, n: bytes, trim=True):
-        r"""
-        Increment and fetch atomically
-
-        :param n: bytes will be added to the array.
-        :param trim: whether of not to trim the returning b'\\0' when fetch, default True
-        :return: the contents of resulted bytearray
-        """
-        integer = int.from_bytes(n, byteorder='big')
-        result = int.to_bytes(self._array_add_and_fetch(self.array_reference, self.type(integer)),
-                          length=self.size, byteorder='big')
-        return result.lstrip(b'\0') if trim else result
-
-    def array_sub_and_fetch(self, n: bytes, trim=True):
-        r"""
-        Decrement and fetch atomically
-
-        :param n: bytes will be subtracted from the array.
-        :param trim: whether of not to trim the returning b'\\0' when fetch, default True
-        :return: the contents of resulted bytearray
-        """
-        integer = int.from_bytes(n, byteorder='big')
-        result = int.to_bytes(self._array_sub_and_fetch(self.array_reference, self.type(integer)),
-                            length=self.size, byteorder='big')
-        return result.lstrip(b'\0') if trim else result
-
-
-    def array_and_and_fetch(self, n: bytes, trim=True):
-        r"""
-        Bitwise AND and fetch the result atomically
-
-        :param n: the other operand of AND operation.
-        :param trim: whether of not to trim the returning b'\\0' when fetch, default True
-        :return: the contents of resulted bytearray
-        """
-        integer = int.from_bytes(n, byteorder='big')
-        result = int.to_bytes(self._array_and_and_fetch(self.array_reference, self.type(integer)),
-                            length=self.size, byteorder='big')
-        return result.lstrip(b'\0') if trim else result
-
-
-    def array_or_and_fetch(self, n: bytes, trim=True):
-        r"""
-        bitsise OR and fetch the result atomically
-
-        :param n: the other operand of OR operation
-        :param trim: whether of not to trim the returning b'\\0' when fetch, default True
-        :return: the contents of resulted bytearray
-        """
-        integer = int.from_bytes(n, byteorder='big')
-        result = int.to_bytes(self._array_or_and_fetch(self.array_reference, self.type(integer)),
-                            length=self.size, byteorder='big')
-        return result.lstrip(b'\0') if trim else result
-
-    def array_xor_and_fetch(self, n: bytes, trim=True):
-        r"""
-        bitsise XOR and fetch the result atomically
-
-        :param n: the other operand of XOR operation
-        :param trim: whether of not to trim the returning b'\\0' when fetch, default True
-        :return: the contents of resulted bytearray
-        """
-        integer = int.from_bytes(n, byteorder='big')
-        result = int.to_bytes(self._array_xor_and_fetch(self.array_reference, self.type(integer)),
-                            length=self.size, byteorder='big')
-        return result.lstrip(b'\0') if trim else result
-
-    def array_nand_and_fetch(self, n: bytes, trim=True):
-        r"""
-        bitsise NAND(AND first then NOT) and fetch the result atomically
-
-        :param n:the other operand of NAND operation
-        :param trim: whether of not to trim the returning b'\\0' when fetch, default True
-        :return: the contents of resulted bytearray
-        """
-        integer = int.from_bytes(n, byteorder='big')
-        result = int.to_bytes(self._array_nand_and_fetch(self.array_reference, self.type(integer)),
-                            length=self.size, byteorder='big')
-        return result.lstrip(b'\0') if trim else result
-
-
-    def array_fetch_and_add(self, n: bytes, trim=True):
-        r"""
-        fetch and increment atomically
-
-        :param n: the bytes will be added to the array
-        :param trim: whether of not to trim the returning b'\\0' when fetch, default True
-
-        :return: the original contents of the bytearray
-        """
-        integer = int.from_bytes(n, byteorder='big')
-        result = int.to_bytes(self._array_fetch_and_add(self.array_reference, self.type(integer)),
-                            length=self.size, byteorder='big')
-        return result.lstrip(b'\0') if trim else result
-
-
-    def array_fetch_and_sub(self, n: bytes, trim=True):
-        r"""
-        fetch and decrement atomically
-
-        :param n: the bytes will be substracted from the array
-        :param trim: whether of not to trim the returning b'\\0' when fetch, default True
-        :return: the original contents of the bytearray
-        """
-        integer = int.from_bytes(n, byteorder='big')
-        result = int.to_bytes(self._array_fetch_and_sub(self.array_reference, self.type(integer)),
-                            length=self.size, byteorder='big')
-        return result.lstrip(b'\0') if trim else result
-
-
-    def array_fetch_and_and(self, n: bytes, trim=True):
-        r"""
-        Fetch then bitwise AND atomically
-
-        :param n: the other operands of AND operation
-        :param trim: whether of not to trim the returning b'\\0' when fetch, default True
-        :return: the original contents of the bytearray
-        """
-        integer = int.from_bytes(n, byteorder='big')
-        result = int.to_bytes(self._array_fetch_and_and(self.array_reference, self.type(integer)),
-                            length=self.size, byteorder='big')
-        return result.lstrip(b'\0') if trim else result
-
-
-    def array_fetch_and_or(self, n: bytes, trim=True):
-        r"""
-        Fetch then bitwise OR atomically
-
-        :param n: the other operands of OR operation
-        :param trim: whether of not to trim the returning b'\\0' when fetch, default True
-        :return: the original contents of the bytearray
-        """
-        integer = int.from_bytes(n, byteorder='big')
-        result = int.to_bytes(self._array_fetch_and_or(self.array_reference, self.type(integer)),
-                                                     length=self.size, byteorder='big')
-        return result.lstrip(b'\0') if trim else result
-
-    def array_fetch_and_xor(self, n: bytes, trim=True):
-        r"""
-        Fetch then bitwise XOR atomically
-
-        :param n: the other operands of XOR operation
-        :param trim: whether of not to trim the returning b'\\0' when fetch, default True
-        :return: the original contents of the bytearray
-        """
-        integer = int.from_bytes(n, byteorder='big')
-        result = int.to_bytes(self._array_fetch_and_xor(self.array_reference, self.type(integer)),
-                                                      length=self.size, byteorder='big')
-        return result.lstrip(b'\0') if trim else result
-
-    def array_fetch_and_nand(self, n: bytes, trim=True):
-        r"""
-        fetch then bitwise NAND(AND first then NOT) atomically
-
-        :param n: the other operands of NAND operation
-        :param trim: whether of not to trim the returning b'\\0' when fetch, default True
-        :return: the original contents of the bytearray
-        """
-        integer = int.from_bytes(n, byteorder='big')
-        result = int.to_bytes(self._array_fetch_and_nand(self.array_reference, self.type(integer)),
-                                                       length=self.size, byteorder='big')
-        return result.lstrip(b'\0') if trim else result
+    def change_encoding(self, newencode: str):
+        data = self.get_string()
+        new_data = data.encode(newencode)
+        self.set_bytes(new_data)
+        self.encoding = newencode
 
     if sys.platform in ('darwin','linux'):
         def change_mode(self, newmode='m'):
@@ -474,19 +334,19 @@ class atomic_bytearray:
             """
             if newmode in ('m', 'multiprocessing'):
                 if self.mode == 's':
-                    data = self.get_bytes(trim=False)
+                    data = self.get_int()
                     self.array = Array(ctypes.c_ubyte, self.size, lock=False)
                     self.array_reference = ctypes.byref(self.array)
-                    self.set_bytes(data)
+                    self.set_int(data)
 
             elif newmode not in ('s', 'singleprocessing'):
                 raise ValueError("newmode has the wrong value, should be 'm','s','multiprocessing' or 'singleprocessing'")
 
             elif self.mode == 'm':
-                data = self.get_bytes(trim=False)
+                data = self.get_int()
                 self.array = (ctypes.c_ubyte * self.size)()
                 self.array_reference = ctypes.byref(self.array)
-                self.set_bytes(data)
+                self.set_int(data)
             self.mode = newmode
 
 

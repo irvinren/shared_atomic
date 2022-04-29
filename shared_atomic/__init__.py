@@ -1478,3 +1478,4 @@ def loaddll():
 
 
 from shared_atomic.atomic_bytearray import atomic_bytearray
+from shared_atomic.atomic_string import atomic_string
