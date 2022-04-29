@@ -151,7 +151,8 @@ def test_value_bytearray():
         for i in range(4):
             a = atomic_bytearray(b'a'*(2**i))
             result=[]
-            a.array_store(inlist[i])
+            b = atomic_bytearray(inlist[i])
+            a.array_store(b)
             assert a.get_bytes() == inlist[i]
             result.append(a.array_get_and_set(exlist[i]))
             assert result[-1] == inlist[i]
@@ -188,7 +189,8 @@ def test_value_bytearray():
                    ).rjust(a.size, b'\xff')
 
             assert a.get_bytes() == result[-1]
-            a.array_store(exlist[i])
+            b = atomic_bytearray(exlist[i])
+            a.array_store(b)
             result.append(a.array_fetch_and_sub(sublist[i]))
             assert result[-1] == exlist[i]
             assert a.get_bytes() == int.to_bytes(exintlist[i] - subintlist[i], length=2**i,byteorder='big')
