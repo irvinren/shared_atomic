@@ -900,7 +900,8 @@ def loaddll():
             @staticmethod
             def wchar_store(v: ctypes.c_void_p, n: ctypes.c_void_p):
                 v2 = ctypes.cast(v, ctypes.POINTER(ctypes.c_ushort))
-                win_ddl.ushort_store(v2, n)
+                n2 = ctypes.cast(n, ctypes.POINTER(ctypes.c_ushort))
+                win_ddl.ushort_store(v2, n2)
 
             @staticmethod
             def wchar_shift(v: ctypes.c_void_p, n: ctypes.c_void_p, r: ctypes.c_void_p):
