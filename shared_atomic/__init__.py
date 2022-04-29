@@ -917,32 +917,32 @@ def loaddll():
                 return ushort2wchar(win_ddl.ushort_get_and_set(v2, unsigned))
 
             @staticmethod
-            def wchar_compare_and_set(v: ctypes.c_void_p, e: ctypes.c_void_p, n: ctypes.c_ushort) -> bool:
+            def wchar_compare_and_set(v: ctypes.c_void_p, e: ctypes.c_void_p, n: ctypes.c_wchar) -> bool:
                 v2 = ctypes.cast(v, ctypes.POINTER(ctypes.c_ushort))
                 e2 = ctypes.cast(e, ctypes.POINTER(ctypes.c_ushort))
                 unsigned = wchar2ushort(n)
                 return ushort2wchar(win_ddl.ushort_compare_and_set(v2, e2, unsigned))
 
             @staticmethod
-            def wchar_add_and_fetch(v: ctypes.c_void_p, n: ctypes.c_ushort) -> int:
+            def wchar_add_and_fetch(v: ctypes.c_void_p, n: ctypes.c_wchar) -> int:
                 v2 = ctypes.cast(v, ctypes.POINTER(ctypes.c_ushort))
                 unsigned = wchar2ushort(n)
                 return ushort2wchar(win_ddl.ushort_add_and_fetch(v2, unsigned))
 
             @staticmethod
-            def wchar_sub_and_fetch(v: ctypes.c_void_p, n: ctypes.c_ushort) -> int:
+            def wchar_sub_and_fetch(v: ctypes.c_void_p, n: ctypes.c_wchar) -> int:
                 v2 = ctypes.cast(v, ctypes.POINTER(ctypes.c_ushort))
                 unsigned = wchar2ushort(n)
                 return ushort2wchar(win_ddl.ushort_sub_and_fetch(v2, unsigned))
 
             @staticmethod
-            def wchar_fetch_and_add(v: ctypes.c_void_p, n: ctypes.c_ushort) -> int:
+            def wchar_fetch_and_add(v: ctypes.c_void_p, n: ctypes.c_wchar) -> int:
                 v2 = ctypes.cast(v, ctypes.POINTER(ctypes.c_ushort))
                 unsigned = wchar2ushort(n)
                 return ushort2wchar(win_ddl.ushort_fetch_and_add(v2, unsigned))
 
             @staticmethod
-            def wchar_fetch_and_sub(v: ctypes.c_void_p, n: ctypes.c_ushort) -> int:
+            def wchar_fetch_and_sub(v: ctypes.c_void_p, n: ctypes.c_wchar) -> int:
                 v2 = ctypes.cast(v, ctypes.POINTER(ctypes.c_ushort))
                 unsigned = wchar2ushort(n)
                 return ushort2wchar(win_ddl.ushort_fetch_and_sub(v2, unsigned))
