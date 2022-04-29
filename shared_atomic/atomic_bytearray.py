@@ -242,6 +242,8 @@ class atomic_bytearray:
         :param i: another bytearray to store its value to self
         :return:
         """
+        if self.size != i.size:
+            raise ValueError("Input bytearray has different size!")
         self._array_store(self.array_reference, i.array_reference)
         self.initial_length = i.initial_length
 
@@ -270,7 +272,10 @@ class atomic_bytearray:
         :param j: another atomic_bytearray
         :return: None
         """
-
+        if self.size != i.size:
+            raise ValueError("Comparing bytearray i has different size!")
+        if self.size != j.size:
+            raise ValueError("Comparing bytearray j has different size!")
         self._array_shift(self.array_reference,
                           i.array_reference, j.array_reference)
         j.initial_length = self.initial_length
@@ -289,7 +294,8 @@ class atomic_bytearray:
         :param n: another bytes to be ready to set to self if comparision return True
         :return: if self is equal to i return True, else return False
         """
-
+        if self.size != i.size:
+            raise ValueError("Comparing string has different size!")
         integer = int.from_bytes(n, byteorder='big')
         result = self._array_compare_and_set(self.array_reference,
                                            i.array_reference, self.type(integer))

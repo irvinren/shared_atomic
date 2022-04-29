@@ -293,6 +293,10 @@ class atomic_string:
         :param j: another atomic_bytearray
         :return: None
         """
+        if self.size != i.size:
+            raise ValueError("Comparing bytearray i has different size!")
+        if self.size != j.size:
+            raise ValueError("Comparing bytearray j has different size!")
         self._array_shift(self.array_reference,
                           i.array_reference, j.array_reference)
 
