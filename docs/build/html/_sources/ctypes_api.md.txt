@@ -112,7 +112,7 @@ floating types supports only 1 kind,
 
 `void bool_shift(_Bool *v, _Bool *, _Bool *);`
 
-## byte atomic functions(Not supported on Windows):
+## byte atomic functions:
 
 `void byte_store(char *, char *);`
 
@@ -304,7 +304,7 @@ floating types supports only 1 kind,
 `unsigned int uint_fetch_and_xor(unsigned int *, unsigned int);`
 `unsigned int uint_fetch_and_nand(unsigned int *, unsigned int);`
 
-## wchar atomic functions(Not supported on Windows):
+## wchar atomic functions:
 
 `void wchar_store(wchar_t *, wchar_t *);`
 
