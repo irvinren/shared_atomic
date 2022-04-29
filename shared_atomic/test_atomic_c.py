@@ -15,76 +15,7 @@ import random
 
 atomic = None
 
-types = ('ctypes.c_bool',
-         'ctypes.c_wchar',
-         'ctypes.c_byte',
-         'ctypes.c_ubyte',
-         'ctypes.c_short',
-         'ctypes.c_ushort',
-         'ctypes.c_int',
-         'ctypes.c_uint',
-         'ctypes.c_long',
-         'ctypes.c_ulong',
-         'ctypes.c_longlong',
-         'ctypes.c_ulonglong',
-         'ctypes.c_size_t',
-         'ctypes.c_ssize_t',
-         'ctypes.c_float',
-         'ctypes.c_double',
-         'ctypes.c_longdouble')
-inlist = (False,
-          '国',
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          )
 
-exlist = (True,
-          '中',
-          127,
-          255,
-          2 ** 15 - 1,
-          2 ** 16 - 1,
-          2 ** 31 - 1,
-          2 ** 32 - 1,
-          2 ** 63 - 1,
-          2 ** 64 - 1,
-          2 ** 63 - 1,
-          2 ** 64 - 1,
-          2 ** 64 - 1,
-          2 ** 63 - 1,
-          2.0 ** 30 - 1,
-          2.0 ** 63 - 1,
-          2.0 ** 63 - 1,
-          )
-sublist = (True,
-           '之',
-           100,
-           100,
-           100,
-           100,
-           100,
-           100,
-           100,
-           100,
-           100,
-           100,
-           100,
-           100,
-           )
-"""
 if sys.platform in ('linux','darwin'):
     types = ('ctypes.c_bool',
              'ctypes.c_wchar',
@@ -103,6 +34,7 @@ if sys.platform in ('linux','darwin'):
              'ctypes.c_float',
              'ctypes.c_double',
              'ctypes.c_longdouble')
+
     inlist = (False,
               '国',
               0,
@@ -120,7 +52,7 @@ if sys.platform in ('linux','darwin'):
               0,
               0,
               0,
-    )
+              )
 
     exlist = (True,
               '中',
@@ -141,20 +73,20 @@ if sys.platform in ('linux','darwin'):
               2.0 ** 63 - 1,
               )
     sublist = (True,
-        '之',
-        100,
-        100,
-        100,
-        100,
-        100,
-        100,
-        100,
-        100,
-        100,
-        100,
-        100,
-        100,
-    )
+               '之',
+               100,
+               100,
+               100,
+               100,
+               100,
+               100,
+               100,
+               100,
+               100,
+               100,
+               100,
+               100,
+               )
 
 elif sys.platform == 'win32':
     types = ('ctypes.c_bool',
@@ -226,7 +158,7 @@ elif sys.platform == 'win32':
                100,
                100,
                )
-"""
+
 addlist = sublist
 
 r = random.Random()
@@ -323,31 +255,35 @@ def test_value_atomic():
                 assert result[-1] == int.to_bytes(
                        int.from_bytes(exlist[i].encode("utf-16-be"), byteorder='big') + \
                        int.from_bytes(addlist[i].encode("utf-16-be"), byteorder='big'),
-                       length=ctypes.sizeof(ctypes.c_wchar),
+                       length=4,
                        byteorder='big',
                 ).decode(encoding='utf-16-be')[1:]
                 assert a.value == result[-1]
+                print(result[-1])
                 exec('result.append(atomic.'+functext+'_sub_and_fetch(aref,ctypes.c_'+typetext+"('" + f'{addlist[i]}' + "')))")
                 #result[-1] = int.to_bytes(result[-1], ctypes.sizeof(ctypes.c_wchar), byteorder=sys.byteorder).decode('utf-16-be')[0:-1]
                 assert result[-1] == exlist[i]
                 assert a.value == result[-1]
+                print(result[-1])
                 exec('result.append(atomic.'+functext+'_fetch_and_add(aref,ctypes.c_'+typetext+"('" + f'{addlist[i]}' + "')))")
                 #result[-1] = int.to_bytes(result[-1], ctypes.sizeof(ctypes.c_wchar), byteorder=sys.byteorder).decode('utf-16-be')[0:-1]
                 assert result[-1] == exlist[i]
                 assert a.value == int.to_bytes(
                        int.from_bytes(exlist[i].encode("utf-16-be"), byteorder='big') + \
                        int.from_bytes(addlist[i].encode("utf-16-be"), byteorder='big'),
-                       length=ctypes.sizeof(ctypes.c_wchar),
+                       length=4,
                        byteorder='big',
                 ).decode(encoding='utf-16-be')[1:]
+                print(result[-1])
                 exec('result.append(atomic.'+functext+'_fetch_and_sub(aref,ctypes.c_'+typetext+"('" + f'{addlist[i]}' + "')))")
                 #result[-1] = int.to_bytes(result[-1], ctypes.sizeof(ctypes.c_wchar), byteorder=sys.byteorder).decode('utf-16-be')[0:-1]
                 assert result[-1] == int.to_bytes(
                        int.from_bytes(exlist[i].encode("utf-16-be"), byteorder='big') + \
                        int.from_bytes(addlist[i].encode("utf-16-be"), byteorder='big'),
-                       length=ctypes.sizeof(ctypes.c_wchar),
+                       length=4,
                        byteorder='big',
                 ).decode(encoding='utf-16-be')[1:]
+                print(result[-1])
                 assert a.value == exlist[i]
 
             else:
