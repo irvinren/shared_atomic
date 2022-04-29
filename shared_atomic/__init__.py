@@ -707,6 +707,18 @@ def loaddll():
             ''' + ctext)
             win_ddl = cppyy.gbl
 
+        def signed2unsigned(input):
+            return input if input >= 0 else input + 256
+
+        def unsigned2signed(input):
+            return input if input < 128 else input - 256
+
+        def wchar2ushort(input: ctypes.c_wchar):
+            return int.from_bytes(input.value.encode('utf-16-be'),
+                           byteorder='big')
+        def ushort2wchar(input: int):
+            return int.to_bytes(input,ctypes.sizeof(ctypes.c_wchar), byteorder='big').encode('utf-16-be')
+
         class result_dll:
 
             @staticmethod
@@ -721,6 +733,119 @@ def loaddll():
             @staticmethod
             def bool_compare_and_set(v: ctypes.c_void_p, e: ctypes.c_void_p, n: ctypes.c_bool)->bool:
                 return win_ddl.bool_compare_and_set(v, e, n)
+
+            @staticmethod
+            def byte_store(v: ctypes.c_void_p, n: ctypes.c_void_p):
+                v2 = ctypes.cast(v, ctypes.POINTER(ctypes.c_ubyte))
+                n2 = ctypes.cast(n, ctypes.POINTER(ctypes.c_ubyte))
+                win_ddl.ubyte_store(v2, n2)
+
+            @staticmethod
+            def byte_shift(v: ctypes.c_void_p, n: ctypes.c_void_p, r: ctypes.c_void_p):
+                v2 = ctypes.cast(v, ctypes.POINTER(ctypes.c_ubyte))
+                n2 = ctypes.cast(n, ctypes.POINTER(ctypes.c_ubyte))
+                r2 = ctypes.cast(r, ctypes.POINTER(ctypes.c_ubyte))
+                return win_ddl.ubyte_shift(v2, n2, r2)
+
+            @staticmethod
+            def byte_get_and_set(v: ctypes.c_void_p, n: ctypes.c_byte) -> int:
+                unsigned = signed2unsigned(n.value)
+                v2 = ctypes.cast(v, ctypes.POINTER(ctypes.c_ubyte))
+                return unsigned2signed(int.from_bytes(
+                    win_ddl.ubyte_get_and_set(v2, unsigned).encode(encoding='latin1'),
+                byteorder=sys.byteorder))
+
+            @staticmethod
+            def byte_compare_and_set(v: ctypes.c_void_p, e: ctypes.c_void_p, n: ctypes.c_byte)->bool:
+                v2 = ctypes.cast(v, ctypes.POINTER(ctypes.c_ubyte))
+                e2 = ctypes.cast(e, ctypes.POINTER(ctypes.c_ubyte))
+                unsigned = signed2unsigned(n.value)
+                return win_ddl.ubyte_compare_and_set(v2, e2, unsigned)
+
+            @staticmethod
+            def byte_add_and_fetch(v: ctypes.c_void_p, n: ctypes.c_byte)->int:
+                v2 = ctypes.cast(v, ctypes.POINTER(ctypes.c_ubyte))
+                unsigned = signed2unsigned(n.value)
+                return unsigned2signed(int.from_bytes(
+                    win_ddl.ubyte_add_and_fetch(v2, unsigned).encode(encoding='latin1'),
+                    byteorder=sys.byteorder))
+            @staticmethod
+            def byte_sub_and_fetch(v: ctypes.c_void_p, n: ctypes.c_byte)->int:
+                v2 = ctypes.cast(v, ctypes.POINTER(ctypes.c_ubyte))
+                unsigned = signed2unsigned(n.value)
+                return unsigned2signed(int.from_bytes(
+                    win_ddl.ubyte_sub_and_fetch(v2, unsigned).encode(encoding='latin1'),
+                    byteorder=sys.byteorder))
+            @staticmethod
+            def byte_and_and_fetch(v: ctypes.c_void_p, n: ctypes.c_byte)->int:
+                v2 = ctypes.cast(v, ctypes.POINTER(ctypes.c_ubyte))
+                unsigned = signed2unsigned(n.value)
+                return unsigned2signed(int.from_bytes(
+                    win_ddl.ubyte_and_and_fetch(v2, unsigned).encode(encoding='latin1'),
+                    byteorder=sys.byteorder))
+            @staticmethod
+            def byte_or_and_fetch(v: ctypes.c_void_p, n: ctypes.c_byte)->int:
+                v2 = ctypes.cast(v, ctypes.POINTER(ctypes.c_ubyte))
+                unsigned = signed2unsigned(n.value)
+                return unsigned2signed(int.from_bytes(
+                    win_ddl.ubyte_or_and_fetch(v2, unsigned).encode(encoding='latin1'),
+                    byteorder=sys.byteorder))
+            @staticmethod
+            def byte_xor_and_fetch(v: ctypes.c_void_p, n: ctypes.c_byte)->int:
+                v2 = ctypes.cast(v, ctypes.POINTER(ctypes.c_ubyte))
+                unsigned = signed2unsigned(n.value)
+                return unsigned2signed(int.from_bytes(
+                    win_ddl.ubyte_xor_and_fetch(v2, unsigned).encode(encoding='latin1'),
+                    byteorder=sys.byteorder))
+            @staticmethod
+            def byte_nand_and_fetch(v: ctypes.c_void_p, n: ctypes.c_byte)->int:
+                v2 = ctypes.cast(v, ctypes.POINTER(ctypes.c_ubyte))
+                unsigned = signed2unsigned(n.value)
+                return unsigned2signed(int.from_bytes(
+                    win_ddl.ubyte_nand_and_fetch(v2, unsigned).encode(encoding='latin1'),
+                    byteorder=sys.byteorder))
+            @staticmethod
+            def byte_fetch_and_add(v: ctypes.c_void_p, n: ctypes.c_byte)->int:
+                v2 = ctypes.cast(v, ctypes.POINTER(ctypes.c_ubyte))
+                unsigned = signed2unsigned(n.value)
+                return unsigned2signed(int.from_bytes(
+                    win_ddl.ubyte_fetch_and_add(v2, unsigned).encode(encoding='latin1'),
+                    byteorder=sys.byteorder))
+            @staticmethod
+            def byte_fetch_and_sub(v: ctypes.c_void_p, n: ctypes.c_byte)->int:
+                v2 = ctypes.cast(v, ctypes.POINTER(ctypes.c_ubyte))
+                unsigned = signed2unsigned(n.value)
+                return unsigned2signed(int.from_bytes(
+                    win_ddl.ubyte_fetch_and_sub(v2, unsigned).encode(encoding='latin1'),
+                    byteorder=sys.byteorder))
+            @staticmethod
+            def byte_fetch_and_and(v: ctypes.c_void_p, n: ctypes.c_byte)->int:
+                v2 = ctypes.cast(v, ctypes.POINTER(ctypes.c_ubyte))
+                unsigned = signed2unsigned(n.value)
+                return unsigned2signed(int.from_bytes(
+                    win_ddl.ubyte_fetch_and_and(v2, unsigned).encode(encoding='latin1'),
+                    byteorder=sys.byteorder))
+            @staticmethod
+            def byte_fetch_and_or(v: ctypes.c_void_p, n: ctypes.c_ubyte)->int:
+                v2 = ctypes.cast(v, ctypes.POINTER(ctypes.c_ubyte))
+                unsigned = signed2unsigned(n.value)
+                return unsigned2signed(int.from_bytes(
+                    win_ddl.ubyte_fetch_and_or(v2, unsigned).encode(encoding='latin1'),
+                    byteorder=sys.byteorder))
+            @staticmethod
+            def byte_fetch_and_xor(v: ctypes.c_void_p, n: ctypes.c_ubyte)->int:
+                v2 = ctypes.cast(v, ctypes.POINTER(ctypes.c_ubyte))
+                unsigned = signed2unsigned(n.value)
+                return unsigned2signed(int.from_bytes(
+                    win_ddl.ubyte_fetch_and_xor(v2, unsigned).encode(encoding='latin1'),
+                    byteorder=sys.byteorder))
+            @staticmethod
+            def byte_fetch_and_nand(v: ctypes.c_void_p, n: ctypes.c_ubyte)->int:
+                v2 = ctypes.cast(v, ctypes.POINTER(ctypes.c_ubyte))
+                unsigned = signed2unsigned(n.value)
+                return unsigned2signed(int.from_bytes(
+                    win_ddl.ubyte_fetch_and_nand(v2, unsigned).encode(encoding='latin1'),
+                    byteorder=sys.byteorder))
 
             @staticmethod
             def ubyte_store(v: ctypes.c_void_p, n: ctypes.c_void_p):
@@ -772,6 +897,56 @@ def loaddll():
             def ubyte_fetch_and_nand(v: ctypes.c_void_p, n: ctypes.c_ubyte)->int:
                 return int.from_bytes(win_ddl.ubyte_fetch_and_nand(v, n.value).encode(encoding='latin1'), byteorder=sys.byteorder)
 
+            @staticmethod
+            def wchar_store(v: ctypes.c_void_p, n: ctypes.c_void_p):
+                v2 = ctypes.cast(v, ctypes.POINTER(ctypes.c_ushort))
+                win_ddl.ushort_store(v2, n)
+
+            @staticmethod
+            def wchar_shift(v: ctypes.c_void_p, n: ctypes.c_void_p, r: ctypes.c_void_p):
+                v2 = ctypes.cast(v, ctypes.POINTER(ctypes.c_ushort))
+                n2 = ctypes.cast(n, ctypes.POINTER(ctypes.c_ushort))
+                r2 = ctypes.cast(r, ctypes.POINTER(ctypes.c_ushort))
+                return win_ddl.ushort_shift(v2, n2, r2)
+
+            @staticmethod
+            def wchar_get_and_set(v: ctypes.c_void_p, n: ctypes.c_wchar) -> str:
+                v2 = ctypes.cast(v, ctypes.POINTER(ctypes.c_ushort))
+                unsigned = wchar2ushort(n)
+                return ushort2wchar(win_ddl.ushort_get_and_set(v2, unsigned))
+
+            @staticmethod
+            def wchar_compare_and_set(v: ctypes.c_void_p, e: ctypes.c_void_p, n: ctypes.c_ushort) -> bool:
+                v2 = ctypes.cast(v, ctypes.POINTER(ctypes.c_ushort))
+                e2 = ctypes.cast(e, ctypes.POINTER(ctypes.c_ushort))
+                unsigned = wchar2ushort(n)
+                return ushort2wchar(win_ddl.ushort_compare_and_set(v2, e2, unsigned))
+
+            @staticmethod
+            def wchar_add_and_fetch(v: ctypes.c_void_p, n: ctypes.c_ushort) -> int:
+                v2 = ctypes.cast(v, ctypes.POINTER(ctypes.c_ushort))
+                unsigned = wchar2ushort(n)
+                return ushort2wchar(win_ddl.ushort_add_and_fetch(v2, unsigned))
+
+            @staticmethod
+            def wchar_sub_and_fetch(v: ctypes.c_void_p, n: ctypes.c_ushort) -> int:
+                v2 = ctypes.cast(v, ctypes.POINTER(ctypes.c_ushort))
+                unsigned = wchar2ushort(n)
+                return ushort2wchar(win_ddl.ushort_sub_and_fetch(v2, unsigned))
+
+            @staticmethod
+            def wchar_fetch_and_add(v: ctypes.c_void_p, n: ctypes.c_ushort) -> int:
+                v2 = ctypes.cast(v, ctypes.POINTER(ctypes.c_ushort))
+                unsigned = wchar2ushort(n)
+                return ushort2wchar(win_ddl.ushort_fetch_and_add(v2, unsigned))
+
+            @staticmethod
+            def wchar_fetch_and_sub(v: ctypes.c_void_p, n: ctypes.c_ushort) -> int:
+                v2 = ctypes.cast(v, ctypes.POINTER(ctypes.c_ushort))
+                unsigned = wchar2ushort(n)
+                return ushort2wchar(win_ddl.ushort_fetch_and_sub(v2, unsigned))
+
+
 
             @staticmethod
             def short_store(v: ctypes.c_void_p, n: ctypes.c_void_p):
@@ -783,7 +958,7 @@ def loaddll():
             def short_get_and_set(v: ctypes.c_void_p, n: ctypes.c_short)->int:
                 return win_ddl.short_get_and_set(v, n.value)
             @staticmethod
-            def short_compare_and_set(v: ctypes.c_void_p, e: ctypes.c_void_p, n: ctypes.c_int)->bool:
+            def short_compare_and_set(v: ctypes.c_void_p, e: ctypes.c_void_p, n: ctypes.c_short)->bool:
                 return win_ddl.short_compare_and_set(v, e, n.value)
 
             @staticmethod
