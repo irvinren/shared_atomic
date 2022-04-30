@@ -190,7 +190,7 @@ if sys.platform != "win32":
         test multiple processes
         :return: None
         """
-        a = atomic_string('ab')
+        a = atomic_string('ab', mode='m')
         c = Value(ctypes.c_long, lock=False)
         c.value = 0
         processlist = []
