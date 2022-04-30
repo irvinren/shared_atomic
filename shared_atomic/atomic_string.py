@@ -137,8 +137,10 @@ class atomic_string:
             self._set_bytes(data_byte)
         elif sys.platform == 'win32':
             self.mode = 's'
-            data_all = int.to_bytes(self.initial_byte_length, length=1, byteorder='big') \
-                       + data_byte + b'\0' * (self.size - self.initial_byte_length - 1)
+
+            data_all = (int.to_bytes(self.initial_byte_length, length=1, byteorder='big') +
+                        data_byte +b'\0' * (self.size - self.initial_byte_length - 1))[::-1]
+
             self.array = bytearray(data_all)
             self.array_reference = memoryview(self.array)
 
