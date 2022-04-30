@@ -134,7 +134,7 @@ class atomic_string:
                 self.mode = 's'
                 self.array = (ctypes.c_ubyte * self.size)()
             self.array_reference = ctypes.byref(self.array)
-            self.set_bytes(data_byte)
+            self._set_bytes(data_byte)
         elif sys.platform == 'win32':
             self.mode = 's'
             data_all = int.to_bytes(self.initial_byte_length, length=1, byteorder='big') \
@@ -231,9 +231,9 @@ class atomic_string:
         :return: None
         """
         data_bytes = data.encode(self.encoding)
-        self.set_bytes(data_bytes)
+        self._set_bytes(data_bytes)
 
-    def set_bytes(self, data: bytes):
+    def _set_bytes(self, data: bytes):
         """
         Set the bytes value in the string,
         if the new data is longer than the original size of the string.
@@ -353,7 +353,7 @@ class atomic_string:
         """
         data = self.get_string()
         new_data = data.encode(newencode)
-        self.set_bytes(new_data)
+        self._set_bytes(new_data)
         self.encoding = newencode
 
     if sys.platform in ('darwin','linux'):
