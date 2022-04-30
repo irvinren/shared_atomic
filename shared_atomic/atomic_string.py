@@ -61,7 +61,8 @@ class atomic_string:
 
         atomic = loaddll()
 
-        self.initial_byte_length = self._str_byte_len(data)
+        data_byte = data.encode(self.encoding)
+        self.initial_byte_length = len(data_byte)
 
         if self.initial_byte_length == 1:
             self.size = 2
@@ -124,6 +125,7 @@ class atomic_string:
             self._array_fetch_and_xor = atomic.ulonglong_fetch_and_xor
             self._array_fetch_and_nand = atomic.ulonglong_fetch_and_nand
 
+
         if sys.platform in ('darwin','linux'):
             if mode in ('m', 'multiprocessing'):
                 self.mode = 'm'
@@ -132,32 +134,50 @@ class atomic_string:
                 self.mode = 's'
                 self.array = (ctypes.c_ubyte * self.size)()
             self.array_reference = ctypes.byref(self.array)
+            self.set_bytes(data_byte)
         elif sys.platform == 'win32':
             self.mode = 's'
-            self.array = bytearray(data)
+            data_all = int.to_bytes(self.initial_byte_length, length=1, byteorder='big') \
+                       + data_byte + b'\0' * (self.size - self.initial_byte_length - 1)
+            self.array = bytearray(data_all)
             self.array_reference = memoryview(self.array)
 
-        self.string_get_and_set(data)
 
 
-    def _str_byte_len(self, input: str):
+    def _str2int(self, input: str):
+        r"""
+        integer of input string padded with leading length and tailing '\\0'
+
+        :param input: input string
+        :return: the integer representation and the length
         """
-        byte length of the input string using self.encoding as decoder
-        :param input: input str
-        :return: total byte length
-        """
-        return len(input.encode(self.encoding))
+        input_bytes = input.encode(self.encoding)
+        integer = self._byte2int(input_bytes)
+        return integer
 
-    def _rpad_zero(self, input: str):
+    def _byte2int(self, input_bytes: bytes):
+        """
+        integer of input bytes padded with leading length and tailing b'\\0'
+
+        :param input_bytes: input bytes
+        :return: the integer representation and the length
+        """
+        result_bytes = len(input_bytes).to_bytes(length=1, byteorder='big') + self._rpad_zero(input_bytes)
+        integer = int.from_bytes(result_bytes, byteorder='big')
+        return integer
+
+
+    def _rpad_zero(self, input: bytes)->bytes:
         r"""
         right pad zero to the input string
         :param input: input str
+
         :return: right padded string '\\0' to self.size -1
         """
-        input_length = self._str_byte_len(input)
-        if self._str_byte_len(input) < self.size-1:
-            return input + (self.size-input_length-1) * '\0'
-        elif self._str_byte_len(input) > self.size-1:
+        input_length = len(input)
+        if input_length < self.size-1:
+            return input + (self.size-1-input_length) * b'\0'
+        elif input_length > self.size-1:
             raise ValueError('input length longer than its size!')
         else:
             return input
@@ -178,7 +198,7 @@ class atomic_string:
         Set the integer representation of the string atomically,
         the whole array would be treated as a large integer
 
-        :return: the integer representation
+        :return: None
         """
         result = self.type(input)
         self._array_store(self.array_reference, ctypes.byref(result))
@@ -193,8 +213,8 @@ class atomic_string:
         result = self.type(0)
         self._array_store(ctypes.byref(result), self.array_reference)
         
-        result_bytes=int.to_bytes(result.value, length=self.size, byteorder='big')
-        length=int.from_bytes(result_bytes[0:1], byteorder='big')
+        result_bytes = int.to_bytes(result.value, length=self.size, byteorder='big')
+        length = int.from_bytes(result_bytes[0:1], byteorder='big')
         
         result = int.to_bytes(result.value, length=self.size, byteorder='big')[1:length+1]
 
@@ -210,15 +230,8 @@ class atomic_string:
         :param data: input string
         :return: None
         """
-        desiredlength = self._str_byte_len(data)
-        if 7 >= desiredlength > self.size:
-            self.resize(desiredlength)
-        elif desiredlength > 7:
-            raise ValueError()
-        data = chr(desiredlength) + self._rpad_zero(data)
-        integer = int.from_bytes(data.encode(self.encoding), byteorder='big')
-        ctype_integer = self.type(integer)
-        self._array_store(self.array_reference, ctypes.byref(ctype_integer))
+        data_bytes = data.encode(self.encoding)
+        self.set_bytes(data_bytes)
 
     def set_bytes(self, data: bytes):
         """
@@ -230,15 +243,19 @@ class atomic_string:
         :param data: input string
         :return: None
         """
+
         desiredlength = len(data)
+
         if 7 >= desiredlength > self.size-1:
             self.resize(desiredlength)
         elif desiredlength > 7:
             raise ValueError()
-        full_data = int.to_bytes(desiredlength, length=1, byteorder='big') + data + b'\0'*(self.size - desiredlength - 1)
-        integer = int.from_bytes(full_data, byteorder='big')
-        ctype_integer = self.type(integer)
-        self._array_store(self.array_reference, ctypes.byref(ctype_integer))
+
+        integer = self._byte2int(data)
+        self._set_int(integer)
+
+        #ctype_integer = self.type(integer)
+        #self._array_store(self.array_reference, ctypes.byref(ctype_integer))
 
     value = property(fget=get_string, fset=set_string, doc="same with get_string and set_string")
 
@@ -284,8 +301,7 @@ class atomic_string:
         :param data: new data
         :return: the original string
         """
-        data_all = chr(self._str_byte_len(data)) + self._rpad_zero(data)
-        integer = int.from_bytes(data_all.encode(self.encoding), byteorder='big')
+        integer = self._str2int(data)
         result = int.to_bytes(self._array_get_and_set(self.array_reference, self.type(integer)),
                                                     length=self.size, byteorder='big')
         result_length = int.from_bytes(result[:1], byteorder='big')
@@ -323,8 +339,7 @@ class atomic_string:
         """
         if self.size != i.size:
             raise ValueError("Comparing string has different size!")
-        n = chr(self._str_byte_len(n)) + self._rpad_zero(n)
-        integer = int.from_bytes(n.encode(self.encoding), byteorder='big')
+        integer = self._str2int(n)
         return self._array_compare_and_set(self.array_reference,
                                            i.array_reference, self.type(integer))
 
@@ -332,6 +347,7 @@ class atomic_string:
         """
         Change the encoding of the string, if the original size is not enough,
         it will elongate the string, if 7 bytes are not enough, it will fail.
+
         :param newencode: new encoding, such as 'utf-8', 'utf-16-le'
         :return: None
         """
