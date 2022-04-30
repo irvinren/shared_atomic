@@ -16,11 +16,11 @@ class atomic_string:
                  trimming_direction: str = 'right',
                  encoding='utf-8'):
         r"""
-        constructor to initialize the bytearray,
-        the bytearray should be no longer than 8 bytes
+        constructor to initialize the string,
+        the string should be no longer than 8 bytes
 
-        :param initial: initial value of the bytearray, if the initial value is longer than 8 bytes, please specify the trimming target length, or else it would fail.
-        :param mode: the mode in which the bytearray will be shared. 'singleprocessing' or 's' for single process, 'multiprocessing' or 'm' for multiprocessing, on windows platform, only singleprocessing is supported, setting it to 'm' or 'multiprocessing' will be ignored.
+        :param initial: initial value of the string, if the initial value is longer than 8 bytes, please specify the trimming target length, or else it would fail.
+        :param mode: the mode in which the string will be shared. 'singleprocessing' or 's' for single process, 'multiprocessing' or 'm' for multiprocessing, on windows platform, only singleprocessing is supported, setting it to 'm' or 'multiprocessing' will be ignored.
         :param length: the expected length after padding/trimming for the input value, if not specified, no padding or trimming performed, use original value.
         :param paddingdirection: right, or left side the padding bytes would be added if not specified, pad to the right side, use 'right' or 'r' to specify right side, use 'left' or 'l' to specify the left side.
         :param paddingbytes: bytes to pad to the original bytes, by default b'\\0' can be multiple bytes like b'ab', will be padded to the original bytes in circulation until the expected length is reached.
@@ -36,7 +36,7 @@ class atomic_string:
                                  "should be less than 9 bytes!")
 
         elif input_length > 7 and length is None:
-            raise ValueError("input bytearray is longer than expected, "
+            raise ValueError("input string is longer than expected, "
                              "should be less than 9 bytes!")
 
         if length is not None:
@@ -139,10 +139,21 @@ class atomic_string:
 
         self.string_get_and_set(data)
 
+
     def _str_byte_len(self, input: str):
+        """
+        byte length of the input string using self.encoding as decoder
+        :param input: input str
+        :return: total byte length
+        """
         return len(input.encode(self.encoding))
 
     def _rpad_zero(self, input: str):
+        r"""
+        right pad zero to the input string
+        :param input: input str
+        :return: right padded string '\\0' to self.size -1
+        """
         input_length = self._str_byte_len(input)
         if self._str_byte_len(input) < self.size-1:
             return input + (self.size-input_length-1) * '\0'
@@ -153,8 +164,8 @@ class atomic_string:
 
     def _get_int(self):
         """
-        Get the integer representation from the string,
-        the whole array would be treated as a large integer
+        Get the integer representation from the string atomically,
+        the whole string would be treated as a large integer
 
         :return: the integer representation
         """
@@ -164,7 +175,7 @@ class atomic_string:
 
     def _set_int(self, input: int):
         """
-        Get the integer representation from the bytearray,
+        Set the integer representation of the string atomically,
         the whole array would be treated as a large integer
 
         :return: the integer representation
@@ -174,10 +185,10 @@ class atomic_string:
 
     def get_string(self):
         r"""
-        Get all the bytes from the bytearray atomically
-        :param trim: if True, the leading b'\\0' would be trimmed, by default: True
+        Get all the bytes from the string atomically
+        :param trim: if True, the leading '\\0' would be trimmed, by default: True
 
-        :return: all the bytes in the bytearray
+        :return: all the bytes in the string
         """
         result = self.type(0)
         self._array_store(ctypes.byref(result), self.array_reference)
@@ -191,12 +202,12 @@ class atomic_string:
 
     def set_string(self, data: str):
         """
-        Set the value in the bytearray,
-        if the new data is longer than the original size of the array.
+        Set the value in the string,
+        if the new data is longer than the original size of the string.
         it will expand the array accordingly which would lose atomicy.
-        the size of the bytearray can be check with self.size
+        the size of the string can be check with self.size
 
-        :param data: input bytearray
+        :param data: input string
         :return: None
         """
         desiredlength = self._str_byte_len(data)
@@ -211,12 +222,12 @@ class atomic_string:
 
     def set_bytes(self, data: bytes):
         """
-        Set the value in the bytearray,
-        if the new data is longer than the original size of the array.
-        it will expand the array accordingly which would lose atomicy.
-        the size of the bytearray can be check with self.size
+        Set the bytes value in the string,
+        if the new data is longer than the original size of the string.
+        it will expand the string accordingly which would lose atomicy.
+        the size of the string can be check with self.size
 
-        :param data: input bytearray
+        :param data: input string
         :return: None
         """
         desiredlength = len(data)
@@ -236,11 +247,11 @@ class atomic_string:
                  paddingstr: str = ' ',
                  trimming_direction: str = 'right'):
         r"""
-        trim or pad the original contents in the bytearray
+        trim or pad the original contents in the string
         to a new length, the new length should be no longer than 8 bytes,
-        the original array wll be replaced with new array, if the original
+        the original string wll be replaced with new string, if the original
         array is shared between threads/processes, other threads/processes
-        will wouldn't be aware of the change, still use the old bytearray.
+        will wouldn't be aware of the change, still use the old string.
 
         :param newlength: the expected new length of the original bytes.
         :param paddingdirection: if longer than original, left or right sidethe original bytes should be padded, by default right side,use 'right' or 'r' to specify right side, use 'left' or 'l' to specify the left side.
@@ -271,8 +282,6 @@ class atomic_string:
         Get and set atomically
 
         :param data: new data
-        :param trim: whether of not to trim the returning b'\\0' when get, default True
-
         :return: the original string
         """
         data_all = chr(self._str_byte_len(data)) + self._rpad_zero(data)
@@ -289,26 +298,26 @@ class atomic_string:
         the initial_length field will be updated but not atomically.
         store i in itself after store itself in j
 
-        :param i: one atomic_bytearray
-        :param j: another atomic_bytearray
+        :param i: one atomic_string
+        :param j: another atomic_string
         :return: None
         """
         if self.size != i.size:
-            raise ValueError("Comparing bytearray i has different size!")
+            raise ValueError("Comparing string i has different size!")
         if self.size != j.size:
-            raise ValueError("Comparing bytearray j has different size!")
+            raise ValueError("Comparing string j has different size!")
         self._array_shift(self.array_reference,
                           i.array_reference, j.array_reference)
 
     def string_compare_and_set(self, i, n: str) -> bool:
         """
-        Compare and set atomically,This compares the contents of self
+        Compare and set atomically, this compares the contents of self
         with the contents of i. If equal, the operation is a read-modify-write
         operation that writes n into self. If they are not equal,
         the operation is a read and the current contents of itself are written into
         i.
 
-        :param i: the bytearray to be compared with
+        :param i: the string to be compared with
         :param n: another bytes to be ready to self if comparision return True
         :return: if self is equal to i return True, else return False
         """
@@ -320,6 +329,12 @@ class atomic_string:
                                            i.array_reference, self.type(integer))
 
     def reencode(self, newencode: str):
+        """
+        Change the encoding of the string, if the original size is not enough,
+        it will elongate the string, if 7 bytes are not enough, it will fail.
+        :param newencode: new encoding, such as 'utf-8', 'utf-16-le'
+        :return: None
+        """
         data = self.get_string()
         new_data = data.encode(newencode)
         self.set_bytes(new_data)
