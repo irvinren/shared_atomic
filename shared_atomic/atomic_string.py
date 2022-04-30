@@ -5,7 +5,7 @@ import sys
 
 class atomic_string:
     """
-    bytearray provide atomic operations, the bytearray should be no longer than 8 bytes
+    string provide atomic operations, the string should be no longer than 8 bytes
     """
 
     def __init__(self, initial: str,
@@ -61,7 +61,7 @@ class atomic_string:
 
         atomic = loaddll()
 
-        self.initial_byte_length = self.str_byte_len(data)
+        self.initial_byte_length = self._str_byte_len(data)
 
         if self.initial_byte_length == 1:
             self.size = 2
@@ -139,19 +139,19 @@ class atomic_string:
 
         self.string_get_and_set(data)
 
-    def str_byte_len(self, input: str):
+    def _str_byte_len(self, input: str):
         return len(input.encode(self.encoding))
 
-    def rpad_zero(self, input: str):
-        input_length = self.str_byte_len(input)
-        if self.str_byte_len(input) < self.size-1:
+    def _rpad_zero(self, input: str):
+        input_length = self._str_byte_len(input)
+        if self._str_byte_len(input) < self.size-1:
             return input + (self.size-input_length-1) * '\0'
-        elif self.str_byte_len(input) > self.size-1:
+        elif self._str_byte_len(input) > self.size-1:
             raise ValueError('input length longer than its size!')
         else:
             return input
 
-    def get_int(self):
+    def _get_int(self):
         """
         Get the integer representation from the string,
         the whole array would be treated as a large integer
@@ -162,7 +162,7 @@ class atomic_string:
         self._array_store(ctypes.byref(result), self.array_reference)
         return result.value
 
-    def set_int(self, input: int):
+    def _set_int(self, input: int):
         """
         Get the integer representation from the bytearray,
         the whole array would be treated as a large integer
@@ -199,12 +199,12 @@ class atomic_string:
         :param data: input bytearray
         :return: None
         """
-        desiredlength = self.str_byte_len(data)
+        desiredlength = self._str_byte_len(data)
         if 7 >= desiredlength > self.size:
             self.resize(desiredlength)
         elif desiredlength > 7:
             raise ValueError()
-        data = chr(desiredlength) + self.rpad_zero(data)
+        data = chr(desiredlength) + self._rpad_zero(data)
         integer = int.from_bytes(data.encode(self.encoding), byteorder='big')
         ctype_integer = self.type(integer)
         self._array_store(self.array_reference, ctypes.byref(ctype_integer))
@@ -220,12 +220,12 @@ class atomic_string:
         :return: None
         """
         desiredlength = len(data)
-        if 7 >= desiredlength > self.size:
+        if 7 >= desiredlength > self.size-1:
             self.resize(desiredlength)
         elif desiredlength > 7:
             raise ValueError()
-        data = int.to_bytes(desiredlength, byteorder='big') + data + b'\0'*(self.size - len(data) - 1)
-        integer = int.from_bytes(data, byteorder='big')
+        full_data = int.to_bytes(desiredlength, length=1, byteorder='big') + data + b'\0'*(self.size - desiredlength - 1)
+        integer = int.from_bytes(full_data, byteorder='big')
         ctype_integer = self.type(integer)
         self._array_store(self.array_reference, ctypes.byref(ctype_integer))
 
@@ -275,7 +275,7 @@ class atomic_string:
 
         :return: the original string
         """
-        data_all = chr(self.str_byte_len(data)) + self.rpad_zero(data)
+        data_all = chr(self._str_byte_len(data)) + self._rpad_zero(data)
         integer = int.from_bytes(data_all.encode(self.encoding), byteorder='big')
         result = int.to_bytes(self._array_get_and_set(self.array_reference, self.type(integer)),
                                                     length=self.size, byteorder='big')
@@ -314,12 +314,12 @@ class atomic_string:
         """
         if self.size != i.size:
             raise ValueError("Comparing string has different size!")
-        n = chr(self.str_byte_len(n)) + self.rpad_zero(n)
+        n = chr(self._str_byte_len(n)) + self._rpad_zero(n)
         integer = int.from_bytes(n.encode(self.encoding), byteorder='big')
         return self._array_compare_and_set(self.array_reference,
                                            i.array_reference, self.type(integer))
 
-    def change_encoding(self, newencode: str):
+    def reencode(self, newencode: str):
         data = self.get_string()
         new_data = data.encode(newencode)
         self.set_bytes(new_data)
@@ -338,19 +338,19 @@ class atomic_string:
             """
             if newmode in ('m', 'multiprocessing'):
                 if self.mode == 's':
-                    data = self.get_int()
+                    data = self._get_int()
                     self.array = Array(ctypes.c_ubyte, self.size, lock=False)
                     self.array_reference = ctypes.byref(self.array)
-                    self.set_int(data)
+                    self._set_int(data)
 
             elif newmode not in ('s', 'singleprocessing'):
                 raise ValueError("newmode has the wrong value, should be 'm','s','multiprocessing' or 'singleprocessing'")
 
             elif self.mode == 'm':
-                data = self.get_int()
+                data = self._get_int()
                 self.array = (ctypes.c_ubyte * self.size)()
                 self.array_reference = ctypes.byref(self.array)
-                self.set_int(data)
+                self._set_int(data)
             self.mode = newmode
 
 

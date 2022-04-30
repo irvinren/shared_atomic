@@ -129,6 +129,10 @@ def test_value_string():
             assert c[-1].get_string() == a.get_string()
             assert c[-2].get_string() == inlist[i]
 
+            value = a.get_string()
+            a.reencode('utf-16-le')
+            assert a.value == value
+
             if sys.platform != 'win32':
                 value = a.get_string()
                 a.change_mode('m')
@@ -137,6 +141,7 @@ def test_value_string():
                 a.change_mode('s')
                 assert value == a.get_string()
                 assert a.mode == 's'
+
 
             i += 1
     except Exception as e:
@@ -147,7 +152,7 @@ def test_value_string():
 
 def thread_run(a,c):
 
-    b = atomic_string('ab', length=7, paddingdirection='r', paddingstr='012', mode='s')
+    b = atomic_string('ab')
     if a.string_compare_and_set(b, 'cd'):
         atomic.long_add_and_fetch(ctypes.byref(c), ctypes.c_long(1))
 
@@ -156,7 +161,7 @@ def test_thread_atomic():
     test single process multiple threads
     :return: None
     """
-    a = atomic_string('ab', length=7, paddingdirection='r', paddingstr='012', mode='s')
+    a = atomic_string('ab')
     b = ctypes.c_long(0)
 
     threadlist=[]
@@ -176,7 +181,7 @@ def test_thread_atomic():
 
 if sys.platform != "win32":
     def process_run(a,c):
-        b = atomic_string('ab', length=7, paddingdirection='r', paddingstr='012', mode='m')
+        b = atomic_string('ab')
         if a.string_compare_and_set(b, 'cd'):
             atomic.long_add_and_fetch(ctypes.byref(c), ctypes.c_long(1))
 
@@ -185,7 +190,7 @@ if sys.platform != "win32":
         test multiple processes
         :return: None
         """
-        a = atomic_string('ab', length=7, paddingdirection='r', paddingstr='012', mode='m')
+        a = atomic_string('ab')
         c = Value(ctypes.c_long, lock=False)
         c.value = 0
         processlist = []
