@@ -10,7 +10,6 @@ import math
 import sys
 from bitarray import bitarray
 from bitarray.util import ba2hex, ba2int, int2ba
-from tensorboard.backend.application import DATA_PREFIX
 
 class atomic_set:
     """
