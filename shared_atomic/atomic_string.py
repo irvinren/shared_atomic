@@ -105,7 +105,7 @@ class atomic_string:
             self._array_fetch_and_nand = atomic.uint_fetch_and_nand
 
 
-        else:
+        elif self.initial_byte_length <= 7:
             self.size = 8
             self.type = ctypes.c_ulonglong
             self._array_store = atomic.ulonglong_store
@@ -124,6 +124,8 @@ class atomic_string:
             self._array_fetch_and_or = atomic.ulonglong_fetch_and_or
             self._array_fetch_and_xor = atomic.ulonglong_fetch_and_xor
             self._array_fetch_and_nand = atomic.ulonglong_fetch_and_nand
+        else:
+            raise ValueError("Input String is longer than 8 bytes!")
 
 
         if sys.platform in ('darwin','linux'):

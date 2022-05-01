@@ -122,7 +122,7 @@ class atomic_bytearray:
             self._array_fetch_and_nand = atomic.uint_fetch_and_nand
 
 
-        else:
+        elif self.initial_length <= 8:
             self.size = 8
             self.type = ctypes.c_ulonglong
             self._array_store = atomic.ulonglong_store
@@ -141,6 +141,8 @@ class atomic_bytearray:
             self._array_fetch_and_or = atomic.ulonglong_fetch_and_or
             self._array_fetch_and_xor = atomic.ulonglong_fetch_and_xor
             self._array_fetch_and_nand = atomic.ulonglong_fetch_and_nand
+        else:
+            raise ValueError("Input bytearray is longer than 8 bytes!")
 
         if sys.platform in ('darwin','linux'):
             if mode in ('m', 'multiprocessing'):
@@ -155,7 +157,6 @@ class atomic_bytearray:
             data = b'\0'*(self.size-len(data)) + data
             self.array = bytearray(data)
             self.array_reference = memoryview(self.array)
-
 
         self.array_get_and_set(data)
 
