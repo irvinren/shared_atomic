@@ -236,7 +236,7 @@ class atomic_set:
 
         if kind != 0:
             data_prefix.value <<= 6
-            self.atomic.uint_add_and_fetch(byref(data_prefix), (kind << 4) + (input_length.value << 1))
+            self.atomic.ulonglong_add_and_fetch(byref(data_prefix), (kind << 4) + (input_length.value << 1))
         else:
             data_prefix.value <<= 3
             #self.atomic.uint_add_and_fetch(byref(data_prefix),0)
