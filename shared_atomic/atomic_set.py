@@ -166,7 +166,7 @@ class atomic_set:
         for i in input_set:
             hash(i)
             if item_num.value != 0:
-                self.atomic.uint_add_and_fetch(byref(data_prefix), uint(1))
+                self.atomic.ulonglong_add_and_fetch(byref(data_prefix), uint(1))
             self.atomic.uint_add_and_fetch(byref(item_num), uint(1))
 
             if isinstance(i, bool):
