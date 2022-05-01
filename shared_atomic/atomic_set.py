@@ -94,7 +94,7 @@ class atomic_set:
 
         elif sys.platform == 'win32':
             self.mode = 's'
-            data = full_data.to_bytes(length=8, byteorder='big')
+            data = full_data.to_bytes(length=ctypes.sizeof(self.type), byteorder='big')[::-1]
             self.array = bytearray(data)
             self.array_reference = memoryview(self.array)
 
