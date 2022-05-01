@@ -58,10 +58,10 @@ def test_init():
     a = atomic_set({'ab','cd'})
     assert a.get_set() == {'ab','cd'}
     a = atomic_set({'中','国'},encoding='utf-16-le')
-    assert a.get_set(encoding='utf-16-le') == {'中','国'}
+    assert a.get_set() == {'中','国'}
 
     a = atomic_set({1,'中',True,b'x12'}, encoding='utf-16-le')
-    assert a.get_set(encoding='utf-16-le') == {1,'中',True,b'x12'}
+    assert a.get_set() == {1,'中',True,b'x12'}
 
 def test_set():
     a = atomic_set({1,'中',True,b'x12'}, encoding='utf-16-le')
