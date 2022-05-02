@@ -1479,5 +1479,10 @@ def loaddll():
 
 from shared_atomic.atomic_bytearray import atomic_bytearray
 from shared_atomic.atomic_string import atomic_string
-from shared_atomic.atomic_set import atomic_set
 
+try:
+    import bitarray
+    from shared_atomic.atomic_set import atomic_set
+except:
+    ImportError
+    pass
