@@ -23,7 +23,7 @@ can be used in
 
  - - atomic_string
 
- - - atomic_set, package bitarray is needed.
+ - - atomic_set, package bitarray >= 2.4.0 is needed.
 
 - Requirement,
 

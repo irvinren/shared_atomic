@@ -8,7 +8,7 @@ Datatypes:
 - Other types included in this package,
 - - [atomic_bytearray](./bytearray_api.md)
 - - [atomic_string](./string_api.md)
-- - [atomic_set](./set_api.md), package [bitarray](https://pypi.org/project/bitarray/) is needed.
+- - [atomic_set](./set_api.md), package [bitarray>=2.4.0](https://pypi.org/project/bitarray/) is needed.
 
 Requirement:
 - On Linux/MacOSX, 
