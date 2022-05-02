@@ -44,8 +44,25 @@
             
   <div class="tex2jax_ignore mathjax_ignore section" id="welcome-to-shared-atomic-s-documentation">
 <h1>Welcome to shared_atomic’s documentation!<a class="headerlink" href="#welcome-to-shared-atomic-s-documentation" title="Permalink to this headline">¶</a></h1>
-<p><big> The module can be used for atomic operations on shared ctypes value and arrays under multiple processs and multiple threads conditions.
-To use the optimal atomic_set data type, package bitarray is needed.</p>
+<p><big> The module can be used for atomic operations on shared ctypes value and arrays under multiple processs and multiple threads conditions.</p>
+<p>Datatypes:</p>
+<ul class="simple">
+<li><p>Use ctypes or multiprocessing.Value/Array to achieve atomicy.</p></li>
+<li><p>Other types included in this package,</p></li>
+<li><ul>
+<li><p><a class="reference internal" href="bytearray_api.html"><span class="doc std std-doc">atomic_bytearray</span></a></p></li>
+</ul>
+</li>
+<li><ul>
+<li><p><a class="reference internal" href="string_api.html"><span class="doc std std-doc">atomic_string</span></a></p></li>
+</ul>
+</li>
+<li><ul>
+<li><p><a class="reference internal" href="set_api.html"><span class="doc std std-doc">atomic_set</span></a>, package <a class="reference external" href="https://pypi.org/project/bitarray/">bitarray</a> is needed.</p></li>
+</ul>
+</li>
+</ul>
+<p>Requirement:</p>
 <ul class="simple">
 <li><p>On Linux/MacOSX,</p></li>
 <li><ul>
@@ -54,10 +71,6 @@ To use the optimal atomic_set data type, package bitarray is needed.</p>
 </li>
 <li><ul>
 <li><p>should be built upon cffi &gt;= 1.0.0, &lt;= 1.1.15,</p></li>
-</ul>
-</li>
-<li><ul>
-<li><p>can be loaded dynamically by <a class="reference external" href="https://docs.python.org/3/library/ctypes.html?highlight=ctypes%20cdll#ctypes.CDLL">ctypes.CDLL</a> .</p></li>
 </ul>
 </li>
 <li><p>On Windows,</p></li>
@@ -70,7 +83,6 @@ To use the optimal atomic_set data type, package bitarray is needed.</p>
 </ul>
 </li>
 </ul>
-<p>When calling those functions, the address of the shared variables could be get by <a class="reference external" href="https://docs.python.org/3/library/ctypes.html?highlight=ctypes.byref#ctypes.byref">ctypes.byref</a></p>
 <p>For example usage of the module, please visit this  <a class="reference internal" href="ctypes_example.html"><span class="doc std std-doc">ctypes_example</span></a> and <a class="reference internal" href="bytearray_example.html"><span class="doc std std-doc">bytearray/set/string_example</span></a></p>
 <p>For ctypes api references, please visit <a class="reference internal" href="ctypes_api.html"><span class="doc std std-doc">ctypes api</span></a>.</p>
 <p>For python atomic_bytearray api references, please visit <a class="reference internal" href="bytearray_api.html"><span class="doc std std-doc">atomic_bytearray</span></a>.</p>

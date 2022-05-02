@@ -13,6 +13,18 @@ can be used in
     - CPython 3.0 - 3.11
     - Pypy not supported
 
+- Datatypes:
+
+ - Use ctypes or multiprocessing.Value/Array to achieve atomicy.
+
+ - Other types included in this package,
+
+ - - atomic_bytearray
+
+ - - atomic_string
+
+ - - atomic_set, package bitarray is needed.
+
 - Requirement,
 
  - LINUX/MacOSX

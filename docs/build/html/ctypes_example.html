@@ -14,7 +14,7 @@
     <script src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Bytearray Example:" href="bytearray_example.html" />
+    <link rel="next" title="Bytearray/set/string Example:" href="bytearray_example.html" />
     <link rel="prev" title="Welcome to shared_atomic’s documentation!" href="index.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
@@ -37,7 +37,7 @@
           <a href="index.html" title="Previous document">Welcome to shared_atomic’s documentation!</a>
         </li>
         <li>
-          <a href="bytearray_example.html" title="Next document">Bytearray Example:</a>
+          <a href="bytearray_example.html" title="Next document">Bytearray/set/string Example:</a>
           &rarr;
         </li>
     </ul>
@@ -60,18 +60,18 @@
 <p>if only threads are needed</p>
 <p><code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">=</span> <span class="pre">ctypes.c_long(100)</span></code></p>
 </li>
-<li><p>get the pointer from ctypes.byref</p>
+<li><p>Get the pointer of the shared variables by <a class="reference external" href="https://docs.python.org/3/library/ctypes.html?highlight=ctypes.byref#ctypes.byref">ctypes.byref</a></p>
 <p><code class="docutils literal notranslate"><span class="pre">aref</span> <span class="pre">=</span> <span class="pre">ctypes.byref(a,</span> <span class="pre">0)</span></code></p>
 </li>
 <li><p>pass the pointer to atomic functions</p>
 <p><code class="docutils literal notranslate"><span class="pre">atomic.long_get_and_set(aref,ctypes.c_long(100))</span></code></p>
 <p><code class="docutils literal notranslate"><span class="pre">processlist</span> <span class="pre">=</span> <span class="pre">[]</span></code></p>
-<p><code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">i</span> <span class="pre">in</span> <span class="pre">range(10000):</span></code>
-<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">processlist.append(Process(target=atomic.long_get_and_set,</span> <span class="pre">args=(aref,ctypes.c_long(100))))</span></code></p>
-<p><code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">i</span> <span class="pre">in</span> <span class="pre">range(10000):</span></code>
-<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">processlist[i].start()</span></code></p>
-<p><code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">i</span> <span class="pre">in</span> <span class="pre">range(10000):</span></code>
-<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">processlist[i].join()</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">i</span> <span class="pre">in</span> <span class="pre">range(10000):</span></code></p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">processlist.append(Process(target=atomic.long_get_and_set,</span> <span class="pre">args=(aref,ctypes.c_long(100))))</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">i</span> <span class="pre">in</span> <span class="pre">range(10000):</span></code></p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">processlist[i].start()</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">i</span> <span class="pre">in</span> <span class="pre">range(10000):</span></code></p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">processlist[i].join()</span></code></p>
 </li>
 </ol>
 </div>
@@ -87,7 +87,7 @@
           <a href="index.html" title="Previous document">Welcome to shared_atomic’s documentation!</a>
         </li>
         <li>
-          <a href="bytearray_example.html" title="Next document">Bytearray Example:</a>
+          <a href="bytearray_example.html" title="Next document">Bytearray/set/string Example:</a>
           &rarr;
         </li>
     </ul>
@@ -119,9 +119,11 @@
 <h3>Navigation</h3>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">ctypes Example:</a></li>
-<li class="toctree-l1"><a class="reference internal" href="bytearray_example.html">Bytearray Example:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bytearray_example.html">Bytearray/set/string Example:</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ctypes_api.html">ctypes API Referennce</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bytearray_api.html">Bytearray API:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="string_api.html">String API:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="set_api.html">Set API:</a></li>
 </ul>
 
 <div class="relations">
@@ -129,7 +131,7 @@
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
       <li>Previous: <a href="index.html" title="previous chapter">Welcome to shared_atomic’s documentation!</a></li>
-      <li>Next: <a href="bytearray_example.html" title="next chapter">Bytearray Example:</a></li>
+      <li>Next: <a href="bytearray_example.html" title="next chapter">Bytearray/set/string Example:</a></li>
   </ul></li>
 </ul>
 </div>

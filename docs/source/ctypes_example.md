@@ -16,7 +16,7 @@ You need the following steps to utilize the module:
     
     `a = ctypes.c_long(100)`
     
-3) get the pointer from ctypes.byref
+3) Get the pointer of the shared variables by [ctypes.byref](https://docs.python.org/3/library/ctypes.html?highlight=ctypes.byref#ctypes.byref)
     
     `aref = ctypes.byref(a, 0)`
 
@@ -27,10 +27,13 @@ You need the following steps to utilize the module:
     `processlist = []`
     
     `for i in range(10000):`
+    
     `    processlist.append(Process(target=atomic.long_get_and_set, args=(aref,ctypes.c_long(100))))`
 
     `for i in range(10000):`
+    
     `    processlist[i].start()`
 
     `for i in range(10000):`
+    
     `    processlist[i].join()`
