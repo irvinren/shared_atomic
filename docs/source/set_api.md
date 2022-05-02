@@ -1,9 +1,9 @@
-# Bytearray API:
+# Set API:
 
 
-<big>Module shared_atomic.atomic_bytearray</big>
+<big>Module shared_atomic.atomic_set</big>
 
 ```{eval-rst}
-.. automodule:: shared_atomic.atomic_bytearray
+.. automodule:: shared_atomic.atomic_set
    :members:
 ```

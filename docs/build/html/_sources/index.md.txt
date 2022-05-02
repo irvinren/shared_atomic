@@ -15,14 +15,17 @@ To use the optimal atomic_set data type, package bitarray is needed.
 
 When calling those functions, the address of the shared variables could be get by [ctypes.byref](https://docs.python.org/3/library/ctypes.html?highlight=ctypes.byref#ctypes.byref)
 
-For example usage of the module, please visit this  [ctypes_example](./ctypes_example.md) and [bytearray_example](./bytearray_example.md)
+For example usage of the module, please visit this  [ctypes_example](./ctypes_example.md) and [bytearray/set/string_example](./bytearray_example.md)
 
 For ctypes api references, please visit [ctypes api](./ctypes_api.md).
 
-For python atomic_bytearray api references, please visit [atomic_bytearray](./bytearray_api.md).</big>
-For python atomic_string api references, please visit [atomic_string](./string_api.md).</big>
+For python atomic_bytearray api references, please visit [atomic_bytearray](./bytearray_api.md).
+
+For python atomic_string api references, please visit [atomic_string](./string_api.md).
+
 For python atomic_set api references, please visit [atomic_set](./set_api.md).</big>
 
+####
 
 ```{eval-rst}
 .. toctree::

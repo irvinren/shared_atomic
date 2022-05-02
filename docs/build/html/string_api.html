@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Bytearray API: &#8212; Documentation for shared_atomic</title>
+    <title>String API: &#8212; Documentation for shared_atomic</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
@@ -14,8 +14,8 @@
     <script src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Bytearray API:" href="set_api.html" />
-    <link rel="prev" title="Set API:" href="bytearray_api.html" />
+    <link rel="next" title="Set API:" href="set_api.html" />
+    <link rel="prev" title="Bytearray API:" href="bytearray_api.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -34,10 +34,10 @@
     <ul>
         <li>
           &larr;
-          <a href="bytearray_api.html" title="Previous document">Set API:</a>
+          <a href="bytearray_api.html" title="Previous document">Bytearray API:</a>
         </li>
         <li>
-          <a href="set_api.html" title="Next document">Bytearray API:</a>
+          <a href="set_api.html" title="Next document">Set API:</a>
           &rarr;
         </li>
     </ul>
@@ -47,298 +47,30 @@
 
           <div class="body" role="main">
             
-  <div class="tex2jax_ignore mathjax_ignore section" id="bytearray-api">
-<h1>Bytearray API:<a class="headerlink" href="#bytearray-api" title="Permalink to this headline">¶</a></h1>
-<p><big>Module shared_atomic.atomic_bytearray</big></p>
-<span class="target" id="module-shared_atomic.atomic_bytearray"></span><dl class="py class">
-<dt class="sig sig-object py" id="shared_atomic.atomic_bytearray.atomic_bytearray">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">shared_atomic.atomic_bytearray.</span></span><span class="sig-name descname"><span class="pre">atomic_bytearray</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">initial</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'singleprocessing'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">paddingdirection</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'right'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">paddingbytes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">b'\x00'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trimming_direction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'right'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#shared_atomic.atomic_bytearray.atomic_bytearray" title="Permalink to this definition">¶</a></dt>
-<dd><p>bytearray provide atomic operations, the bytearray should be no longer than 8 bytes</p>
-<p>constructor to initialize the bytearray,
-the bytearray should be no longer than 8 bytes</p>
+  <div class="tex2jax_ignore mathjax_ignore section" id="string-api">
+<h1>String API:<a class="headerlink" href="#string-api" title="Permalink to this headline">¶</a></h1>
+<p><big>Module shared_atomic.atomic_string</big></p>
+<span class="target" id="module-shared_atomic.atomic_string"></span><dl class="py class">
+<dt class="sig sig-object py" id="shared_atomic.atomic_string.atomic_string">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">shared_atomic.atomic_string.</span></span><span class="sig-name descname"><span class="pre">atomic_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">initial</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'singleprocessing'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">paddingdirection</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'right'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">paddingstr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'</span> <span class="pre">'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trimming_direction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'right'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'utf-8'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#shared_atomic.atomic_string.atomic_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>string provide atomic operations, the string should be no longer than 8 bytes</p>
+<p>constructor to initialize the string,
+the string should be no longer than 8 bytes</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>initial</strong> – initial value of the bytearray, if the initial value is longer than 8 bytes, please specify the trimming target length, or else it would fail.</p></li>
-<li><p><strong>mode</strong> – the mode in which the bytearray will be shared. ‘singleprocessing’ or ‘s’ for single process, ‘multiprocessing’ or ‘m’ for multiprocessing, on windows platform, only singleprocessing is supported, setting it to ‘m’ or ‘multiprocessing’ will be ignored.</p></li>
+<li><p><strong>initial</strong> – initial value of the string, if the initial value is longer than 8 bytes, please specify the trimming target length, or else it would fail.</p></li>
+<li><p><strong>mode</strong> – the mode in which the string will be shared. ‘singleprocessing’ or ‘s’ for single process, ‘multiprocessing’ or ‘m’ for multiprocessing, on windows platform, only singleprocessing is supported, setting it to ‘m’ or ‘multiprocessing’ will be ignored.</p></li>
 <li><p><strong>length</strong> – the expected length after padding/trimming for the input value, if not specified, no padding or trimming performed, use original value.</p></li>
 <li><p><strong>paddingdirection</strong> – right, or left side the padding bytes would be added if not specified, pad to the right side, use ‘right’ or ‘r’ to specify right side, use ‘left’ or ‘l’ to specify the left side.</p></li>
-<li><p><strong>paddingbytes</strong> – bytes to pad to the original bytes, by default b’\0’ can be multiple bytes like b’ab’, will be padded to the original bytes in circulation until the expected length is reached.</p></li>
+<li><p><strong>paddingstr</strong> – string to pad to the original bytes, by default ‘\0’ can be multiple bytes like b’ab’, will be padded to the original bytes in circulation until the expected length is reached.</p></li>
 <li><p><strong>trimming_direction</strong> – if initial bytes are longer, on which side the bytes will be trimmed. By default, on the right side, use ‘right’ or ‘r’ to specify right side, use ‘left’ or ‘l’ to specify the left side.</p></li>
 </ul>
 </dd>
 </dl>
 <dl class="py method">
-<dt class="sig sig-object py" id="shared_atomic.atomic_bytearray.atomic_bytearray.array_add_and_fetch">
-<span class="sig-name descname"><span class="pre">array_add_and_fetch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#shared_atomic.atomic_bytearray.atomic_bytearray.array_add_and_fetch" title="Permalink to this definition">¶</a></dt>
-<dd><p>Increment and fetch atomically</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>n</strong> – bytes will be added to the array.</p></li>
-<li><p><strong>trim</strong> – whether of not to trim the returning b’\0’ when fetch, default True</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>the contents of resulted bytearray</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="shared_atomic.atomic_bytearray.atomic_bytearray.array_and_and_fetch">
-<span class="sig-name descname"><span class="pre">array_and_and_fetch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#shared_atomic.atomic_bytearray.atomic_bytearray.array_and_and_fetch" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bitwise AND and fetch the result atomically</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>n</strong> – the other operand of AND operation.</p></li>
-<li><p><strong>trim</strong> – whether of not to trim the returning b’\0’ when fetch, default True</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>the contents of resulted bytearray</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="shared_atomic.atomic_bytearray.atomic_bytearray.array_compare_and_set">
-<span class="sig-name descname"><span class="pre">array_compare_and_set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#shared_atomic.atomic_bytearray.atomic_bytearray.array_compare_and_set" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compare and set atomically,This compares the contents of self
-with the contents of i. If equal, the operation is a read-modify-write
-operation that writes n into self. If they are not equal,
-the operation is a read and the current contents of itself are written into
-i.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>i</strong> – the bytearray to be compared with</p></li>
-<li><p><strong>n</strong> – another bytes to be ready to set to self if comparision return True</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>if self is equal to i return True, else return False</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="shared_atomic.atomic_bytearray.atomic_bytearray.array_fetch_and_add">
-<span class="sig-name descname"><span class="pre">array_fetch_and_add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#shared_atomic.atomic_bytearray.atomic_bytearray.array_fetch_and_add" title="Permalink to this definition">¶</a></dt>
-<dd><p>fetch and increment atomically</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>n</strong> – the bytes will be added to the array</p></li>
-<li><p><strong>trim</strong> – whether of not to trim the returning b’\0’ when fetch, default True</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>the original contents of the bytearray</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="shared_atomic.atomic_bytearray.atomic_bytearray.array_fetch_and_and">
-<span class="sig-name descname"><span class="pre">array_fetch_and_and</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#shared_atomic.atomic_bytearray.atomic_bytearray.array_fetch_and_and" title="Permalink to this definition">¶</a></dt>
-<dd><p>Fetch then bitwise AND atomically</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>n</strong> – the other operands of AND operation</p></li>
-<li><p><strong>trim</strong> – whether of not to trim the returning b’\0’ when fetch, default True</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>the original contents of the bytearray</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="shared_atomic.atomic_bytearray.atomic_bytearray.array_fetch_and_nand">
-<span class="sig-name descname"><span class="pre">array_fetch_and_nand</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#shared_atomic.atomic_bytearray.atomic_bytearray.array_fetch_and_nand" title="Permalink to this definition">¶</a></dt>
-<dd><p>fetch then bitwise NAND(AND first then NOT) atomically</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>n</strong> – the other operands of NAND operation</p></li>
-<li><p><strong>trim</strong> – whether of not to trim the returning b’\0’ when fetch, default True</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>the original contents of the bytearray</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="shared_atomic.atomic_bytearray.atomic_bytearray.array_fetch_and_or">
-<span class="sig-name descname"><span class="pre">array_fetch_and_or</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#shared_atomic.atomic_bytearray.atomic_bytearray.array_fetch_and_or" title="Permalink to this definition">¶</a></dt>
-<dd><p>Fetch then bitwise OR atomically</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>n</strong> – the other operands of OR operation</p></li>
-<li><p><strong>trim</strong> – whether of not to trim the returning b’\0’ when fetch, default True</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>the original contents of the bytearray</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="shared_atomic.atomic_bytearray.atomic_bytearray.array_fetch_and_sub">
-<span class="sig-name descname"><span class="pre">array_fetch_and_sub</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#shared_atomic.atomic_bytearray.atomic_bytearray.array_fetch_and_sub" title="Permalink to this definition">¶</a></dt>
-<dd><p>fetch and decrement atomically</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>n</strong> – the bytes will be substracted from the array</p></li>
-<li><p><strong>trim</strong> – whether of not to trim the returning b’\0’ when fetch, default True</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>the original contents of the bytearray</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="shared_atomic.atomic_bytearray.atomic_bytearray.array_fetch_and_xor">
-<span class="sig-name descname"><span class="pre">array_fetch_and_xor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#shared_atomic.atomic_bytearray.atomic_bytearray.array_fetch_and_xor" title="Permalink to this definition">¶</a></dt>
-<dd><p>Fetch then bitwise XOR atomically</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>n</strong> – the other operands of XOR operation</p></li>
-<li><p><strong>trim</strong> – whether of not to trim the returning b’\0’ when fetch, default True</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>the original contents of the bytearray</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="shared_atomic.atomic_bytearray.atomic_bytearray.array_get_and_set">
-<span class="sig-name descname"><span class="pre">array_get_and_set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#shared_atomic.atomic_bytearray.atomic_bytearray.array_get_and_set" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get and set atomically</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>data</strong> – new data</p></li>
-<li><p><strong>trim</strong> – whether of not to trim the returning b’\0’ when get, default True</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>the original bytes</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="shared_atomic.atomic_bytearray.atomic_bytearray.array_nand_and_fetch">
-<span class="sig-name descname"><span class="pre">array_nand_and_fetch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#shared_atomic.atomic_bytearray.atomic_bytearray.array_nand_and_fetch" title="Permalink to this definition">¶</a></dt>
-<dd><p>bitsise NAND(AND first then NOT) and fetch the result atomically</p>
-<p>:param n:the other operand of NAND operation
-:param trim: whether of not to trim the returning b’\0’ when fetch, default True
-:return: the contents of resulted bytearray</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="shared_atomic.atomic_bytearray.atomic_bytearray.array_or_and_fetch">
-<span class="sig-name descname"><span class="pre">array_or_and_fetch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#shared_atomic.atomic_bytearray.atomic_bytearray.array_or_and_fetch" title="Permalink to this definition">¶</a></dt>
-<dd><p>bitsise OR and fetch the result atomically</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>n</strong> – the other operand of OR operation</p></li>
-<li><p><strong>trim</strong> – whether of not to trim the returning b’\0’ when fetch, default True</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>the contents of resulted bytearray</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="shared_atomic.atomic_bytearray.atomic_bytearray.array_shift">
-<span class="sig-name descname"><span class="pre">array_shift</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">j</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#shared_atomic.atomic_bytearray.atomic_bytearray.array_shift" title="Permalink to this definition">¶</a></dt>
-<dd><p>Value exchange between 3 pointers in 2 groups atomically,
-the initial_length field will be updated but not atomically.
-store i in itself after store itself in j</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>i</strong> – one atomic_bytearray</p></li>
-<li><p><strong>j</strong> – another atomic_bytearray</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>None</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="shared_atomic.atomic_bytearray.atomic_bytearray.array_store">
-<span class="sig-name descname"><span class="pre">array_store</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#shared_atomic.atomic_bytearray.atomic_bytearray.array_store" title="Permalink to this definition">¶</a></dt>
-<dd><p>Atomically store contents from another bytearray to the this bytearray,
-if the other bytearray is different with this one in size , the function will fail.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>i</strong> – another bytearray to store its value to self</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="shared_atomic.atomic_bytearray.atomic_bytearray.array_sub_and_fetch">
-<span class="sig-name descname"><span class="pre">array_sub_and_fetch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#shared_atomic.atomic_bytearray.atomic_bytearray.array_sub_and_fetch" title="Permalink to this definition">¶</a></dt>
-<dd><p>Decrement and fetch atomically</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>n</strong> – bytes will be subtracted from the array.</p></li>
-<li><p><strong>trim</strong> – whether of not to trim the returning b’\0’ when fetch, default True</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>the contents of resulted bytearray</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="shared_atomic.atomic_bytearray.atomic_bytearray.array_xor_and_fetch">
-<span class="sig-name descname"><span class="pre">array_xor_and_fetch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#shared_atomic.atomic_bytearray.atomic_bytearray.array_xor_and_fetch" title="Permalink to this definition">¶</a></dt>
-<dd><p>bitsise XOR and fetch the result atomically</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>n</strong> – the other operand of XOR operation</p></li>
-<li><p><strong>trim</strong> – whether of not to trim the returning b’\0’ when fetch, default True</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>the contents of resulted bytearray</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="shared_atomic.atomic_bytearray.atomic_bytearray.change_mode">
-<span class="sig-name descname"><span class="pre">change_mode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">newmode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'m'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#shared_atomic.atomic_bytearray.atomic_bytearray.change_mode" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="shared_atomic.atomic_string.atomic_string.change_mode">
+<span class="sig-name descname"><span class="pre">change_mode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">newmode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'m'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#shared_atomic.atomic_string.atomic_string.change_mode" title="Permalink to this definition">¶</a></dt>
 <dd><p>Switch between singleprocessing mode and multiprocessing mode,
 the function doesn’t exists on windows, since only single processing mode
 is supported on windows platform.
@@ -354,49 +86,48 @@ the contents will be copied , other threads/processes would not be aware of the 
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="shared_atomic.atomic_bytearray.atomic_bytearray.get_bytes">
-<span class="sig-name descname"><span class="pre">get_bytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#shared_atomic.atomic_bytearray.atomic_bytearray.get_bytes" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get all the bytes from the bytearray atomically
-:param trim: if True, the leading b’\0’ would be trimmed, by default: True</p>
+<dt class="sig sig-object py" id="shared_atomic.atomic_string.atomic_string.get_string">
+<span class="sig-name descname"><span class="pre">get_string</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#shared_atomic.atomic_string.atomic_string.get_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get all the bytes from the string atomically</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>all the bytes in the bytearray</p>
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>trim</strong> – if True, the leading ‘\0’ would be trimmed, by default: True</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>all the bytes in the string</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="shared_atomic.atomic_bytearray.atomic_bytearray.get_int">
-<span class="sig-name descname"><span class="pre">get_int</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#shared_atomic.atomic_bytearray.atomic_bytearray.get_int" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the integer representation from the bytearray,
-the whole array would be treated as a large integer</p>
+<dt class="sig sig-object py" id="shared_atomic.atomic_string.atomic_string.reencode">
+<span class="sig-name descname"><span class="pre">reencode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">newencode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#shared_atomic.atomic_string.atomic_string.reencode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change the encoding of the string, if the original size is not enough,
+it will elongate the string, if 7 bytes are not enough, it will fail.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>the integer representation</p>
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>newencode</strong> – new encoding, such as ‘utf-8’, ‘utf-16-le’</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="py property">
-<dt class="sig sig-object py" id="shared_atomic.atomic_bytearray.atomic_bytearray.int_value">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">int_value</span></span><a class="headerlink" href="#shared_atomic.atomic_bytearray.atomic_bytearray.int_value" title="Permalink to this definition">¶</a></dt>
-<dd><p>same with get_int</p>
-</dd></dl>
-
 <dl class="py method">
-<dt class="sig sig-object py" id="shared_atomic.atomic_bytearray.atomic_bytearray.resize">
-<span class="sig-name descname"><span class="pre">resize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">newlength</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">paddingdirection</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'right'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">paddingbytes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">b'\x00'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trimming_direction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'right'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#shared_atomic.atomic_bytearray.atomic_bytearray.resize" title="Permalink to this definition">¶</a></dt>
-<dd><p>trim or pad the original contents in the bytearray
+<dt class="sig sig-object py" id="shared_atomic.atomic_string.atomic_string.resize">
+<span class="sig-name descname"><span class="pre">resize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">newlength</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">paddingdirection</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'right'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">paddingstr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'</span> <span class="pre">'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trimming_direction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'right'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#shared_atomic.atomic_string.atomic_string.resize" title="Permalink to this definition">¶</a></dt>
+<dd><p>trim or pad the original contents in the string
 to a new length, the new length should be no longer than 8 bytes,
-the original array wll be replaced with new array, if the original
-array is shared between threads/processes, other threads/processes
-will wouldn’t be aware of the change, still use the old bytearray.</p>
+the original string wll be replaced with new string, if the original
+string is shared between threads/processes, other threads/processes
+will wouldn’t be aware of the change, still use the old string.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>newlength</strong> – the expected new length of the original bytes.</p></li>
 <li><p><strong>paddingdirection</strong> – if longer than original, left or right sidethe original bytes should be padded, by default right side,use ‘right’ or ‘r’ to specify right side, use ‘left’ or ‘l’ to specify the left side.</p></li>
-<li><p><strong>paddingbytes</strong> – bytes to pad to the original bytes, by default b’\0’ can be multiple bytes like b’ab’, will be padded to the original bytes in circulation until the expected length is reached.</p></li>
+<li><p><strong>paddingstr</strong> – bytes to pad to the original bytes, by default ‘\0’ can be multiple bytes like b’ab’, will be padded to the original bytes in circulation until the expected length is reached.</p></li>
 <li><p><strong>trimming_direction</strong> – if shorted than original, left or right side the original bytes should be padded,use ‘right’ or ‘r’ to specify right side,use ‘left’ or ‘l’ to specify the left side.</p></li>
 </ul>
 </dd>
@@ -407,15 +138,15 @@ will wouldn’t be aware of the change, still use the old bytearray.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="shared_atomic.atomic_bytearray.atomic_bytearray.set_bytes">
-<span class="sig-name descname"><span class="pre">set_bytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#shared_atomic.atomic_bytearray.atomic_bytearray.set_bytes" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the value in the bytearray,
-if the new data is longer than the original size of the array.
-it will expand the array accordingly which would lose atomicy.
-the size of the bytearray can be check with self.size</p>
+<dt class="sig sig-object py" id="shared_atomic.atomic_string.atomic_string.set_string">
+<span class="sig-name descname"><span class="pre">set_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#shared_atomic.atomic_string.atomic_string.set_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the value in the string,
+if the new data is longer than the original size of the string.
+it will expand the string accordingly which would lose atomicy.
+the size of the string can be check with self.size</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>data</strong> – input bytearray</p>
+<dd class="field-odd"><p><strong>data</strong> – input string</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>None</p>
@@ -423,10 +154,79 @@ the size of the bytearray can be check with self.size</p>
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="shared_atomic.atomic_string.atomic_string.string_compare_and_set">
+<span class="sig-name descname"><span class="pre">string_compare_and_set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#shared_atomic.atomic_string.atomic_string.string_compare_and_set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compare and set atomically, this compares the contents of self
+with the contents of i. If equal, the operation is a read-modify-write
+operation that writes n into self. If they are not equal,
+the operation is a read and the current contents of itself are written into
+i.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>i</strong> – the string to be compared with</p></li>
+<li><p><strong>n</strong> – another bytes to be ready to self if comparision return True</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>if self is equal to i return True, else return False</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="shared_atomic.atomic_string.atomic_string.string_get_and_set">
+<span class="sig-name descname"><span class="pre">string_get_and_set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#shared_atomic.atomic_string.atomic_string.string_get_and_set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get and set atomically</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> – new data</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the original string</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="shared_atomic.atomic_string.atomic_string.string_shift">
+<span class="sig-name descname"><span class="pre">string_shift</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">j</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#shared_atomic.atomic_string.atomic_string.string_shift" title="Permalink to this definition">¶</a></dt>
+<dd><p>Value exchange between 3 pointers in 2 groups atomically,
+the initial_length field will be updated but not atomically.
+store i in itself after store itself in j</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>i</strong> – one atomic_string</p></li>
+<li><p><strong>j</strong> – another atomic_string</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="shared_atomic.atomic_string.atomic_string.string_store">
+<span class="sig-name descname"><span class="pre">string_store</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#shared_atomic.atomic_string.atomic_string.string_store" title="Permalink to this definition">¶</a></dt>
+<dd><p>Atomically store contents from another string to the this string,
+if the other string is different with this one in size , the function will fail.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>i</strong> – another string to store its value to self</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py property">
-<dt class="sig sig-object py" id="shared_atomic.atomic_bytearray.atomic_bytearray.value">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">value</span></span><a class="headerlink" href="#shared_atomic.atomic_bytearray.atomic_bytearray.value" title="Permalink to this definition">¶</a></dt>
-<dd><p>same with get_bytes without trimming and set_bytes</p>
+<dt class="sig sig-object py" id="shared_atomic.atomic_string.atomic_string.value">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">value</span></span><a class="headerlink" href="#shared_atomic.atomic_string.atomic_string.value" title="Permalink to this definition">¶</a></dt>
+<dd><p>same with get_string and set_string</p>
 </dd></dl>
 
 </dd></dl>
@@ -441,10 +241,10 @@ the size of the bytearray can be check with self.size</p>
     <ul>
         <li>
           &larr;
-          <a href="bytearray_api.html" title="Previous document">Set API:</a>
+          <a href="bytearray_api.html" title="Previous document">Bytearray API:</a>
         </li>
         <li>
-          <a href="set_api.html" title="Next document">Bytearray API:</a>
+          <a href="set_api.html" title="Next document">Set API:</a>
           &rarr;
         </li>
     </ul>
@@ -476,19 +276,19 @@ the size of the bytearray can be check with self.size</p>
 <h3>Navigation</h3>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="ctypes_example.html">ctypes Example:</a></li>
-<li class="toctree-l1"><a class="reference internal" href="bytearray_example.html">Bytearray Example:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bytearray_example.html">Bytearray/set/string Example:</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ctypes_api.html">ctypes API Referennce</a></li>
-<li class="toctree-l1"><a class="reference internal" href="bytearray_api.html">Set API:</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Bytearray API:</a></li>
-<li class="toctree-l1"><a class="reference internal" href="set_api.html">Bytearray API:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bytearray_api.html">Bytearray API:</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">String API:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="set_api.html">Set API:</a></li>
 </ul>
 
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="bytearray_api.html" title="previous chapter">Set API:</a></li>
-      <li>Next: <a href="set_api.html" title="next chapter">Bytearray API:</a></li>
+      <li>Previous: <a href="bytearray_api.html" title="previous chapter">Bytearray API:</a></li>
+      <li>Next: <a href="set_api.html" title="next chapter">Set API:</a></li>
   </ul></li>
 </ul>
 </div>

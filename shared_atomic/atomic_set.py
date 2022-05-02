@@ -267,7 +267,7 @@ class atomic_set:
     def set_set(self, data: set):
         """
         Set the value in the set,
-        if the new data is longer than the original size of the array.
+        if the new data is longer than the original size of the set.
         it will expand the set accordingly which would lose atomicy.
         the size of the set can be check with self.size
 

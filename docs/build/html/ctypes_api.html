@@ -14,8 +14,8 @@
     <script src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Set API:" href="bytearray_api.html" />
-    <link rel="prev" title="Bytearray Example:" href="bytearray_example.html" />
+    <link rel="next" title="Bytearray API:" href="bytearray_api.html" />
+    <link rel="prev" title="Bytearray/set/string Example:" href="bytearray_example.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -34,10 +34,10 @@
     <ul>
         <li>
           &larr;
-          <a href="bytearray_example.html" title="Previous document">Bytearray Example:</a>
+          <a href="bytearray_example.html" title="Previous document">Bytearray/set/string Example:</a>
         </li>
         <li>
-          <a href="bytearray_api.html" title="Next document">Set API:</a>
+          <a href="bytearray_api.html" title="Next document">Bytearray API:</a>
           &rarr;
         </li>
     </ul>
@@ -290,22 +290,22 @@ are listed below:</p>
 </div>
 <div class="section" id="uint-atomic-functions">
 <h2>uint atomic functions:<a class="headerlink" href="#uint-atomic-functions" title="Permalink to this headline">¶</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">void</span> <span class="pre">uint_store(unsigned</span> <span class="pre">int</span> <span class="pre">*,</span> <span class="pre">unsigned</span> <span class="pre">int</span> <span class="pre">*);</span></code>
-<code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">int</span> <span class="pre">uint_get_and_set(unsigned</span> <span class="pre">int</span> <span class="pre">*,</span> <span class="pre">unsigned</span> <span class="pre">int);</span></code>
-<code class="docutils literal notranslate"><span class="pre">void</span> <span class="pre">uint_shift(unsigned</span> <span class="pre">int</span> <span class="pre">*,</span> <span class="pre">unsigned</span> <span class="pre">int</span> <span class="pre">*,</span> <span class="pre">unsigned</span> <span class="pre">int</span> <span class="pre">*);</span></code>
-<code class="docutils literal notranslate"><span class="pre">_Bool</span> <span class="pre">uint_compare_and_set(unsigned</span> <span class="pre">int</span> <span class="pre">*,</span> <span class="pre">unsigned</span> <span class="pre">int</span> <span class="pre">*,</span> <span class="pre">unsigned</span> <span class="pre">int);</span></code></p>
-<p><code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">int</span> <span class="pre">uint_add_and_fetch(unsigned</span> <span class="pre">int</span> <span class="pre">*,</span> <span class="pre">unsigned</span> <span class="pre">int);</span></code>
-<code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">int</span> <span class="pre">uint_sub_and_fetch(unsigned</span> <span class="pre">int</span> <span class="pre">*,</span> <span class="pre">unsigned</span> <span class="pre">int);</span></code>
-<code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">int</span> <span class="pre">uint_and_and_fetch(unsigned</span> <span class="pre">int</span> <span class="pre">*,</span> <span class="pre">unsigned</span> <span class="pre">int);</span></code>
-<code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">int</span> <span class="pre">uint_or_and_fetch(unsigned</span> <span class="pre">int</span> <span class="pre">*,</span> <span class="pre">unsigned</span> <span class="pre">int);</span></code>
-<code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">int</span> <span class="pre">uint_xor_and_fetch(unsigned</span> <span class="pre">int</span> <span class="pre">*,</span> <span class="pre">unsigned</span> <span class="pre">int);</span></code>
-<code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">int</span> <span class="pre">uint_nand_and_fetch(unsigned</span> <span class="pre">int</span> <span class="pre">*,</span> <span class="pre">unsigned</span> <span class="pre">int);</span></code></p>
-<p><code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">int</span> <span class="pre">uint_fetch_and_add(unsigned</span> <span class="pre">int</span> <span class="pre">*,</span> <span class="pre">unsigned</span> <span class="pre">int);</span></code>
-<code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">int</span> <span class="pre">uint_fetch_and_sub(unsigned</span> <span class="pre">int</span> <span class="pre">*,</span> <span class="pre">unsigned</span> <span class="pre">int);</span></code>
-<code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">int</span> <span class="pre">uint_fetch_and_and(unsigned</span> <span class="pre">int</span> <span class="pre">*,</span> <span class="pre">unsigned</span> <span class="pre">int);</span></code>
-<code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">int</span> <span class="pre">uint_fetch_and_or(unsigned</span> <span class="pre">int</span> <span class="pre">*,</span> <span class="pre">unsigned</span> <span class="pre">int);</span></code>
-<code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">int</span> <span class="pre">uint_fetch_and_xor(unsigned</span> <span class="pre">int</span> <span class="pre">*,</span> <span class="pre">unsigned</span> <span class="pre">int);</span></code>
-<code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">int</span> <span class="pre">uint_fetch_and_nand(unsigned</span> <span class="pre">int</span> <span class="pre">*,</span> <span class="pre">unsigned</span> <span class="pre">int);</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">void</span> <span class="pre">uint_store(unsigned</span> <span class="pre">int</span> <span class="pre">*,</span> <span class="pre">unsigned</span> <span class="pre">int</span> <span class="pre">*);</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">int</span> <span class="pre">uint_get_and_set(unsigned</span> <span class="pre">int</span> <span class="pre">*,</span> <span class="pre">unsigned</span> <span class="pre">int);</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">void</span> <span class="pre">uint_shift(unsigned</span> <span class="pre">int</span> <span class="pre">*,</span> <span class="pre">unsigned</span> <span class="pre">int</span> <span class="pre">*,</span> <span class="pre">unsigned</span> <span class="pre">int</span> <span class="pre">*);</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">_Bool</span> <span class="pre">uint_compare_and_set(unsigned</span> <span class="pre">int</span> <span class="pre">*,</span> <span class="pre">unsigned</span> <span class="pre">int</span> <span class="pre">*,</span> <span class="pre">unsigned</span> <span class="pre">int);</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">int</span> <span class="pre">uint_add_and_fetch(unsigned</span> <span class="pre">int</span> <span class="pre">*,</span> <span class="pre">unsigned</span> <span class="pre">int);</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">int</span> <span class="pre">uint_sub_and_fetch(unsigned</span> <span class="pre">int</span> <span class="pre">*,</span> <span class="pre">unsigned</span> <span class="pre">int);</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">int</span> <span class="pre">uint_and_and_fetch(unsigned</span> <span class="pre">int</span> <span class="pre">*,</span> <span class="pre">unsigned</span> <span class="pre">int);</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">int</span> <span class="pre">uint_or_and_fetch(unsigned</span> <span class="pre">int</span> <span class="pre">*,</span> <span class="pre">unsigned</span> <span class="pre">int);</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">int</span> <span class="pre">uint_xor_and_fetch(unsigned</span> <span class="pre">int</span> <span class="pre">*,</span> <span class="pre">unsigned</span> <span class="pre">int);</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">int</span> <span class="pre">uint_nand_and_fetch(unsigned</span> <span class="pre">int</span> <span class="pre">*,</span> <span class="pre">unsigned</span> <span class="pre">int);</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">int</span> <span class="pre">uint_fetch_and_add(unsigned</span> <span class="pre">int</span> <span class="pre">*,</span> <span class="pre">unsigned</span> <span class="pre">int);</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">int</span> <span class="pre">uint_fetch_and_sub(unsigned</span> <span class="pre">int</span> <span class="pre">*,</span> <span class="pre">unsigned</span> <span class="pre">int);</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">int</span> <span class="pre">uint_fetch_and_and(unsigned</span> <span class="pre">int</span> <span class="pre">*,</span> <span class="pre">unsigned</span> <span class="pre">int);</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">int</span> <span class="pre">uint_fetch_and_or(unsigned</span> <span class="pre">int</span> <span class="pre">*,</span> <span class="pre">unsigned</span> <span class="pre">int);</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">int</span> <span class="pre">uint_fetch_and_xor(unsigned</span> <span class="pre">int</span> <span class="pre">*,</span> <span class="pre">unsigned</span> <span class="pre">int);</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">int</span> <span class="pre">uint_fetch_and_nand(unsigned</span> <span class="pre">int</span> <span class="pre">*,</span> <span class="pre">unsigned</span> <span class="pre">int);</span></code></p>
 </div>
 <div class="section" id="wchar-atomic-functions">
 <h2>wchar atomic functions:<a class="headerlink" href="#wchar-atomic-functions" title="Permalink to this headline">¶</a></h2>
@@ -454,10 +454,10 @@ are listed below:</p>
     <ul>
         <li>
           &larr;
-          <a href="bytearray_example.html" title="Previous document">Bytearray Example:</a>
+          <a href="bytearray_example.html" title="Previous document">Bytearray/set/string Example:</a>
         </li>
         <li>
-          <a href="bytearray_api.html" title="Next document">Set API:</a>
+          <a href="bytearray_api.html" title="Next document">Bytearray API:</a>
           &rarr;
         </li>
     </ul>
@@ -489,7 +489,7 @@ are listed below:</p>
 <h3>Navigation</h3>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="ctypes_example.html">ctypes Example:</a></li>
-<li class="toctree-l1"><a class="reference internal" href="bytearray_example.html">Bytearray Example:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bytearray_example.html">Bytearray/set/string Example:</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">ctypes API Referennce</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#shared-atomic-loaddll">shared_atomic.loaddll()</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#integer-types-support-17-kinds-of-apis-could-be-used-to-achieve-atomic-operations">Integer types support 17 kinds of APIs could be used to achieve atomic operations,</a></li>
@@ -512,17 +512,17 @@ are listed below:</p>
 <li class="toctree-l2"><a class="reference internal" href="#long-double-atomic-functions">long double atomic functions:</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="bytearray_api.html">Set API:</a></li>
-<li class="toctree-l1"><a class="reference internal" href="string_api.html">Bytearray API:</a></li>
-<li class="toctree-l1"><a class="reference internal" href="set_api.html">Bytearray API:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bytearray_api.html">Bytearray API:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="string_api.html">String API:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="set_api.html">Set API:</a></li>
 </ul>
 
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="bytearray_example.html" title="previous chapter">Bytearray Example:</a></li>
-      <li>Next: <a href="bytearray_api.html" title="next chapter">Set API:</a></li>
+      <li>Previous: <a href="bytearray_example.html" title="previous chapter">Bytearray/set/string Example:</a></li>
+      <li>Next: <a href="bytearray_api.html" title="next chapter">Bytearray API:</a></li>
   </ul></li>
 </ul>
 </div>

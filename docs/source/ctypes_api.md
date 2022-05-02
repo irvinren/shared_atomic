@@ -286,22 +286,35 @@ floating types supports only 1 kind,
 ## uint atomic functions:
 
 `void uint_store(unsigned int *, unsigned int *);`
+
 `unsigned int uint_get_and_set(unsigned int *, unsigned int);`
+
 `void uint_shift(unsigned int *, unsigned int *, unsigned int *);`
+
 `_Bool uint_compare_and_set(unsigned int *, unsigned int *, unsigned int);`
 
 `unsigned int uint_add_and_fetch(unsigned int *, unsigned int);`
+
 `unsigned int uint_sub_and_fetch(unsigned int *, unsigned int);`
+
 `unsigned int uint_and_and_fetch(unsigned int *, unsigned int);`
+
 `unsigned int uint_or_and_fetch(unsigned int *, unsigned int);`
+
 `unsigned int uint_xor_and_fetch(unsigned int *, unsigned int);`
+
 `unsigned int uint_nand_and_fetch(unsigned int *, unsigned int);`
 
 `unsigned int uint_fetch_and_add(unsigned int *, unsigned int);`
+
 `unsigned int uint_fetch_and_sub(unsigned int *, unsigned int);`
+
 `unsigned int uint_fetch_and_and(unsigned int *, unsigned int);`
+
 `unsigned int uint_fetch_and_or(unsigned int *, unsigned int);`
+
 `unsigned int uint_fetch_and_xor(unsigned int *, unsigned int);`
+
 `unsigned int uint_fetch_and_nand(unsigned int *, unsigned int);`
 
 ## wchar atomic functions:

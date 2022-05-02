@@ -23,7 +23,7 @@ class atomic_string:
         :param mode: the mode in which the string will be shared. 'singleprocessing' or 's' for single process, 'multiprocessing' or 'm' for multiprocessing, on windows platform, only singleprocessing is supported, setting it to 'm' or 'multiprocessing' will be ignored.
         :param length: the expected length after padding/trimming for the input value, if not specified, no padding or trimming performed, use original value.
         :param paddingdirection: right, or left side the padding bytes would be added if not specified, pad to the right side, use 'right' or 'r' to specify right side, use 'left' or 'l' to specify the left side.
-        :param paddingbytes: bytes to pad to the original bytes, by default b'\\0' can be multiple bytes like b'ab', will be padded to the original bytes in circulation until the expected length is reached.
+        :param paddingstr: string to pad to the original bytes, by default '\\0' can be multiple bytes like b'ab', will be padded to the original bytes in circulation until the expected length is reached.
         :param trimming_direction: if initial bytes are longer, on which side the bytes will be trimmed. By default, on the right side, use 'right' or 'r' to specify right side, use 'left' or 'l' to specify the left side.
         """
 
@@ -174,9 +174,9 @@ class atomic_string:
     def _rpad_zero(self, input: bytes)->bytes:
         r"""
         right pad zero to the input string
-        :param input: input str
+        :param input: input bytes
 
-        :return: right padded string '\\0' to self.size -1
+        :return: right padded bytes b'\\0' to self.size -1
         """
         input_length = len(input)
         if input_length < self.size-1:
@@ -210,8 +210,8 @@ class atomic_string:
     def get_string(self):
         r"""
         Get all the bytes from the string atomically
-        :param trim: if True, the leading '\\0' would be trimmed, by default: True
 
+        :param trim: if True, the leading '\\0' would be trimmed, by default: True
         :return: all the bytes in the string
         """
         result = self.type(0)
@@ -228,7 +228,7 @@ class atomic_string:
         """
         Set the value in the string,
         if the new data is longer than the original size of the string.
-        it will expand the array accordingly which would lose atomicy.
+        it will expand the string accordingly which would lose atomicy.
         the size of the string can be check with self.size
 
         :param data: input string
@@ -271,12 +271,12 @@ class atomic_string:
         trim or pad the original contents in the string
         to a new length, the new length should be no longer than 8 bytes,
         the original string wll be replaced with new string, if the original
-        array is shared between threads/processes, other threads/processes
+        string is shared between threads/processes, other threads/processes
         will wouldn't be aware of the change, still use the old string.
 
         :param newlength: the expected new length of the original bytes.
         :param paddingdirection: if longer than original, left or right sidethe original bytes should be padded, by default right side,use 'right' or 'r' to specify right side, use 'left' or 'l' to specify the left side.
-        :param paddingbytes: bytes to pad to the original bytes, by default b'\\0' can be multiple bytes like b'ab', will be padded to the original bytes in circulation until the expected length is reached.
+        :param paddingstr: bytes to pad to the original bytes, by default '\\0' can be multiple bytes like b'ab', will be padded to the original bytes in circulation until the expected length is reached.
         :param trimming_direction: if shorted than original, left or right side the original bytes should be padded,use 'right' or 'r' to specify right side,use 'left' or 'l' to specify the left side.
         :return: None
         """
