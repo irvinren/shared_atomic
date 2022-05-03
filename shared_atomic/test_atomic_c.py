@@ -6,8 +6,9 @@ Created on 29 Mar 2022
 import pytest
 from multiprocessing import Value, Process
 from threading import Thread
+from threading import RLock as ThreadLock
+
 import ctypes
-import os
 import re
 import sys
 from shared_atomic import loaddll
@@ -359,10 +360,15 @@ def test_thread_atomic():
     v = ctypes.c_size_t(2 ** 63 - 1)
     vref = ctypes.byref(v)
 
+    def thread_atomic_run(b):
+        for j in range(10000):
+            atomic.size_t_sub_and_fetch(b,ctypes.c_size_t(100))
+
+
     threadlist=[]
 
     for i in range(10000):
-        threadlist.append(Thread(target=atomic.size_t_sub_and_fetch, args=(vref, ctypes.c_size_t(100))))
+        threadlist.append(Thread(target=thread_atomic_run, args=(vref, )))
 
     for i in range(10000):
         threadlist[i].start()
@@ -370,7 +376,37 @@ def test_thread_atomic():
     for i in range(10000):
         threadlist[i].join()
 
-    assert v.value == 2 ** 63 - 1 - 100 * 10000
+    assert v.value == 2 ** 63 - 1 - 100 * 10000 * 10000
+
+
+def test_thread_native_atomic():
+    """
+    test single process multiple threads
+    :return: None
+    """
+    v = 2 ** 63 - 1
+
+    threadlist = []
+    lock = ThreadLock()
+
+    def thread_native_run():
+        nonlocal lock
+        nonlocal v
+        lock.acquire()
+        for j in range(1000):
+            v -= 100
+        lock.release()
+
+    for i in range(10000):
+        threadlist.append(Thread(target=thread_native_run))
+
+    for i in range(10000):
+        threadlist[i].start()
+
+    for i in range(10000):
+        threadlist[i].join()
+
+    assert v == 2 ** 63 - 1 - 100 * 1000 * 10000
 
 if sys.platform in ('linux','darwin'):
     def test_processing_atomic():
@@ -381,9 +417,13 @@ if sys.platform in ('linux','darwin'):
         v = Value(ctypes.c_size_t, 2 ** 63 - 1, lock=False)
         vref = ctypes.byref(v)
 
+        def process_run(vref):
+            for i in range(10000):
+                atomic.size_t_sub_and_fetch(vref, ctypes.c_size_t(100))
+
         processlist = []
         for i in range(10000):
-            processlist.append(Process(target=atomic.size_t_sub_and_fetch, args=(vref, ctypes.c_size_t(100))))
+            processlist.append(Process(target=process_run, args=(vref,)))
 
         for i in range(10000):
             processlist[i].start()
@@ -391,7 +431,34 @@ if sys.platform in ('linux','darwin'):
         for i in range(10000):
             processlist[i].join()
 
-        assert v.value == 2 ** 63 - 1 - 100 * 10000
+        assert v.value == 2 ** 63 - 1 - 100 * 10000 * 10000
+
+    def test_processing_native_atomic():
+        """
+        test multiple process
+        :return: None
+        """
+
+        v = Value(ctypes.c_size_t, 2 ** 63 - 1, lock=True)
+
+        def process_native_run():
+            nonlocal v
+            with v.get_lock():
+                for i in range(10000):
+                    v.value -= 100
+
+        processlist = []
+        for i in range(10000):
+            processlist.append(Process(target=process_native_run))
+
+        for i in range(10000):
+            processlist[i].start()
+
+        for i in range(10000):
+            processlist[i].join()
+
+        assert v.value == 2 ** 63 - 1 - 100 * 10000 * 10000
+
 
 if sys.platform == 'darwin':
     """

@@ -4,7 +4,10 @@ from distutils.core import setup as distutils_setup
 from setuptools import setup as setuptools_setup
 from shared_atomic import atomic_setup
 
-__version__="2.1.3"
+
+
+
+__version__="2.1.4"
 __package_name__='shared_atomic'
 __author__="Xiquan Ren"
 __author_email__="xiquanren@yandex.com"
@@ -15,7 +18,26 @@ __packages__=['shared_atomic']
 with open("readme.rst") as f:
     readme = f.read()
 
+
+
+
 if sys.platform in('darwin','linux'):
+    ext = atomic_setup.ffi.distutils_extension(tmpdir='build', verbose=True)
+
+    with open(ext.sources[0],'r+t') as f:
+        fixed = False
+        new_context = ''
+        for line in f.readlines():
+            if line.strip() not in ('Py_BEGIN_ALLOW_THREADS', 'Py_END_ALLOW_THREADS'):
+                new_context += line
+            else:
+                fixed = True
+        if not fixed:
+            raise ValueError("Didn't find Gil lock")
+        f.truncate(0)
+        f.seek(0)
+        f.writelines(new_context)
+
     distutils_setup(
         name=__package_name__,
         version=__version__,
@@ -24,7 +46,8 @@ if sys.platform in('darwin','linux'):
         description=__description__,
         url=__url__,
         long_description=readme,
-        ext_modules=[atomic_setup.ffi.distutils_extension()],
+        ext_modules=[ext],
+        #ext_modules=cythonize([Extension("atomic", ["shared_atomic/atomic.pyx"])]),
         #cffi_modules=["shared_atomic/atomic_setup.py:ffi"],
         packages=__packages__,
         data_files=[('shared_atomic',['shared_atomic/atomic_csource.c',
@@ -49,3 +72,5 @@ elif sys.platform == 'win32':
         ],
 		include_package_data=True
     )
+
+

@@ -167,7 +167,6 @@ unsigned long ulong_fetch_and_or(unsigned long *, unsigned long);
 unsigned long ulong_fetch_and_xor(unsigned long *, unsigned long);
 unsigned long ulong_fetch_and_nand(unsigned long *, unsigned long);
 
-
 void size_t_store(size_t *, size_t *);
 size_t size_t_get_and_set(size_t *, size_t);
 void size_t_shift(size_t *v, size_t *, size_t *);
