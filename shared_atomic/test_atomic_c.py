@@ -383,7 +383,7 @@ def test_thread_atomic():
     for i in range(10000):
         threadlist[i].join()
 
-    assert v.get() == 2 ** 63 - 1 - 100 * 1000 * 10000
+    assert a[0] == 2 ** 63 - 1 - 100 * 1000 * 10000
 
 
 def test_thread_native_atomic():
