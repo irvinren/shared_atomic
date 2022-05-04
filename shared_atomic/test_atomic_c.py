@@ -396,10 +396,10 @@ def test_thread_native_atomic():
     def thread_native_run():
         nonlocal lock
         nonlocal v
-        lock.acquire()
         for j in range(1000):
+            lock.acquire()
             v -= 100
-        lock.release()
+            lock.release()
 
     for i in range(10000):
         threadlist.append(Thread(target=thread_native_run))
@@ -446,8 +446,8 @@ if sys.platform in ('linux','darwin'):
 
         def process_native_run():
             nonlocal v
-            with v.get_lock():
-                for i in range(1000):
+            for i in range(1000):
+                with v.get_lock():
                     v.value -= 100
 
         processlist = []
