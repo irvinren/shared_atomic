@@ -1,9 +1,13 @@
+void * mmap(void *addr, size_t len, int prot, int flags, int fd, off_t offset);
+int munmap(void *addr, size_t len);
 
+_Bool bool_load(_Bool *);
 void bool_store(_Bool *, _Bool *);
 _Bool bool_get_and_set(_Bool *, _Bool);
 void bool_shift(_Bool *v, _Bool *, _Bool *);
 _Bool bool_compare_and_set(_Bool *, _Bool *, _Bool);
 
+char byte_load(char *);
 void byte_store(char *, char *);
 char byte_get_and_set(char *, char);
 void byte_shift(char *v, char *, char*);
@@ -23,6 +27,7 @@ char byte_fetch_and_or(char *, char);
 char byte_fetch_and_xor(char *, char);
 char byte_fetch_and_nand(char *, char);
 
+unsigned char ubyte_load(unsigned char *);
 void ubyte_store(unsigned char *, unsigned char *);
 unsigned char ubyte_get_and_set(unsigned char *, unsigned char);
 void ubyte_shift(unsigned char *, unsigned char *, unsigned char *);
@@ -42,6 +47,7 @@ unsigned char ubyte_fetch_and_or(unsigned char *, unsigned char);
 unsigned char ubyte_fetch_and_xor(unsigned char *, unsigned char);
 unsigned char ubyte_fetch_and_nand(unsigned char *, unsigned char);
 
+short short_load(short *);
 void short_store(short *, short *);
 short short_get_and_set(short *, short);
 void short_shift(short *v, short *, short *);
@@ -61,6 +67,7 @@ short short_fetch_and_or(short *, short);
 short short_fetch_and_xor(short *, short);
 short short_fetch_and_nand(short *, short);
 
+unsigned short ushort_load(unsigned short *);
 void ushort_store(unsigned short *, unsigned short *);
 unsigned short ushort_get_and_set(unsigned short *, unsigned short);
 void ushort_shift(unsigned short *, unsigned short *, unsigned short *);
@@ -80,6 +87,7 @@ unsigned short ushort_fetch_and_or(unsigned short *, unsigned short);
 unsigned short ushort_fetch_and_xor(unsigned short *, unsigned short);
 unsigned short ushort_fetch_and_nand(unsigned short *, unsigned short);
 
+int int_load(int *);
 void int_store(int *, int *);
 int int_get_and_set(int *, int);
 void int_shift(int *, int *, int* );
@@ -99,6 +107,7 @@ int int_fetch_and_or(int *, int);
 int int_fetch_and_xor(int *, int);
 int int_fetch_and_nand(int *, int);
 
+unsigned int uint_load(unsigned int *);
 void uint_store(unsigned int *, unsigned int *);
 unsigned int uint_get_and_set(unsigned int *, unsigned int);
 void uint_shift(unsigned int *, unsigned int *, unsigned int *);
@@ -118,6 +127,7 @@ unsigned int uint_fetch_and_or(unsigned int *, unsigned int);
 unsigned int uint_fetch_and_xor(unsigned int *, unsigned int);
 unsigned int uint_fetch_and_nand(unsigned int *, unsigned int);
 
+wchar_t wchar_load(wchar_t *);
 void wchar_store(wchar_t *, wchar_t *);
 wchar_t wchar_get_and_set(wchar_t *, wchar_t);
 void wchar_shift(wchar_t *, wchar_t *, wchar_t*);
@@ -128,7 +138,7 @@ wchar_t wchar_sub_and_fetch(wchar_t *, wchar_t);
 wchar_t wchar_fetch_and_add(wchar_t *, wchar_t);
 wchar_t wchar_fetch_and_sub(wchar_t *, wchar_t);
 
-
+long long_load(long *);
 void long_store(long *, long *);
 void long_shift(long *, long *, long*);
 long long_get_and_set(long *, long);
@@ -148,6 +158,7 @@ long long_fetch_and_or(long *, long);
 long long_fetch_and_xor(long *, long);
 long long_fetch_and_nand(long *, long);
 
+unsigned long ulong_load(unsigned long *);
 void ulong_store(unsigned long *, unsigned long *);
 unsigned long ulong_get_and_set(unsigned long *, unsigned long );
 void ulong_shift(unsigned long *, unsigned long *, unsigned long *);
@@ -167,6 +178,7 @@ unsigned long ulong_fetch_and_or(unsigned long *, unsigned long);
 unsigned long ulong_fetch_and_xor(unsigned long *, unsigned long);
 unsigned long ulong_fetch_and_nand(unsigned long *, unsigned long);
 
+size_t size_t_load(size_t *);
 void size_t_store(size_t *, size_t *);
 size_t size_t_get_and_set(size_t *, size_t);
 void size_t_shift(size_t *v, size_t *, size_t *);
@@ -186,6 +198,7 @@ size_t size_t_fetch_and_or(size_t *, size_t);
 size_t size_t_fetch_and_xor(size_t *, size_t);
 size_t size_t_fetch_and_nand(size_t *, size_t);
 
+ssize_t ssize_t_load(ssize_t *);
 void ssize_t_store(ssize_t *, ssize_t *);
 ssize_t ssize_t_get_and_set(ssize_t *, ssize_t);
 void ssize_t_shift(ssize_t *, ssize_t *, ssize_t *);
@@ -205,6 +218,7 @@ ssize_t ssize_t_fetch_and_or(ssize_t *, ssize_t);
 ssize_t ssize_t_fetch_and_xor(ssize_t *, ssize_t);
 ssize_t ssize_t_fetch_and_nand(ssize_t *, ssize_t);
 
+long long longlong_load(long long *);
 void longlong_store(long long *, long long *);
 long long longlong_get_and_set(long long *, long long);
 void longlong_shift(long long *, long long *, long long *);
@@ -224,6 +238,7 @@ long long longlong_fetch_and_or(long long *, long long);
 long long longlong_fetch_and_xor(long long *, long long);
 long long longlong_fetch_and_nand(long long *, long long);
 
+unsigned long long ulonglong_load(unsigned long long *);
 void ulonglong_store(unsigned long long *, unsigned long long *);
 unsigned long long ulonglong_get_and_set(unsigned long long *, unsigned long long);
 void ulonglong_shift(unsigned long long *, unsigned long long *, unsigned long long *);

@@ -2,7 +2,9 @@
 #include <sys/types.h>
 
 
-
+_Bool bool_load(_Bool *ptr){
+    return __atomic_load_n(ptr, __ATOMIC_SEQ_CST);
+}
 void bool_store(_Bool *v, _Bool *n) {
     __atomic_store(v, n, __ATOMIC_SEQ_CST);
 };
@@ -16,7 +18,9 @@ _Bool bool_compare_and_set(_Bool *v, _Bool *e, _Bool n) {
     return __atomic_compare_exchange_n(v, e, n, 0, __ATOMIC_SEQ_CST, __ATOMIC_SEQ_CST);
 };
 
-
+char byte_load(char *ptr){
+    return __atomic_load_n(ptr, __ATOMIC_SEQ_CST);
+}
 void byte_store(char *v, char *n) {
     __atomic_store(v, n, __ATOMIC_SEQ_CST);
 };
@@ -70,7 +74,9 @@ char byte_fetch_and_nand(char *v, char i) {
 
 
 
-
+unsigned char ubyte_load(unsigned char *ptr){
+    return __atomic_load_n(ptr, __ATOMIC_SEQ_CST);
+}
 void ubyte_store(unsigned char *v, unsigned char *n) {
     __atomic_store(v, n, __ATOMIC_SEQ_CST);
 };
@@ -123,7 +129,9 @@ unsigned char ubyte_fetch_and_nand(unsigned char *v, unsigned char i) {
     return __atomic_fetch_nand(v, i, __ATOMIC_SEQ_CST);
 };
 
-
+short short_load(short *ptr){
+    return __atomic_load_n(ptr, __ATOMIC_SEQ_CST);
+}
 void short_store(short *v, short *n) {
     __atomic_store(v, n, __ATOMIC_SEQ_CST);
 };
@@ -176,6 +184,9 @@ short short_fetch_and_nand(short *v, short i) {
 };
 
 
+unsigned short ushort_load(unsigned short *ptr){
+    return __atomic_load_n(ptr, __ATOMIC_SEQ_CST);
+};
 
 void ushort_store(unsigned short *v, unsigned short *n) {
     __atomic_store(v, n, __ATOMIC_SEQ_CST);
@@ -228,6 +239,9 @@ unsigned short ushort_fetch_and_nand(unsigned short *v, unsigned short i) {
     return __atomic_fetch_nand(v, i, __ATOMIC_SEQ_CST);
 };
 
+wchar_t wchar_load(wchar_t *ptr){
+    return __atomic_load_n(ptr, __ATOMIC_SEQ_CST);
+};
 
 void wchar_store(wchar_t *v, wchar_t *n) {
     __atomic_store(v, n, __ATOMIC_SEQ_CST);
@@ -255,7 +269,9 @@ wchar_t wchar_fetch_and_sub(wchar_t *v, wchar_t i) {
     return __atomic_fetch_sub(v, i, __ATOMIC_SEQ_CST);
 };
 
-
+int int_load(int *ptr){
+    return __atomic_load_n(ptr, __ATOMIC_SEQ_CST);
+};
 
 void int_store(int *v, int *n) {
     __atomic_store(v, n, __ATOMIC_SEQ_CST);
@@ -308,6 +324,9 @@ int int_fetch_and_nand(int *v, int i) {
     return __atomic_fetch_nand(v, i, __ATOMIC_SEQ_CST);
 };
 
+unsigned int uint_load(unsigned int *ptr){
+    return __atomic_load_n(ptr, __ATOMIC_SEQ_CST);
+};
 void uint_store(unsigned int *v, unsigned int *n) {
     __atomic_store(v, n, __ATOMIC_SEQ_CST);
 };
@@ -359,7 +378,9 @@ unsigned int uint_fetch_and_nand(unsigned int *v, unsigned int i) {
     return __atomic_fetch_nand(v, i, __ATOMIC_SEQ_CST);
 };
 
-
+long long_load(long *ptr){
+    return __atomic_load_n(ptr, __ATOMIC_SEQ_CST);
+};
 void long_store(long *v, long *n) {
     __atomic_store(v, n, __ATOMIC_SEQ_CST);
 };
@@ -412,7 +433,9 @@ long long_fetch_and_nand(long *v, long i) {
 };
 
 
-
+unsigned long ulong_load(unsigned long *ptr){
+    return __atomic_load_n(ptr, __ATOMIC_SEQ_CST);
+};
 void ulong_store(unsigned long *v, unsigned long *n) {
     __atomic_store(v, n, __ATOMIC_SEQ_CST);
 };
@@ -464,7 +487,9 @@ unsigned long ulong_fetch_and_nand(unsigned long *v, unsigned long i) {
     return __atomic_fetch_nand(v, i, __ATOMIC_SEQ_CST);
 };
 
-
+size_t size_t_load(size_t *ptr){
+    return __atomic_load_n(ptr, __ATOMIC_SEQ_CST);
+};
 void size_t_store(size_t *v, size_t *n) {
     __atomic_store(v, n, __ATOMIC_SEQ_CST);
 };
@@ -514,6 +539,10 @@ size_t size_t_fetch_and_xor(size_t *v, size_t i) {
 };
 size_t size_t_fetch_and_nand(size_t *v, size_t i) {
     return __atomic_fetch_nand(v, i, __ATOMIC_SEQ_CST);
+};
+
+ssize_t ssize_t_load(ssize_t *ptr){
+    return __atomic_load_n(ptr, __ATOMIC_SEQ_CST);
 };
 
 void ssize_t_store(ssize_t *v, ssize_t *n) {
@@ -567,6 +596,9 @@ ssize_t ssize_t_fetch_and_nand(ssize_t *v, ssize_t i) {
     return __atomic_fetch_nand(v, i, __ATOMIC_SEQ_CST);
 };
 
+long long longlong_load(long long *ptr){
+    return __atomic_load_n(ptr, __ATOMIC_SEQ_CST);
+};
 void longlong_store(long long *v, long long *n) {
     __atomic_store(v, n, __ATOMIC_SEQ_CST);
 };
@@ -618,6 +650,9 @@ long long longlong_fetch_and_nand(long long *v, long long i) {
     return __atomic_fetch_nand(v, i, __ATOMIC_SEQ_CST);
 };
 
+unsigned long long ulonglong_load(unsigned long long *ptr){
+    return __atomic_load_n(ptr, __ATOMIC_SEQ_CST);
+};
 void ulonglong_store(unsigned long long *v, unsigned long long *n) {
     __atomic_store(v, n, __ATOMIC_SEQ_CST);
 };

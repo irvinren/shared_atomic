@@ -4,6 +4,28 @@ from pathlib import Path
 import sysconfig
 win_ddl = None
 
+def searchdll():
+    result = None
+    filepatten = {
+        'darwin': {'PyPy': 'shared_atomic_.abi3.so',
+                   '': 'shared_atomic_.abi3.so'},
+        'linux': {'PyPy': 'shared_atomic_.abi3.so',
+                  '': 'shared_atomic_.abi3.so'},
+    }
+    for search_path in sys.path:
+        dll_list = Path(search_path).glob(
+            filepatten[sys.platform]
+            ['' if sysconfig.get_config_var('implementation') is None else sysconfig.get_config_var('implementation')]
+        )
+        try:
+            result = next(dll_list)
+            break
+        except StopIteration:
+            continue
+    if not result:
+        raise FileNotFoundError(f'{filepatten} not found in search path!')
+    return result
+
 def loaddll():
     """
     function to load the dynamiclly linked library to scope
@@ -11,26 +33,9 @@ def loaddll():
     :return: class with atomic operation functions as class method
     """
 
-    result = None
     if sys.platform in ('darwin', 'linux'):
-        filepatten = {
-            'darwin': {'PyPy': 'shared_atomic.pypy*-darwin.so',
-                       '': 'shared_atomic.cpython-*-darwin.so'},
-            'linux': {'PyPy': 'shared_atomic.pypy*-linux-gnu.so',
-                      '': 'shared_atomic.cpython-*-linux-gnu.so'},
-        }
-        for search_path in sys.path:
-            dll_list = Path(search_path).glob(
-                filepatten[sys.platform]
-                ['' if sysconfig.get_config_var('implementation') is None else sysconfig.get_config_var('implementation')]
-            )
-            try:
-                result = next(dll_list)
-                break
-            except StopIteration:
-                continue
-        if not result:
-            raise FileNotFoundError(f'{filepatten} not found in search path!')
+        result = searchdll()
+
         lib = ctypes.CDLL(result)
 
         # bool functions
@@ -1472,11 +1477,14 @@ def loaddll():
 
         return result_dll
 
-
     else:
         return
 
 
+def loadffiddl():
+    from shared_atomic_ import ffi
+    from shared_atomic_ import lib
+    return ffi, lib
 
 from shared_atomic.atomic_bytearray import atomic_bytearray
 from shared_atomic.atomic_string import atomic_string
@@ -1484,6 +1492,7 @@ from shared_atomic.atomic_string import atomic_string
 try:
     import bitarray
     from shared_atomic.atomic_set import atomic_set
+    from shared_atomic.sharable import sharable64
 except:
     ImportError
     pass

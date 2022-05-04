@@ -23,8 +23,7 @@ with open("readme.rst") as f:
 
 if sys.platform in('darwin','linux'):
     ext = atomic_setup.ffi.distutils_extension(tmpdir='build', verbose=True)
-
-    with open(ext.sources[0],'r+t') as f:
+    with open(ext.sources[0], 'r+t') as f:
         fixed = False
         new_context = ''
         for line in f.readlines():
@@ -48,11 +47,12 @@ if sys.platform in('darwin','linux'):
         long_description=readme,
         ext_modules=[ext],
         #ext_modules=cythonize([Extension("atomic", ["shared_atomic/atomic.pyx"])]),
-        #cffi_modules=["shared_atomic/atomic_setup.py:ffi"],
+        cffi_modules=["shared_atomic/atomic_setup.py:ffi"],
         packages=__packages__,
         data_files=[('shared_atomic',['shared_atomic/atomic_csource.c',
                                         'shared_atomic/atomic_csource.h']),
                     ('', ['readme.rst','LICENSE'])]
+
     )
 elif sys.platform == 'win32':
     if sysconfig.get_config_var('implementation') == 'PyPy':

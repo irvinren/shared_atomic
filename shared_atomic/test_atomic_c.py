@@ -12,10 +12,14 @@ import ctypes
 import re
 import sys
 from shared_atomic import loaddll
+from shared_atomic import loadffiddl
+from shared_atomic import sharable64
+
+
 import random
 
 atomic = None
-
+atomicffi, lib = None, None
 
 if sys.platform in ('linux','darwin'):
     types = ('ctypes.c_bool',
@@ -180,7 +184,7 @@ def setup_function():
     pre function for pytest
     :return: None
     """
-    global atomic
+    global atomic, atomicffi, lib
     # if sys.platform in ('darwin','linux'):
     #     dlltype = ctypes.CDLL
     #     os.chdir('/Users/philren/.local/share/virtualenvs/spark-examples--HrH57AW/lib/python3.6/site-packages')
@@ -192,7 +196,8 @@ def setup_function():
     #atomic = ctypes.LibraryLoader(dlltype).LoadLibrary(filename)
 
 
-    atomic=loaddll()
+    atomic = loaddll()
+    atomicffi, lib = loadffiddl()
 
 def teardown_function():
     """
@@ -357,18 +362,21 @@ def test_thread_atomic():
     test single process multiple threads
     :return: None
     """
-    v = ctypes.c_size_t(2 ** 63 - 1)
-    vref = ctypes.byref(v)
+    v = sharable64(2 ** 63 - 1)
+    lock = ThreadLock()
 
     def thread_atomic_run(b):
-        for j in range(10000):
-            atomic.size_t_sub_and_fetch(b,ctypes.c_size_t(100))
+        nonlocal lock
+        lock.acquire()
+        for j in range(1000):
+            lib.longlong_sub_and_fetch(b,100)
+        lock.release()
 
 
     threadlist=[]
 
     for i in range(10000):
-        threadlist.append(Thread(target=thread_atomic_run, args=(vref, )))
+        threadlist.append(Thread(target=thread_atomic_run, args=(v.reference, )))
 
     for i in range(10000):
         threadlist[i].start()
@@ -376,7 +384,7 @@ def test_thread_atomic():
     for i in range(10000):
         threadlist[i].join()
 
-    assert v.value == 2 ** 63 - 1 - 100 * 10000 * 10000
+    assert v.get() == 2 ** 63 - 1 - 100 * 1000 * 10000
 
 
 def test_thread_native_atomic():
@@ -418,7 +426,7 @@ if sys.platform in ('linux','darwin'):
         vref = ctypes.byref(v)
 
         def process_run(vref):
-            for i in range(10000):
+            for i in range(1000):
                 atomic.size_t_sub_and_fetch(vref, ctypes.c_size_t(100))
 
         processlist = []
@@ -431,7 +439,7 @@ if sys.platform in ('linux','darwin'):
         for i in range(10000):
             processlist[i].join()
 
-        assert v.value == 2 ** 63 - 1 - 100 * 10000 * 10000
+        assert v.value == 2 ** 63 - 1 - 100 * 1000 * 10000
 
     def test_processing_native_atomic():
         """
@@ -444,7 +452,7 @@ if sys.platform in ('linux','darwin'):
         def process_native_run():
             nonlocal v
             with v.get_lock():
-                for i in range(10000):
+                for i in range(1000):
                     v.value -= 100
 
         processlist = []
@@ -457,7 +465,7 @@ if sys.platform in ('linux','darwin'):
         for i in range(10000):
             processlist[i].join()
 
-        assert v.value == 2 ** 63 - 1 - 100 * 10000 * 10000
+        assert v.value == 2 ** 63 - 1 - 100 * 1000 * 10000
 
 
 if sys.platform == 'darwin':
