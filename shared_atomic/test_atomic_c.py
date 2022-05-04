@@ -363,14 +363,10 @@ def test_thread_atomic():
     :return: None
     """
     v = sharable64(2 ** 63 - 1)
-    lock = ThreadLock()
 
     def thread_atomic_run(b):
-        nonlocal lock
-        lock.acquire()
         for j in range(1000):
             lib.longlong_sub_and_fetch(b,100)
-        lock.release()
 
 
     threadlist=[]
@@ -422,16 +418,15 @@ if sys.platform in ('linux','darwin'):
         test multiple process
         :return: None
         """
-        v = Value(ctypes.c_size_t, 2 ** 63 - 1, lock=False)
-        vref = ctypes.byref(v)
+        a = sharable64(2 ** 63 - 1)
 
-        def process_run(vref):
+        def process_run(reference):
             for i in range(1000):
-                atomic.size_t_sub_and_fetch(vref, ctypes.c_size_t(100))
+                atomic.ulonglong_sub_and_fetch(reference, 100)
 
         processlist = []
         for i in range(10000):
-            processlist.append(Process(target=process_run, args=(vref,)))
+            processlist.append(Process(target=process_run, args=(a.reference,)))
 
         for i in range(10000):
             processlist[i].start()
