@@ -23,6 +23,7 @@ with open("readme.rst") as f:
 
 if sys.platform in('darwin','linux'):
     ext = atomic_setup.ffi.distutils_extension(tmpdir='build', verbose=True)
+    '''
     with open(ext.sources[0], 'r+t') as f:
         fixed = False
         new_context = ''
@@ -36,6 +37,7 @@ if sys.platform in('darwin','linux'):
         f.truncate(0)
         f.seek(0)
         f.writelines(new_context)
+    '''
 
     distutils_setup(
         name=__package_name__,
