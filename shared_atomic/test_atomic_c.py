@@ -422,7 +422,7 @@ if sys.platform in ('linux','darwin'):
 
         def process_run(reference):
             for i in range(1000):
-                lib.ulonglong_sub_and_fetch(reference, 100)
+                lib.longlong_sub_and_fetch(reference, 100)
 
         processlist = []
         for i in range(10000):
