@@ -21,6 +21,10 @@ class sharable64(Generic[T]):
         int_value = int.from_bytes(encoded_value, byteorder='big', signed=True)
         lib.longlong_get_and_set(self.reference, int_value)
 
+    def __del__(self):
+        self.tempfile.close()
+        lib.munmap(self.reference, 8)
+
     def decode(self, input: bytes) ->T:
         if self.type == 'int_s':
             return int.from_bytes(input, byteorder='big', signed=True)
