@@ -434,7 +434,7 @@ if sys.platform in ('linux','darwin'):
         for i in range(10000):
             processlist[i].join()
 
-        assert v.value == 2 ** 63 - 1 - 100 * 1000 * 10000
+        assert a.get() == 2 ** 63 - 1 - 100 * 1000 * 10000
 
     def test_processing_native_atomic():
         """
