@@ -362,7 +362,10 @@ def test_thread_atomic():
     test single process multiple threads
     :return: None
     """
-    v = sharable64(2 ** 63 - 1)
+    #v = sharable64(2 ** 63 - 1)
+
+    a = atomicffi.new("long long *",1)
+    a[0] = 2 ** 63 - 1
 
     def thread_atomic_run(b):
         for j in range(1000):
@@ -372,7 +375,7 @@ def test_thread_atomic():
     threadlist=[]
 
     for i in range(10000):
-        threadlist.append(Thread(target=thread_atomic_run, args=(v.reference, )))
+        threadlist.append(Thread(target=thread_atomic_run, args=(a, )))
 
     for i in range(10000):
         threadlist[i].start()
