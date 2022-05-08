@@ -4,3 +4,4 @@ MANIFEST
 build/
 dist/
 docs/build/.DS_Store
+shared_atomic/__pycache__
