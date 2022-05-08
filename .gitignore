@@ -5,3 +5,7 @@ build/
 dist/
 docs/build/.DS_Store
 shared_atomic/__pycache__
+shared_atomic.egg-info
+.project
+.pydevproject
+__pycache__
