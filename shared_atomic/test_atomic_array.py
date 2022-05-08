@@ -1,5 +1,4 @@
 from shared_atomic import atomic_bytearray
-import ctypes
 import random
 import sys
 from threading import Thread
@@ -77,15 +76,6 @@ def setup_function():
     :return: None
     """
     global a
-    # if sys.platform in ('darwin','linux'):
-    #     dlltype = ctypes.CDLL
-    #     os.chdir('/Users/philren/.local/share/virtualenvs/spark-examples--HrH57AW/lib/python3.6/site-packages')
-    #     filename = 'shared_atomic.cpython-36m-darwin.so'
-    # elif sys.platform == "win32":
-    #     dlltype = ctypes.windll
-    # else:
-    #     return
-    #atomic = ctypes.LibraryLoader(dlltype).LoadLibrary(filename)
     a = atomic_bytearray(b'ab1234567', length=7)
 
 def teardown_function():
@@ -119,7 +109,6 @@ def test_resize():
 
 def test_bytes():
     a = atomic_bytearray(b'ab', length=7, paddingdirection='r', paddingbytes=b'012', mode='m')
-    #a.array_get_and_set(ctypes.c_ulonglong(int.from_bytes(b'ab', byteorder='big')))
     a.get_bytes() == b'ab01201'
     a.set_bytes(b'abc')
 

@@ -34,10 +34,25 @@ if sys.platform == 'linux':
 #define MAP_TYPE        0x0f            /* Mask for type of mapping */
 #define MAP_FIXED       0x10            /* Interpret addr exactly */
 #define MAP_ANONYMOUS   0x20            /* don\'t use a file */
+/* Permission flag for shmget.  */
+#define SHM_R           0400            /* or S_IRUGO from <linux/stat.h> */
+#define SHM_W           0200            /* or S_IWUGO from <linux/stat.h> */
 '''
 
 elif sys.platform == 'darwin':
-    header = 'typedef long long off_t;\n'
+    header = """
+typedef signed char             __int8_t;
+typedef unsigned char           __uint8_t;
+typedef short                   __int16_t;
+typedef unsigned short          __uint16_t;
+typedef int                     __int32_t;
+typedef unsigned int            __uint32_t;
+typedef long long               __int64_t;
+typedef unsigned long long      __uint64_t;
+typedef __int64_t               off_t;
+"""
+else:
+    header = ''
 
 with hfilepath.open() as hfile:
         header += ''.join(hfile.readlines())
@@ -63,6 +78,8 @@ result_link = result_include + ["-latomic"] if sys.platform == 'linux' else resu
 ffi.set_source('shared_atomic_', """
     #include <stddef.h>
     #include <sys/types.h>
+    #include <sys/mman.h>
+    #include <time.h>
     """ + header,
                sources=[str(cfilepath)],
                extra_compile_args=result_include,

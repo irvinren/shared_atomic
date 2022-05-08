@@ -9,6 +9,8 @@ Datatypes:
 - - [atomic_bytearray](./bytearray_api.md)
 - - [atomic_string](./string_api.md)
 - - [atomic_set](./set_api.md), package [bitarray>=2.4.0](https://pypi.org/project/bitarray/) is needed.
+- - [atomic_list](./list_api.md), package [bitarray>=2.4.0](https://pypi.org/project/bitarray/) is needed
+
 
 Requirement:
 - On Linux/MacOSX, 
@@ -27,6 +29,8 @@ For python atomic_bytearray api references, please visit [atomic_bytearray](./by
 
 For python atomic_string api references, please visit [atomic_string](./string_api.md).
 
+For python atomic_list api references, please visit [atomic_list](./list_api.md).
+
 For python atomic_set api references, please visit [atomic_set](./set_api.md).</big>
 
 ##
@@ -40,6 +44,7 @@ For python atomic_set api references, please visit [atomic_set](./set_api.md).</
    bytearray_api.md
    string_api.md
    set_api.md
+   list_api.md
  ```
  
  ![Python Logo](https://www.python.org/static/community_logos/python-logo.png)

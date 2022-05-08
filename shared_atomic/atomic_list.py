@@ -1,5 +1,6 @@
 import sys
 import ctypes
+import cython
 from typing import Iterable
 import math
 from bitarray import bitarray
@@ -16,7 +17,7 @@ elif sys.platform == "win32":
     from shared_atomic import load_wrapped_dll
     lib = load_wrapped_dll()
 
-class atomic_set:
+class atomic_list:
     """
     set provide atomic operations, the set should be no longer than 8 bytes
     """
@@ -33,10 +34,11 @@ class atomic_set:
         :param encoding: , character set, default 'utf-8'
         """
 
-        self.encoding = encoding
-        initial_set = set(initial)
 
-        full_data, self.initial_length = self.encode(initial_set)
+        self.encoding = encoding
+        initial_list = list(initial)
+
+        full_data, self.initial_length = self.encode(initial_list)
 
 
         if self.initial_length <= 4:
@@ -154,7 +156,7 @@ class atomic_set:
                 lib.munmap(self.array_reference, self.size)
                 self.array.close()
 
-    def decode(self, bits_in_bytes: bytes) -> set:
+    def decode(self, bits_in_bytes: bytes) -> list:
         """Function to decode the bytes to set
 
         :param bits_in_bytes:  bytes needs to be decoded
@@ -165,6 +167,7 @@ class atomic_set:
         bits.frombytes(bits_in_bytes)
         data_continue_flag = True
         i = 0
+
 
         meta_list = []
         while not bits[0]:
@@ -185,7 +188,7 @@ class atomic_set:
                     data_continue_flag = False
                 i += 3
 
-        result = set()
+        result = []
 
         for data_dict in meta_list:
             start_point = i
@@ -193,26 +196,26 @@ class atomic_set:
             length = data_dict['length']
 
             if kind == 0:
-                result.add(True if bits[start_point] else False)
+                result.append(True if bits[start_point] else False)
                 i += 1
             elif kind == 1:
-                result.add(ba2int(bits[start_point:start_point + length]))
+                result.append(ba2int(bits[start_point:start_point + length]))
                 i += length
             elif kind == 2:
                 str_bytes = bytes.fromhex(ba2hex(bits[start_point:start_point + length * 8]))
-                result.add(str_bytes.decode(self.encoding))
+                result.append(str_bytes.decode(self.encoding))
                 i += length * 8
             elif kind == 3:
-                result.add(bytes.fromhex(ba2hex(bits[start_point:start_point + length * 8])))
+                result.append(bytes.fromhex(ba2hex(bits[start_point:start_point + length * 8])))
                 i += length * 8
             else:
                 raise ('Type not supported!')
         return result
 
-    def encode(self, input_set: set) -> (int, int):
+    def encode(self, input_list: list) -> (int, int):
         """function to encode the input_set with specific character encoding
 
-        :param input_set: input set
+        :param input_list: input set
         :param encoding: character encoding
         :return: (data in integer representation, total length in bits)
         """
@@ -221,7 +224,7 @@ class atomic_set:
         data_bitarray = bitarray()
         data_prefix = 1
 
-        for i in input_set:
+        for i in input_list:
             hash(i)
             if item_num != 0:
                 data_prefix += 1
@@ -320,7 +323,7 @@ class atomic_set:
             newpointer = self.type(integer)
         self._array_store(self.array_reference, newpointer)
 
-    def get_set(self) -> set:
+    def get_list(self) -> list:
         r"""
         Get the set atomically
 
@@ -330,7 +333,7 @@ class atomic_set:
                               length=self.size, byteorder='big')
         return self.decode(result)
 
-    def set_set(self, data: set):
+    def set_list(self, data: list):
         """
         Set the value in the set,
         if the new data is longer than the original size of the set.
@@ -351,10 +354,10 @@ class atomic_set:
             newpointer = self.type(integer)
         self._array_store(self.array_reference, newpointer)
 
-    value = property(fget=get_set, fset=set_set, doc="same with get_set and set_set")
+    value = property(fget=get_list, fset=set_list, doc="same with get_list and set_list")
     int_value = property(fget=get_int, doc="same with get_int")
 
-    def set_store(self, i):
+    def list_store(self, i):
         """
         Atomically store contents from another set to the this set,
         if the other set is different with this one in size , the function will fail.
@@ -366,14 +369,13 @@ class atomic_set:
             raise ValueError("Input set has different size!")
         self._array_store(self.array_reference, i.array_reference)
 
-    def set_get_and_set(self, data: set) -> set:
+    def list_get_and_set(self, data: list) -> list:
         r"""
         Get and set atomically
 
         :param data: new data set
         :return: the original set
         """
-
 
         integer, length = self.encode(data)
         # if length > self.size:
@@ -382,7 +384,7 @@ class atomic_set:
                               length=self.size, byteorder='big')
         return self.decode(result)
 
-    def set_shift(self, i, j):
+    def list_shift(self, i, j):
         """
         Value exchange between 3 pointers in 2 groups atomically,
         store i in itself after store itself in j
@@ -398,7 +400,7 @@ class atomic_set:
         self._array_shift(self.array_reference,
                           i.array_reference, j.array_reference)
 
-    def set_compare_and_set(self, i, n: set) -> bool:
+    def list_compare_and_set(self, i, n: list) -> bool:
         """
         Compare and set atomically, This compares the contents of self
         with the contents of i. If equal, the operation is a read-modify-write
@@ -428,14 +430,14 @@ class atomic_set:
         :param newencode: new encoding, such as 'utf-8', 'utf-16-le'
         :return: None
         """
-        data = self.get_set()
+        data = self.get_list()
         prev_encoding = self.encoding
         self.encoding = newencode
         try:
-            self.set_set(data)
+            self.set_list(data)
         except ValueError:
             self.encoding = prev_encoding
-            self.set_set(data)
+            self.set_list(data)
             raise ValueError("New encoding took larger space than 8 bytes, cannot elongate!")
 
     if sys.platform in ('darwin', 'linux'):

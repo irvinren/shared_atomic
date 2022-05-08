@@ -90,11 +90,8 @@ the contents will be copied , other threads/processes would not be aware of the 
 <span class="sig-name descname"><span class="pre">get_string</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#shared_atomic.atomic_string.atomic_string.get_string" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get all the bytes from the string atomically</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>trim</strong> – if True, the leading ‘\0’ would be trimmed, by default: True</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>all the bytes in the string</p>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>all the bytes in the string</p>
 </dd>
 </dl>
 </dd></dl>
@@ -177,7 +174,7 @@ i.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="shared_atomic.atomic_string.atomic_string.string_get_and_set">
-<span class="sig-name descname"><span class="pre">string_get_and_set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#shared_atomic.atomic_string.atomic_string.string_get_and_set" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">string_get_and_set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#shared_atomic.atomic_string.atomic_string.string_get_and_set" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get and set atomically</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -276,11 +273,12 @@ if the other string is different with this one in size , the function will fail.
 <h3>Navigation</h3>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="ctypes_example.html">ctypes Example:</a></li>
-<li class="toctree-l1"><a class="reference internal" href="bytearray_example.html">Bytearray/set/string Example:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bytearray_example.html">Bytearray/set/list/string Example:</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ctypes_api.html">ctypes API Referennce</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bytearray_api.html">Bytearray API:</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">String API:</a></li>
 <li class="toctree-l1"><a class="reference internal" href="set_api.html">Set API:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="list_api.html">List API:</a></li>
 </ul>
 
 <div class="relations">

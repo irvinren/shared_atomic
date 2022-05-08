@@ -1,9 +1,9 @@
-# Bytearray/set/string Example:
+# Bytearray/set/list/string Example:
 
 You need the following steps to utilize the module:
 
 1) create function used by child processs/threads, refer to  [BytearrayAPIs](./bytearray_api.md),
-[StringAPIs](./string_api.md), [SetAPIs](./set_api.md)
+[StringAPIs](./string_api.md), [SetAPIs](./set_api.md), [ListAPIs](./list_api.md)
 
     `def process_run(a):`
     

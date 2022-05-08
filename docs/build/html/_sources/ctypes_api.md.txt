@@ -60,15 +60,15 @@ are listed below:
 
   *type* *type*_and_and_fetch(*type* *, *type*);
   
-- bitsise OR and fetch the result atomically
+- bitwise OR and fetch the result atomically
 
   *type* *type*_or_and_fetch(*type* *, *type*);
   
-- bitsise XOR and fetch the result atomically
+- bitwise XOR and fetch the result atomically
 
   *type* *type*_xor_and_fetch(*type* *, *type*);
   
-- bitsise NAND(AND first then NOT) and fetch the result atomically
+- bitwise NAND(AND first then NOT) and fetch the result atomically
 
   *type* *type*_nand_and_fetch(*type* *, *type*);
   

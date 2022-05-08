@@ -1,3 +1,11 @@
 include shared_atomic/atomic_csource.h
 include shared_atomic/atomic_csource.c
+exclude shared_atomic/atomic_bytearray.c
+exclude shared_atomic/atomic_int.c
+exclude shared_atomic/atomic_uint.c
+exclude shared_atomic/atomic_boolfloat.c
+exclude shared_atomic/atomic_set.c
+exclude shared_atomic/atomic_list.c
+exclude shared_atomic/atomic_string.c
+exclude shared_atomic/win_dll.c
 prune /

@@ -1,7 +1,14 @@
 import ctypes
-from multiprocessing import Array
-from shared_atomic import loaddll
 import sys
+if sys.platform in ('linux', 'darwin'):
+    from shared_atomic_ import ffi
+    import shared_atomic_.lib
+    import tempfile
+    lib = shared_atomic_.lib
+
+elif sys.platform in ('win32'):
+    from shared_atomic import load_wrapped_dll
+    lib = load_wrapped_dll()
 
 class atomic_string:
     """
@@ -41,17 +48,18 @@ class atomic_string:
 
         if length is not None:
             if input_length > length:
-                if trimming_direction in('r', 'right'):
+                if trimming_direction in ('r', 'right'):
                     data = initial.encode(self.encoding)[:length].decode(self.encoding, 'ignore')
                 elif trimming_direction in ('l', 'left'):
                     data = initial[::-1].encode(self.encoding)[:length].decode(self.encoding, 'ignore')[::-1]
 
             elif input_length < length:
                 paddingbytes = paddingstr.encode(self.encoding)
-                devision , remaining = divmod(length - input_length, len(paddingbytes))
-                padding = paddingstr*devision + paddingstr[:remaining]
+                devision, remaining = divmod(length - input_length, len(paddingbytes))
+                padding = paddingstr * devision + paddingstr[:remaining]
                 if paddingdirection in ('l', 'left'):
-                    data = (padding + initial)[::-1].encode(self.encoding)[:length].decode(self.encoding, 'ignore')[::-1]
+                    data = (padding + initial)[::-1].encode(self.encoding)[:length].decode(self.encoding, 'ignore')[
+                           ::-1]
                 elif paddingdirection in ('r', 'right'):
                     data = (initial + padding).encode(self.encoding)[:length].decode(self.encoding, 'ignore')
             else:
@@ -59,96 +67,162 @@ class atomic_string:
         else:
             data = initial
 
-        atomic = loaddll()
-
         data_byte = data.encode(self.encoding)
         self.initial_byte_length = len(data_byte)
 
         if self.initial_byte_length == 1:
             self.size = 2
-            self.type = ctypes.c_ushort
-            self._array_store = atomic.ushort_store
-            self._array_get_and_set = atomic.ushort_get_and_set
-            self._array_shift = atomic.ushort_shift
-            self._array_compare_and_set = atomic.ushort_compare_and_set
-            self._array_add_and_fetch = atomic.ushort_add_and_fetch
-            self._array_sub_and_fetch = atomic.ushort_sub_and_fetch
-            self._array_and_and_fetch = atomic.ushort_and_and_fetch
-            self._array_or_and_fetch = atomic.ushort_or_and_fetch
-            self._array_xor_and_fetch = atomic.ushort_xor_and_fetch
-            self._array_nand_and_fetch = atomic.ushort_nand_and_fetch
-            self._array_fetch_and_add = atomic.ushort_fetch_and_add
-            self._array_fetch_and_sub = atomic.ushort_fetch_and_sub
-            self._array_fetch_and_and = atomic.ushort_fetch_and_and
-            self._array_fetch_and_or = atomic.ushort_fetch_and_or
-            self._array_fetch_and_xor = atomic.ushort_fetch_and_xor
-            self._array_fetch_and_nand = atomic.ushort_fetch_and_nand
+            if sys.platform in ('darwin', 'linux'):
+                self.type = "unsigned short"
+                self._array_load = lib.ushort_load
+                self._array_store = lib.ushort_store
+                self._array_get_and_set = lib.ushort_get_and_set
+                self._array_shift = lib.ushort_shift
+                self._array_compare_and_set = lib.ushort_compare_and_set
+                self._array_add_and_fetch = lib.ushort_add_and_fetch
+                self._array_sub_and_fetch = lib.ushort_sub_and_fetch
+                self._array_and_and_fetch = lib.ushort_and_and_fetch
+                self._array_or_and_fetch = lib.ushort_or_and_fetch
+                self._array_xor_and_fetch = lib.ushort_xor_and_fetch
+                self._array_nand_and_fetch = lib.ushort_nand_and_fetch
+                self._array_fetch_and_add = lib.ushort_fetch_and_add
+                self._array_fetch_and_sub = lib.ushort_fetch_and_sub
+                self._array_fetch_and_and = lib.ushort_fetch_and_and
+                self._array_fetch_and_or = lib.ushort_fetch_and_or
+                self._array_fetch_and_xor = lib.ushort_fetch_and_xor
+                self._array_fetch_and_nand = lib.ushort_fetch_and_nand
+            elif sys.platform == 'win32':
+                self.type = ctypes.c_ushort
+                self._array_load = lib.ushort_load
+                self._array_store = lib.ushort_store
+                self._array_get_and_set = lib.ushort_get_and_set
+                self._array_shift = lib.ushort_shift
+                self._array_compare_and_set = lib.ushort_compare_and_set
+                self._array_add_and_fetch = lib.ushort_add_and_fetch
+                self._array_sub_and_fetch = lib.ushort_sub_and_fetch
+                self._array_and_and_fetch = lib.ushort_and_and_fetch
+                self._array_or_and_fetch = lib.ushort_or_and_fetch
+                self._array_xor_and_fetch = lib.ushort_xor_and_fetch
+                self._array_nand_and_fetch = lib.ushort_nand_and_fetch
+                self._array_fetch_and_add = lib.ushort_fetch_and_add
+                self._array_fetch_and_sub = lib.ushort_fetch_and_sub
+                self._array_fetch_and_and = lib.ushort_fetch_and_and
+                self._array_fetch_and_or = lib.ushort_fetch_and_or
+                self._array_fetch_and_xor = lib.ushort_fetch_and_xor
+                self._array_fetch_and_nand = lib.ushort_fetch_and_nand
 
         elif self.initial_byte_length <= 3:
             self.size = 4
-            self.type = ctypes.c_uint
-            self._array_store = atomic.uint_store
-            self._array_get_and_set = atomic.uint_get_and_set
-            self._array_shift = atomic.uint_shift
-            self._array_compare_and_set = atomic.uint_compare_and_set
-            self._array_add_and_fetch = atomic.uint_add_and_fetch
-            self._array_sub_and_fetch = atomic.uint_sub_and_fetch
-            self._array_and_and_fetch = atomic.uint_and_and_fetch
-            self._array_or_and_fetch = atomic.uint_or_and_fetch
-            self._array_xor_and_fetch = atomic.uint_xor_and_fetch
-            self._array_nand_and_fetch = atomic.uint_nand_and_fetch
-            self._array_fetch_and_add = atomic.uint_fetch_and_add
-            self._array_fetch_and_sub = atomic.uint_fetch_and_sub
-            self._array_fetch_and_and = atomic.uint_fetch_and_and
-            self._array_fetch_and_or = atomic.uint_fetch_and_or
-            self._array_fetch_and_xor = atomic.uint_fetch_and_xor
-            self._array_fetch_and_nand = atomic.uint_fetch_and_nand
+            if sys.platform in ('darwin', 'linux'):
+                self.type = "unsigned int"
+                self._array_load = lib.uint_load
+                self._array_store = lib.uint_store
+                self._array_get_and_set = lib.uint_get_and_set
+                self._array_shift = lib.uint_shift
+                self._array_compare_and_set = lib.uint_compare_and_set
+                self._array_add_and_fetch = lib.uint_add_and_fetch
+                self._array_sub_and_fetch = lib.uint_sub_and_fetch
+                self._array_and_and_fetch = lib.uint_and_and_fetch
+                self._array_or_and_fetch = lib.uint_or_and_fetch
+                self._array_xor_and_fetch = lib.uint_xor_and_fetch
+                self._array_nand_and_fetch = lib.uint_nand_and_fetch
+                self._array_fetch_and_add = lib.uint_fetch_and_add
+                self._array_fetch_and_sub = lib.uint_fetch_and_sub
+                self._array_fetch_and_and = lib.uint_fetch_and_and
+                self._array_fetch_and_or = lib.uint_fetch_and_or
+                self._array_fetch_and_xor = lib.uint_fetch_and_xor
+                self._array_fetch_and_nand = lib.uint_fetch_and_nand
+            elif sys.platform == 'win32':
+                self.type = ctypes.c_uint
+                self._array_load = lib.uint_load
+                self._array_store = lib.uint_store
+                self._array_get_and_set = lib.uint_get_and_set
+                self._array_shift = lib.uint_shift
+                self._array_compare_and_set = lib.uint_compare_and_set
+                self._array_add_and_fetch = lib.uint_add_and_fetch
+                self._array_sub_and_fetch = lib.uint_sub_and_fetch
+                self._array_and_and_fetch = lib.uint_and_and_fetch
+                self._array_or_and_fetch = lib.uint_or_and_fetch
+                self._array_xor_and_fetch = lib.uint_xor_and_fetch
+                self._array_nand_and_fetch = lib.uint_nand_and_fetch
+                self._array_fetch_and_add = lib.uint_fetch_and_add
+                self._array_fetch_and_sub = lib.uint_fetch_and_sub
+                self._array_fetch_and_and = lib.uint_fetch_and_and
+                self._array_fetch_and_or = lib.uint_fetch_and_or
+                self._array_fetch_and_xor = lib.uint_fetch_and_xor
+                self._array_fetch_and_nand = lib.uint_fetch_and_nand
 
 
         elif self.initial_byte_length <= 7:
             self.size = 8
-            self.type = ctypes.c_ulonglong
-            self._array_store = atomic.ulonglong_store
-            self._array_get_and_set = atomic.ulonglong_get_and_set
-            self._array_shift = atomic.ulonglong_shift
-            self._array_compare_and_set = atomic.ulonglong_compare_and_set
-            self._array_add_and_fetch = atomic.ulonglong_add_and_fetch
-            self._array_sub_and_fetch = atomic.ulonglong_sub_and_fetch
-            self._array_and_and_fetch = atomic.ulonglong_and_and_fetch
-            self._array_or_and_fetch = atomic.ulonglong_or_and_fetch
-            self._array_xor_and_fetch = atomic.ulonglong_xor_and_fetch
-            self._array_nand_and_fetch = atomic.ulonglong_nand_and_fetch
-            self._array_fetch_and_add = atomic.ulonglong_fetch_and_add
-            self._array_fetch_and_sub = atomic.ulonglong_fetch_and_sub
-            self._array_fetch_and_and = atomic.ulonglong_fetch_and_and
-            self._array_fetch_and_or = atomic.ulonglong_fetch_and_or
-            self._array_fetch_and_xor = atomic.ulonglong_fetch_and_xor
-            self._array_fetch_and_nand = atomic.ulonglong_fetch_and_nand
+            if sys.platform in ('darwin', 'linux'):
+                self.type = "unsigned long long"
+                self._array_load = lib.ulonglong_load
+                self._array_store = lib.ulonglong_store
+                self._array_get_and_set = lib.ulonglong_get_and_set
+                self._array_shift = lib.ulonglong_shift
+                self._array_compare_and_set = lib.ulonglong_compare_and_set
+                self._array_add_and_fetch = lib.ulonglong_add_and_fetch
+                self._array_sub_and_fetch = lib.ulonglong_sub_and_fetch
+                self._array_and_and_fetch = lib.ulonglong_and_and_fetch
+                self._array_or_and_fetch = lib.ulonglong_or_and_fetch
+                self._array_xor_and_fetch = lib.ulonglong_xor_and_fetch
+                self._array_nand_and_fetch = lib.ulonglong_nand_and_fetch
+                self._array_fetch_and_add = lib.ulonglong_fetch_and_add
+                self._array_fetch_and_sub = lib.ulonglong_fetch_and_sub
+                self._array_fetch_and_and = lib.ulonglong_fetch_and_and
+                self._array_fetch_and_or = lib.ulonglong_fetch_and_or
+                self._array_fetch_and_xor = lib.ulonglong_fetch_and_xor
+                self._array_fetch_and_nand = lib.ulonglong_fetch_and_nand
+            elif sys.platform == 'win32':
+                self.type = ctypes.c_ulonglong
+                self._array_load = lib.ulonglong_load
+                self._array_store = lib.ulonglong_store
+                self._array_get_and_set = lib.ulonglong_get_and_set
+                self._array_shift = lib.ulonglong_shift
+                self._array_compare_and_set = lib.ulonglong_compare_and_set
+                self._array_add_and_fetch = lib.ulonglong_add_and_fetch
+                self._array_sub_and_fetch = lib.ulonglong_sub_and_fetch
+                self._array_and_and_fetch = lib.ulonglong_and_and_fetch
+                self._array_or_and_fetch = lib.ulonglong_or_and_fetch
+                self._array_xor_and_fetch = lib.ulonglong_xor_and_fetch
+                self._array_nand_and_fetch = lib.ulonglong_nand_and_fetch
+                self._array_fetch_and_add = lib.ulonglong_fetch_and_add
+                self._array_fetch_and_sub = lib.ulonglong_fetch_and_sub
+                self._array_fetch_and_and = lib.ulonglong_fetch_and_and
+                self._array_fetch_and_or = lib.ulonglong_fetch_and_or
+                self._array_fetch_and_xor = lib.ulonglong_fetch_and_xor
+                self._array_fetch_and_nand = lib.ulonglong_fetch_and_nand
         else:
             raise ValueError("Input String is longer than 8 bytes!")
 
-
-        if sys.platform in ('darwin','linux'):
+        if sys.platform in ('darwin', 'linux'):
             if mode in ('m', 'multiprocessing'):
                 self.mode = 'm'
-                self.array = Array(ctypes.c_ubyte, self.size, lock=False)
+                self.array = tempfile.TemporaryFile()
+                self.array.write(b'\0' * self.size)
+                self.array.flush()
+                void_pointer = lib.mmap(ffi.NULL, self.size, 3, 1, self.array.fileno(), 0)
+                self.array_reference = ffi.cast(self.type + " *", void_pointer)
             elif mode in ('s', 'singleprocessing'):
                 self.mode = 's'
-                self.array = (ctypes.c_ubyte * self.size)()
-            self.array_reference = ctypes.byref(self.array)
+                self.array = ffi.new(self.type + " *")
+                self.array_reference = self.array
             self._set_bytes(data_byte)
         elif sys.platform == 'win32':
             self.mode = 's'
-
             data_all = (int.to_bytes(self.initial_byte_length, length=1, byteorder='big') +
-                        data_byte +b'\0' * (self.size - self.initial_byte_length - 1))[::-1]
-
+                        data_byte + b'\0' * (self.size - self.initial_byte_length - 1))[::-1]
             self.array = bytearray(data_all)
             self.array_reference = memoryview(self.array)
 
+    if sys.platform in ("linux", "darwin"):
+        def __del__(self):
+            if self.mode == 'm':
+                lib.munmap(self.array_reference, self.size)
+                self.array.close()
 
-
-    def _str2int(self, input: str):
+    def _str2int(self, input: str) -> int:
         r"""
         integer of input string padded with leading length and tailing '\\0'
 
@@ -159,70 +233,76 @@ class atomic_string:
         integer = self._byte2int(input_bytes)
         return integer
 
-    def _byte2int(self, input_bytes: bytes):
+    def _byte2int(self, input_bytes: bytes) -> int:
         """
         integer of input bytes padded with leading length and tailing b'\\0'
 
         :param input_bytes: input bytes
         :return: the integer representation and the length
         """
+
         result_bytes = len(input_bytes).to_bytes(length=1, byteorder='big') + self._rpad_zero(input_bytes)
         integer = int.from_bytes(result_bytes, byteorder='big')
         return integer
 
-
-    def _rpad_zero(self, input: bytes)->bytes:
+    def _rpad_zero(self, input: bytes) -> bytes:
         r"""
         right pad zero to the input string
         :param input: input bytes
 
         :return: right padded bytes b'\\0' to self.size -1
         """
+
         input_length = len(input)
-        if input_length < self.size-1:
-            return input + (self.size-1-input_length) * b'\0'
-        elif input_length > self.size-1:
+        if input_length < self.size - 1:
+            return input + (self.size - 1 - input_length) * b'\0'
+        elif input_length > self.size - 1:
             raise ValueError('input length longer than its size!')
         else:
             return input
 
-    def _get_int(self):
+    def _get_int(self) -> int:
         """
         Get the integer representation from the string atomically,
         the whole string would be treated as a large integer
 
         :return: the integer representation
         """
-        result = self.type(0)
-        self._array_store(ctypes.byref(result), self.array_reference)
-        return result.value
+        return self._array_load(self.array_reference)
 
-    def _set_int(self, input: int):
-        """
-        Set the integer representation of the string atomically,
-        the whole array would be treated as a large integer
+    if sys.platform in ('darwin', 'linux'):
+        def _set_int(self, input: int):
+            """
+            Set the integer representation of the string atomically,
+            the whole array would be treated as a large integer
 
-        :return: None
-        """
-        result = self.type(input)
-        self._array_store(self.array_reference, ctypes.byref(result))
+            :return: None
+            """
+            newpointer = ffi.new(self.type + " *", input)
+            self._array_store(self.array_reference, newpointer)
+
+    elif sys.platform == 'win32':
+        def _set_int(self, input: int):
+            """
+            Set the integer representation of the string atomically,
+            the whole array would be treated as a large integer
+
+            :return: None
+            """
+            newpointer = self.type(input)
+            self._array_store(self.array_reference, newpointer)
 
     def get_string(self):
         r"""
         Get all the bytes from the string atomically
 
-        :param trim: if True, the leading '\\0' would be trimmed, by default: True
         :return: all the bytes in the string
         """
-        result = self.type(0)
-        self._array_store(ctypes.byref(result), self.array_reference)
-        
-        result_bytes = int.to_bytes(result.value, length=self.size, byteorder='big')
-        length = int.from_bytes(result_bytes[0:1], byteorder='big')
-        
-        result = int.to_bytes(result.value, length=self.size, byteorder='big')[1:length+1]
 
-        return result.decode(self.encoding)
+        result_bytes = int.to_bytes(self._array_load(self.array_reference), length=self.size, byteorder='big')
+        length = int.from_bytes(result_bytes[0:1], byteorder='big')
+
+        return (result_bytes[1:length + 1]).decode(self.encoding)
 
     def set_string(self, data: str):
         """
@@ -250,7 +330,7 @@ class atomic_string:
 
         desiredlength = len(data)
 
-        if 7 >= desiredlength > self.size-1:
+        if 7 >= desiredlength > self.size - 1:
             self.resize(desiredlength)
         elif desiredlength > 7:
             raise ValueError()
@@ -258,15 +338,15 @@ class atomic_string:
         integer = self._byte2int(data)
         self._set_int(integer)
 
-        #ctype_integer = self.type(integer)
-        #self._array_store(self.array_reference, ctypes.byref(ctype_integer))
+        # ctype_integer = self.type(integer)
+        # self._array_store(self.array_reference, ctypes.byref(ctype_integer))
 
     value = property(fget=get_string, fset=set_string, doc="same with get_string and set_string")
 
     def resize(self, newlength: int,
-                 paddingdirection: str = 'right',
-                 paddingstr: str = ' ',
-                 trimming_direction: str = 'right'):
+               paddingdirection: str = 'right',
+               paddingstr: str = ' ',
+               trimming_direction: str = 'right'):
         r"""
         trim or pad the original contents in the string
         to a new length, the new length should be no longer than 8 bytes,
@@ -282,9 +362,9 @@ class atomic_string:
         """
 
         self.__init__(self.get_string(), mode=self.mode, length=newlength,
-                                paddingdirection=paddingdirection,
-                                paddingstr=paddingstr,
-                                trimming_direction=trimming_direction)
+                      paddingdirection=paddingdirection,
+                      paddingstr=paddingstr,
+                      trimming_direction=trimming_direction)
 
     def string_store(self, i):
         """
@@ -298,18 +378,19 @@ class atomic_string:
             raise ValueError("Input string has different size!")
         self._array_store(self.array_reference, i.array_reference)
 
-    def string_get_and_set(self, data: str):
+    def string_get_and_set(self, data: str) -> str:
         r"""
         Get and set atomically
 
         :param data: new data
         :return: the original string
         """
+
         integer = self._str2int(data)
-        result = int.to_bytes(self._array_get_and_set(self.array_reference, self.type(integer)),
-                                                    length=self.size, byteorder='big')
+        result = int.to_bytes(self._array_get_and_set(self.array_reference, integer),
+                              length=self.size, byteorder='big')
         result_length = int.from_bytes(result[:1], byteorder='big')
-        result_all = result[1:result_length+1]
+        result_all = result[1:result_length + 1]
         return result_all.decode(self.encoding)
 
     def string_shift(self, i, j):
@@ -341,11 +422,12 @@ class atomic_string:
         :param n: another bytes to be ready to self if comparision return True
         :return: if self is equal to i return True, else return False
         """
+
         if self.size != i.size:
             raise ValueError("Comparing string has different size!")
         integer = self._str2int(n)
         return self._array_compare_and_set(self.array_reference,
-                                           i.array_reference, self.type(integer))
+                                           i.array_reference, integer)
 
     def reencode(self, newencode: str):
         """
@@ -360,7 +442,7 @@ class atomic_string:
         self._set_bytes(new_data)
         self.encoding = newencode
 
-    if sys.platform in ('darwin','linux'):
+    if sys.platform in ('darwin', 'linux'):
         def change_mode(self, newmode='m'):
             """
             Switch between singleprocessing mode and multiprocessing mode,
@@ -374,18 +456,24 @@ class atomic_string:
             if newmode in ('m', 'multiprocessing'):
                 if self.mode == 's':
                     data = self._get_int()
-                    self.array = Array(ctypes.c_ubyte, self.size, lock=False)
-                    self.array_reference = ctypes.byref(self.array)
+                    # self.array = Array(ctypes.c_ubyte, self.size, lock=False)
+                    # self.array_reference = ctypes.byref(self.array)
+                    self.array = tempfile.TemporaryFile()
+                    self.array.write(b'\0' * self.size)
+                    self.array.flush()
+                    void_pointer = lib.mmap(ffi.NULL, self.size, 3, 1, self.array.fileno(), 0)
+                    self.array_reference = ffi.cast(self.type + " *", void_pointer)
                     self._set_int(data)
 
             elif newmode not in ('s', 'singleprocessing'):
-                raise ValueError("newmode has the wrong value, should be 'm','s','multiprocessing' or 'singleprocessing'")
+                raise ValueError(
+                    "newmode has the wrong value, should be 'm','s','multiprocessing' or 'singleprocessing'")
 
             elif self.mode == 'm':
                 data = self._get_int()
-                self.array = (ctypes.c_ubyte * self.size)()
-                self.array_reference = ctypes.byref(self.array)
+                # self.array = (ctypes.c_ubyte * self.size)()
+                # self.array_reference = ctypes.byref(self.array)
+                self.array = ffi.new(self.type + " *")
+                self.array_reference = self.array
                 self._set_int(data)
             self.mode = newmode
-
-

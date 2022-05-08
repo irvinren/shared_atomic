@@ -1,5 +1,7 @@
+
 void * mmap(void *addr, size_t len, int prot, int flags, int fd, off_t offset);
 int munmap(void *addr, size_t len);
+
 
 _Bool bool_load(_Bool *);
 void bool_store(_Bool *, _Bool *);

@@ -1,9 +1,8 @@
-from shared_atomic import atomic_set
-from shared_atomic import loaddll
-import ctypes
+from shared_atomic import *
 import sys
 from threading import Thread
 from multiprocessing import Process, Value
+import ctypes
 
 
 inlist = (
@@ -20,7 +19,6 @@ exlist = ('b',
          '轻轻',
           )
 
-atomic = loaddll()
 
 def signed2unsigned(input, i):
     if input < 0:
@@ -33,8 +31,6 @@ def setup_function():
     pre function for pytest
     :return: None
     """
-    global atomic
-    atomic = loaddll()
     # if sys.platform in ('darwin','linux'):
     #     dlltype = ctypes.CDLL
     #     os.chdir('/Users/philren/.local/share/virtualenvs/spark-examples--HrH57AW/lib/python3.6/site-packages')
@@ -79,6 +75,7 @@ def test_set():
     result = a.set_compare_and_set(b, {0,1,2,3,4,5,6})
 
     assert result == True
+    print(result)
     assert a.get_set() == {0,1,2,3,4,5,6}
 
     a.set_set({0,'国',True,b'x2'})
@@ -106,7 +103,7 @@ def thread_run(a,i):
 
     b = atomic_set({'ab'})
     if a.set_compare_and_set(b, {'cd'}):
-        atomic.long_add_and_fetch(ctypes.byref(i), ctypes.c_long(1))
+        int_add_and_fetch(i.reference, 1)
 
 def test_thread_atomic():
     """
@@ -114,7 +111,7 @@ def test_thread_atomic():
     :return: None
     """
     a = atomic_set({'ab'})
-    b = ctypes.c_long(0)
+    b = atomic_int(0)
 
     threadlist = []
 
@@ -128,14 +125,14 @@ def test_thread_atomic():
         threadlist[i].join()
 
     assert a.value == {'cd'}
-    assert b.value == 1
+    assert b.get() == 1
 
 
 if sys.platform != "win32":
     def process_run(a,c):
         b = atomic_set({'ab'})
         if a.set_compare_and_set(b, {'cd'}):
-            atomic.long_add_and_fetch(ctypes.byref(c), ctypes.c_long(1))
+            int_add_and_fetch(c.reference,1)
 
     def test_process_atomic():
         """
@@ -143,8 +140,7 @@ if sys.platform != "win32":
         :return: None
         """
         a = atomic_set({'ab'}, mode='m')
-        c = Value(ctypes.c_long, lock=False)
-        c.value = 0
+        c = atomic_int(0, mode= 'm')
         processlist = []
         for i in range(10000):
             processlist.append(Process(target=process_run, args=(a,c)))
@@ -155,6 +151,6 @@ if sys.platform != "win32":
         for i in range(10000):
             processlist[i].join()
 
-        assert a.value == {'cd'}
-        assert c.value == 1
+        assert a.get_set() == {'cd'}
+        assert c.get() == 1
 
