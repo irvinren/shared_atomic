@@ -13,11 +13,15 @@ can be used in
     - CPython 3.0 - 3.11
     - Pypy not supported
 
-- Datatypes:
+- Included Datatypes:
 
- - Use ctypes or multiprocessing.Value/Array to achieve atomicy.
+ - - atomic_int
 
- - Other types included in this package,
+ - - atomic_uint
+
+ - - atomic_float
+
+ - - atomic_bool
 
  - - atomic_bytearray
 
@@ -47,67 +51,53 @@ can be used in
 
     pip install shared_atomic
 
-
 - Usage
 
- - load the compiled .so file with ctypes
+ - create function used by child processes, refer to UIntAPIs, IntAPIs, BytearrayAPIs, StringAPIs, SetAPIs, ListAPIs, in each process, you can create multiple threads.
 
-    import ctypes
-    
-    from shared_atomic import loaddll
-    
-    atomic = loaddll()
+        - def process_run(a):
 
- - you can also import by CDLL, but not recommended since the CDLL will casting all the return type to c_int. For the 64bit integer, it will return the wrong result.
+             def subthread_run(a):
 
-    atomic = ctypes.CDLL('shared_atomic.cpython-36m-darwin.so')
+                 a.array_sub_and_fetch(b'\x0F')
 
+             threadlist = []
 
- - in multiple threads condition:
+             for t in range(5000):
 
-  - get pointer address by ctypes.byref
+                 threadlist.append(Thread(target=subthread_run, args=(a,)))
 
-    v = ctypes.c_size_t(2 ** 63 - 1)
+             for t in range(5000):
 
-    vref = ctypes.byref(v)
+                 threadlist[t].start()
 
-  - start multiple threads
+             for t in range(5000):
 
-    threadlist=[]
+                 threadlist[t].join()
 
-    for i in range(10000):
-        threadlist.append(Thread(target=atomic.size_t_sub_and_fetch, args=(vref, ctypes.c_size_t(100))))
+ - create the shared bytearray
 
-    for i in range(10000):
-        threadlist[i].start()
+        a = atomic_bytearray(b'ab', length=7, paddingdirection='r', paddingbytes=b'012', mode='m')
 
-    for i in range(10000):
-        threadlist[i].join()
+ - start processes/threads to utilize the shared bytearray
 
+        processlist = []
 
- - in multiple processing condition:
+        for p in range(2):
 
-  - get pointer address by ctypes.byref
+            processlist.append(Process(target=process_run, args=(a,)))
 
-    v = multiprocessing.Value(ctypes.c_size_t, 2 ** 63 - 1, lock=False)
+        for p in range(2):
 
-    vref = ctypes.byref(v)
+            processlist[p].start()
 
+        for p in range(2):
 
-  - start multiple processes
+            processlist[p].join()
 
-    processlist = []
+        assert a.value == int.to_bytes(27411031864108609,length=8,byteorder='big')
 
-    for i in range(10000):
-        processlist.append(Process(target=atomic.size_t_sub_and_fetch, args=(vref, ctypes.c_size_t(100))))
-
-    for i in range(10000):
-        processlist[i].start()
-
-    for i in range(10000):
-        processlist[i].join()
-
- - Currently concurrent.futures.ProcessPoolExecutor and concurrent.futures.ThreadPoolExecutor cannot be used to start multiple executions ,since the cdll function cannot be serilized by pickle.
+ - Currently concurrent.futures.ProcessPoolExecutor and concurrent.futures.ThreadPoolExecutor cannot be used to start multiple executions ,for serialization problems.
 
 Sourcecode Repo:
 
