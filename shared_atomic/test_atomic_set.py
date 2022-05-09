@@ -1,8 +1,7 @@
 from shared_atomic import *
 import sys
 from threading import Thread
-from multiprocessing import Process, Value
-import ctypes
+from multiprocessing import Process
 
 
 inlist = (

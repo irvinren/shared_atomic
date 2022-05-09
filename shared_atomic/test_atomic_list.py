@@ -1,7 +1,5 @@
 from shared_atomic import atomic_list
 from shared_atomic import atomic_int
-from shared_atomic import int_add_and_fetch
-import ctypes
 import sys
 from threading import Thread
 from multiprocessing import Process
