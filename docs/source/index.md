@@ -22,6 +22,7 @@ Requirement:
 - On Windows, 
 - - the module only support CPython 3.0-3.11, doesn't support Pypy. 
 - - The module depends on cppyy >=1.5.0, <=2.3.1, which use [cling](https://github.com/vgvassilev/cling/tree/master/tools/packaging) as dynamic intepreter.
+- - multiprocessing mode is not supported, only single process, multiple threads modes are supported.
 
 For example usage of the module, please visit this [atomic_api_example](./atomic_api_example.md)
 
