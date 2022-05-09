@@ -1,7 +1,7 @@
 Welcome to shared_atomic's documentation!
 =========================================
 
-<big> The module can be used for atomic operations on shared ctypes value and arrays under multiple processs and multiple threads conditions.
+<big> The module can be used for atomic operations under multiple processs and multiple threads conditions.
 
 Included datatypes:
 - - [atomic_int](./int_api.md)
@@ -13,7 +13,7 @@ Included datatypes:
 - - [atomic_set](./set_api.md), package [bitarray>=2.4.0](https://pypi.org/project/bitarray/) is needed.
 - - [atomic_list](./list_api.md), package [bitarray>=2.4.0](https://pypi.org/project/bitarray/) is needed
 
-Ctypes api in the old version continue to work.
+Ctypes APIs inherited from the old version continue to work.
 
 Requirement:
 - On Linux/MacOSX, 
@@ -23,8 +23,9 @@ Requirement:
 - - the module only support CPython 3.0-3.11, doesn't support Pypy. 
 - - The module depends on cppyy >=1.5.0, <=2.3.1, which use [cling](https://github.com/vgvassilev/cling/tree/master/tools/packaging) as dynamic intepreter.
 
-For example usage of the module, please visit this  [ctypes_example](./ctypes_example.md) and
- [bytearray/set/string_example](./bytearray_example.md)
+For example usage of the module, please visit this [atomic_api_example](./atomic_api_example.md)
+
+  [ctypes_example](./ctypes_example.md) and
 
 For ctypes api references, please visit [ctypes api](./ctypes_api.md).</big>
 
@@ -33,8 +34,8 @@ For ctypes api references, please visit [ctypes api](./ctypes_api.md).</big>
 ```{eval-rst}
 .. toctree::
 
+   atomic_api_example.md
    ctypes_example.md
-   bytearray_example.md
    int_api.md
    uint_api.md
    boolfloat_api.md
