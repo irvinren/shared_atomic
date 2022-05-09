@@ -1,5 +1,5 @@
 from shared_atomic import atomic_string
-from shared_atomic import loaddll
+from shared_atomic import atomic_int
 import ctypes
 import sys
 from threading import Thread
@@ -20,7 +20,6 @@ exlist = ('b',
          '轻轻',
           )
 
-atomic = loaddll()
 
 def signed2unsigned(input, i):
     if input < 0:
@@ -33,8 +32,7 @@ def setup_function():
     pre function for pytest
     :return: None
     """
-    global atomic
-    atomic = loaddll()
+
     # if sys.platform in ('darwin','linux'):
     #     dlltype = ctypes.CDLL
     #     os.chdir('/Users/philren/.local/share/virtualenvs/spark-examples--HrH57AW/lib/python3.6/site-packages')
@@ -154,7 +152,7 @@ def thread_run(a,c):
 
     b = atomic_string('ab')
     if a.string_compare_and_set(b, 'cd'):
-        atomic.long_add_and_fetch(ctypes.byref(c), ctypes.c_long(1))
+        c.int_add_and_fetch(1)
 
 def test_thread_atomic():
     """
@@ -162,7 +160,7 @@ def test_thread_atomic():
     :return: None
     """
     a = atomic_string('ab')
-    b = ctypes.c_long(0)
+    b = atomic_int(0)
 
     threadlist=[]
 
@@ -181,9 +179,22 @@ def test_thread_atomic():
 
 if sys.platform != "win32":
     def process_run(a,c):
-        b = atomic_string('ab')
-        if a.string_compare_and_set(b, 'cd'):
-            atomic.long_add_and_fetch(ctypes.byref(c), ctypes.c_long(1))
+
+        def subthread_run(a,c):
+            b = atomic_string('ab')
+            if a.string_compare_and_set(b, 'cd'):
+                c.int_add_and_fetch(1)
+
+        threadlist = []
+        for t in range(5000):
+            threadlist.append(Thread(target=subthread_run, args=(a,c)))
+
+        for t in range(5000):
+            threadlist[t].start()
+
+        for t in range(5000):
+            threadlist[t].join()
+
 
     def test_process_atomic():
         """
@@ -191,16 +202,15 @@ if sys.platform != "win32":
         :return: None
         """
         a = atomic_string('ab', mode='m')
-        c = Value(ctypes.c_long, lock=False)
-        c.value = 0
+        c = atomic_int(0, mode='m')
         processlist = []
-        for i in range(10000):
+        for i in range(2):
             processlist.append(Process(target=process_run, args=(a,c)))
 
-        for i in range(10000):
+        for i in range(2):
             processlist[i].start()
 
-        for i in range(10000):
+        for i in range(2):
             processlist[i].join()
 
         assert a.value == 'cd'

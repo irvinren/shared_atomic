@@ -130,9 +130,21 @@ def test_thread_atomic():
 
 if sys.platform != "win32":
     def process_run(a,c):
-        b = atomic_set({'ab'})
-        if a.set_compare_and_set(b, {'cd'}):
-            int_add_and_fetch(c.reference,1)
+
+        def subthread_run(a):
+            b = atomic_set({'ab'})
+            if a.set_compare_and_set(b, {'cd'}):
+                int_add_and_fetch(c.reference, 1)
+
+        threadlist = []
+        for t in range(5000):
+            threadlist.append(Thread(target=subthread_run, args=(a,)))
+
+        for t in range(5000):
+            threadlist[t].start()
+
+        for t in range(5000):
+            threadlist[t].join()
 
     def test_process_atomic():
         """
@@ -142,13 +154,13 @@ if sys.platform != "win32":
         a = atomic_set({'ab'}, mode='m')
         c = atomic_int(0, mode= 'm')
         processlist = []
-        for i in range(10000):
+        for i in range(2):
             processlist.append(Process(target=process_run, args=(a,c)))
 
-        for i in range(10000):
+        for i in range(2):
             processlist[i].start()
 
-        for i in range(10000):
+        for i in range(2):
             processlist[i].join()
 
         assert a.get_set() == {'cd'}
