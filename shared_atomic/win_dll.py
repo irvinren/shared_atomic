@@ -1018,7 +1018,7 @@ class native_dll:
 
     @staticmethod
     def bool_load(v: ctypes.c_void_p):
-        ctypes_dll.bool_load(v)
+        return ctypes_dll.bool_load(v)
 
     @staticmethod
     def bool_store(v: ctypes.c_void_p, n: ctypes.c_void_p):
