@@ -754,7 +754,7 @@ from shared_atomic.atomic_boolfloat import bool_shift
 from shared_atomic.atomic_boolfloat import bool_get_and_set
 from shared_atomic.atomic_boolfloat import bool_compare_and_set
 
-from shared_atomic.atomic_boolfloat import double_store
+from shared_atomic.atomic_boolfloat import float_store
 
 try:
     import bitarray

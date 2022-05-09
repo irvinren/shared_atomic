@@ -19,7 +19,7 @@ else:
     double_pointer =c_double
 
 self_atomic_bool = TypeVar("self_atomic_bool", bound="atomic_bool")
-self_atomic_double = TypeVar("self_atomic_double", bound="atomic_double")
+self_atomic_float = TypeVar("self_atomic_float", bound="atomic_float")
 
 
 def bool_store(v: bool_pointer, n: bool_pointer):
@@ -67,7 +67,7 @@ def bool_compare_and_set(v: bool_pointer, e: bool_pointer, n: bool) -> bool:
     return lib.bool_compare_and_set(v, e, n)
 
 
-def double_store(v: double_pointer, n: double_pointer):
+def float_store(v: double_pointer, n: double_pointer):
     """Store value atomically
 
      :param v: the pointer to set
@@ -137,7 +137,7 @@ class atomic_bool:
         :param n: the atomic_bool to set
         :return: None
         """
-        lib.bool_store(self, n)
+        lib.bool_store(self.reference, n.reference)
 
     def bool_shift(self, n: self_atomic_bool, r: self_atomic_bool):
         """value exchange between 3 pointers in 2 groups atomically, store n in v after store v in r
@@ -146,7 +146,7 @@ class atomic_bool:
         :param r: atomic_bool
         :return: None
         """
-        lib.bool_shift(self, n, r)
+        lib.bool_shift(self.reference, n.reference, r.reference)
 
     def bool_get_and_set(self, n: bool) -> bool:
         """get and set atomically
@@ -154,7 +154,7 @@ class atomic_bool:
         :param n: atomic_bool
         :return: original value
         """
-        return lib.bool_get_and_set(self, n)
+        return lib.bool_get_and_set(self.reference, n)
 
     def bool_compare_and_set(self, e: self_atomic_bool, n: bool) -> bool:
         """Compare and set atomically. This compares the contents of v
@@ -166,7 +166,7 @@ class atomic_bool:
         :param n: value to be set
         :return: whether the contents of v and contents of e is the same
         """
-        return lib.bool_compare_and_set(self, e, n)
+        return lib.bool_compare_and_set(self.reference, e.reference, n)
 
     value = property(fget=get, fset=set)
 
@@ -204,9 +204,18 @@ class atomic_float:
                 self.array.close()
                 lib.munmap(self.reference, 8)
 
-    def get(self) -> float:
-        return lib.double_load(self.reference)
+    if sys.platform in ('darwin','linux'):
+        def get(self) -> float:
+            pointer = ffi.new("double *",0.0)
+            lib.double_store(pointer, self.reference)
+            value = ffi.unpack(pointer, 1)[0]
+            return value
 
+    elif sys.platform in ('win32'):
+        def get(self) -> float:
+            pointer = c_double(0.0)
+            lib.double_store(pointer, self.reference)
+            return pointer.value
 
     if sys.platform in ('darwin','linux'):
         def set(self, value: float):
@@ -217,7 +226,7 @@ class atomic_float:
             pointer = c_double(value)
             lib.double_store(self.reference, pointer)
 
-    def double_store(self, n: self_atomic_double):
+    def float_store(self, n: self_atomic_float):
         """Store value atomically
 
          :param n: the atomic_float from value to set
