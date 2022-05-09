@@ -45,10 +45,24 @@
   <div class="tex2jax_ignore mathjax_ignore section" id="welcome-to-shared-atomic-s-documentation">
 <h1>Welcome to shared_atomic’s documentation!<a class="headerlink" href="#welcome-to-shared-atomic-s-documentation" title="Permalink to this headline">¶</a></h1>
 <p><big> The module can be used for atomic operations on shared ctypes value and arrays under multiple processs and multiple threads conditions.</p>
-<p>Datatypes:</p>
+<p>Included datatypes:</p>
 <ul class="simple">
-<li><p>Use ctypes or multiprocessing.Value/Array to achieve atomicy.</p></li>
-<li><p>Other types included in this package,</p></li>
+<li><ul>
+<li><p><a class="reference internal" href="int_api.html"><span class="doc std std-doc">atomic_int</span></a></p></li>
+</ul>
+</li>
+<li><ul>
+<li><p><a class="reference internal" href="uint_api.html"><span class="doc std std-doc">atomic_uint</span></a></p></li>
+</ul>
+</li>
+<li><ul>
+<li><p><a class="reference internal" href="boolfloat_api.html"><span class="doc std std-doc">atomic_float</span></a></p></li>
+</ul>
+</li>
+<li><ul>
+<li><p><a class="reference internal" href="boolfloat_api.html"><span class="doc std std-doc">atomic_bool</span></a></p></li>
+</ul>
+</li>
 <li><ul>
 <li><p><a class="reference internal" href="bytearray_api.html"><span class="doc std std-doc">atomic_bytearray</span></a></p></li>
 </ul>
@@ -66,6 +80,7 @@
 </ul>
 </li>
 </ul>
+<p>Ctypes api in the old version continue to work.</p>
 <p>Requirement:</p>
 <ul class="simple">
 <li><p>On Linux/MacOSX,</p></li>
@@ -87,18 +102,22 @@
 </ul>
 </li>
 </ul>
-<p>For example usage of the module, please visit this  <a class="reference internal" href="ctypes_example.html"><span class="doc std std-doc">ctypes_example</span></a> and <a class="reference internal" href="bytearray_example.html"><span class="doc std std-doc">bytearray/set/string_example</span></a></p>
-<p>For ctypes api references, please visit <a class="reference internal" href="ctypes_api.html"><span class="doc std std-doc">ctypes api</span></a>.</p>
-<p>For python atomic_bytearray api references, please visit <a class="reference internal" href="bytearray_api.html"><span class="doc std std-doc">atomic_bytearray</span></a>.</p>
-<p>For python atomic_string api references, please visit <a class="reference internal" href="string_api.html"><span class="doc std std-doc">atomic_string</span></a>.</p>
-<p>For python atomic_list api references, please visit <a class="reference internal" href="list_api.html"><span class="doc std std-doc">atomic_list</span></a>.</p>
-<p>For python atomic_set api references, please visit <a class="reference internal" href="set_api.html"><span class="doc std std-doc">atomic_set</span></a>.</big></p>
+<p>For example usage of the module, please visit this  <a class="reference internal" href="ctypes_example.html"><span class="doc std std-doc">ctypes_example</span></a> and
+<a class="reference internal" href="bytearray_example.html"><span class="doc std std-doc">bytearray/set/string_example</span></a></p>
+<p>For ctypes api references, please visit <a class="reference internal" href="ctypes_api.html"><span class="doc std std-doc">ctypes api</span></a>.</big></p>
 <div class="section" id="id1">
 <h2><a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="ctypes_example.html">ctypes Example:</a></li>
-<li class="toctree-l1"><a class="reference internal" href="bytearray_example.html">Bytearray/set/list/string Example:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bytearray_example.html">atomic api Example:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="int_api.html">Int API:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="uint_api.html">Unsigned int API:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="boolfloat_api.html">Bool and Float API:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bytearray_api.html">Bytearray API:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="list_api.html">List API:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="set_api.html">Set API:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="string_api.html">String API:</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ctypes_api.html">ctypes API Referennce</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="ctypes_api.html#shared-atomic-loaddll">shared_atomic.loaddll()</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ctypes_api.html#integer-types-support-17-kinds-of-apis-could-be-used-to-achieve-atomic-operations">Integer types support 17 kinds of APIs could be used to achieve atomic operations,</a></li>
@@ -121,10 +140,6 @@
 <li class="toctree-l2"><a class="reference internal" href="ctypes_api.html#long-double-atomic-functions">long double atomic functions:</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="bytearray_api.html">Bytearray API:</a></li>
-<li class="toctree-l1"><a class="reference internal" href="string_api.html">String API:</a></li>
-<li class="toctree-l1"><a class="reference internal" href="set_api.html">Set API:</a></li>
-<li class="toctree-l1"><a class="reference internal" href="list_api.html">List API:</a></li>
 </ul>
 </div>
 <p><img alt="Python Logo" src="https://www.python.org/static/community_logos/python-logo.png" /></p>
@@ -170,12 +185,15 @@
 <h3>Navigation</h3>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="ctypes_example.html">ctypes Example:</a></li>
-<li class="toctree-l1"><a class="reference internal" href="bytearray_example.html">Bytearray/set/list/string Example:</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ctypes_api.html">ctypes API Referennce</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bytearray_example.html">atomic api Example:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="int_api.html">Int API:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="uint_api.html">Unsigned int API:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="boolfloat_api.html">Bool and Float API:</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bytearray_api.html">Bytearray API:</a></li>
-<li class="toctree-l1"><a class="reference internal" href="string_api.html">String API:</a></li>
-<li class="toctree-l1"><a class="reference internal" href="set_api.html">Set API:</a></li>
 <li class="toctree-l1"><a class="reference internal" href="list_api.html">List API:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="set_api.html">Set API:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="string_api.html">String API:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ctypes_api.html">ctypes API Referennce</a></li>
 </ul>
 
 <div class="relations">

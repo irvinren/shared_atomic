@@ -1,16 +1,14 @@
-# Bytearray/set/list/string Example:
+# atomic api Example:
 
 You need the following steps to utilize the module:
 
-1) create function used by child processs/threads, refer to  [BytearrayAPIs](./bytearray_api.md),
-[StringAPIs](./string_api.md), [SetAPIs](./set_api.md), [ListAPIs](./list_api.md)
+1) create function used by child processs/threads, refer to [UIntAPIs](./uint_api.md), [IntAPIs](./int_api.md), [BytearrayAPIs](./bytearray_api.md), [StringAPIs](./string_api.md), [SetAPIs](./set_api.md), [ListAPIs](./list_api.md)
 
     `def process_run(a):`
     
     `    a.array_sub_and_fetch(b'\x0F')`
 
 2) create the shared bytearray
-
 
     `    a = atomic_bytearray(b'ab', length=7, paddingdirection='r', paddingbytes=b'012', mode='m')`
 
