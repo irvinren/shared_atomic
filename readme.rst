@@ -29,6 +29,9 @@ can be used in
 
  - - atomic_set, package bitarray >= 2.4.0 is needed.
 
+ - - atomic_list, package bitarray >= 2.4.0 is needed.
+
+
 - Requirement,
 
  - LINUX/MacOSX

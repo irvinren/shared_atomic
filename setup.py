@@ -2,7 +2,7 @@ import sys
 import sysconfig
 from setuptools import setup
 
-__version__="2.1.4"
+__version__="2.1.5"
 __package_name__='shared_atomic'
 __author__="Xiquan Ren"
 __author_email__="xiquanren@yandex.com"
