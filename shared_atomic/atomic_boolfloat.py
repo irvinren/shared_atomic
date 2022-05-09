@@ -80,6 +80,13 @@ def double_store(v: double_pointer, n: double_pointer):
 class atomic_bool:
 
     def __init__(self, value: bool, mode: str = 'singleprocessing'):
+        r"""
+        constructor to initialize the atomic_bool,
+        the atomic_bool should be no longer than 8 bytes
+
+        :param value: initial value of the bool.
+        :param mode: the mode in which the bool will be shared. 'singleprocessing' or 's' for single process, 'multiprocessing' or 'm' for multiprocessing, on windows platform, only singleprocessing is supported, setting it to 'm' or 'multiprocessing' will be ignored.
+        """
         if sys.platform in ('darwin','linux'):
             if mode in ('m', 'multiprocessing'):
                 self.mode = 'm'
@@ -109,16 +116,25 @@ class atomic_bool:
                 lib.munmap(self.reference, 1)
 
     def get(self) -> bool:
+        """
+        Get the value from atomic_bool,
+        :return: the value
+
+        """
         return lib.bool_load(self.reference)
 
     def set(self, value: bool):
+        """
+        set the value into atomic_bool
+        :param value: target value of the bool.
+
+        """
         lib.bool_get_and_set(self.reference, value)
 
     def bool_store(self, n: self_atomic_bool):
         """Store value atomically
 
-        :param v: the pointer to set
-        :param n: the pointer from value to set
+        :param n: the atomic_bool to set
         :return: None
         """
         lib.bool_store(self, n)
@@ -126,9 +142,8 @@ class atomic_bool:
     def bool_shift(self, n: self_atomic_bool, r: self_atomic_bool):
         """value exchange between 3 pointers in 2 groups atomically, store n in v after store v in r
 
-        :param v: pointer of v
-        :param n: pointer of n
-        :param r: pointer of r
+        :param n: atomic_bool
+        :param r: atomic_bool
         :return: None
         """
         lib.bool_shift(self, n, r)
@@ -136,8 +151,7 @@ class atomic_bool:
     def bool_get_and_set(self, n: bool) -> bool:
         """get and set atomically
 
-        :param v: pointer of value to get and set
-        :param n: value to set
+        :param n: atomic_bool
         :return: original value
         """
         return lib.bool_get_and_set(self, n)
@@ -148,8 +162,7 @@ class atomic_bool:
         operation that writes n into self. If they are not equal,
         the operation is a read and the current contents of v are written into
         e.
-        :param v: pointer of v
-        :param e: pointer of e
+        :param e: atomic_bool
         :param n: value to be set
         :return: whether the contents of v and contents of e is the same
         """
@@ -160,6 +173,13 @@ class atomic_bool:
 class atomic_float:
 
     def __init__(self, value: float, mode: str = 'singleprocessing'):
+        r"""
+        constructor to initialize the atomic_bool,
+        the atomic_bool should be no longer than 8 bytes
+
+        :param value: initial value of the float.
+        :param mode: the mode in which the float will be shared. 'singleprocessing' or 's' for single process, 'multiprocessing' or 'm' for multiprocessing, on windows platform, only singleprocessing is supported, setting it to 'm' or 'multiprocessing' will be ignored.
+        """
         if sys.platform in ('darwin','linux'):
             if mode in ('m', 'multiprocessing'):
                 self.mode = 'm'
@@ -200,9 +220,7 @@ class atomic_float:
     def double_store(self, n: self_atomic_double):
         """Store value atomically
 
-         :param v: the pointer to set
-         :param n: the pointer from value to set
-         :return: None
+         :param n: the atomic_float from value to set
          """
         lib.double_store(self.reference, n.reference)
 
