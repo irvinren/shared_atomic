@@ -1,7 +1,4 @@
-With the help of multiprocessing shared ctypes,
-we have achieved shared variables and arrays. but synchronization could be achieved by locks.
-this package provided a second way to access those primitive ctypes with atomic operations.
-can be used in
+The module can be used for atomic operations under multiple processes and multiple threads conditions.
 
 - Environment,
 
