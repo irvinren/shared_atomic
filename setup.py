@@ -2,11 +2,11 @@ import sys
 import sysconfig
 from setuptools import setup
 
-__version__="2.1.5"
+__version__="2.1.6"
 __package_name__='shared_atomic'
 __author__="Xiquan Ren"
 __author_email__="xiquanren@yandex.com"
-__description__="Shared atomicity with multiprocessing/multithreads shared ctypes"
+__description__="Shared atomicity for multiprocessing/multiple threads"
 __url__='https://github.com/irvinren/shared_atomic.git'
 __packages__=['shared_atomic']
 
