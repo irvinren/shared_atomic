@@ -1,0 +1,980 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unsigned int API: &#8212; Documentation for shared_atomic</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Bool and Float API:" href="boolfloat_api.html" />
+    <link rel="prev" title="Int API:" href="int_api.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+              <div class="related top">
+                &nbsp;
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="int_api.html" title="Previous document">Int API:</a>
+        </li>
+        <li>
+          <a href="boolfloat_api.html" title="Next document">Bool and Float API:</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+              </div>
+          
+
+          <div class="body" role="main">
+            
+  <div class="tex2jax_ignore mathjax_ignore section" id="unsigned-int-api">
+<h1>Unsigned int API:<a class="headerlink" href="#unsigned-int-api" title="Permalink to this headline">¶</a></h1>
+<p><big>Module shared_atomic</big></p>
+<span class="target" id="module-shared_atomic.atomic_uint"></span><dl class="py class">
+<dt class="sig sig-object py" id="shared_atomic.atomic_uint.atomic_uint">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">shared_atomic.atomic_uint.</span></span><span class="sig-name descname"><span class="pre">atomic_uint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'singleprocessing'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#shared_atomic.atomic_uint.atomic_uint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Unsigned int provide atomic operations, the unsigned int should be no longer than 8 bytes</p>
+<p>constructor to initialize the atomic_uint,
+the int should be no longer than 8 bytes</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong> – initial value of the int, if the initial value is longer than 8 bytes, it would fail.</p></li>
+<li><p><strong>mode</strong> – the mode in which the int will be shared. ‘singleprocessing’ or ‘s’ for single process, ‘multiprocessing’ or ‘m’ for multiprocessing, on windows platform, only singleprocessing is supported, setting it to ‘m’ or ‘multiprocessing’ will be ignored.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="shared_atomic.atomic_uint.atomic_uint.get">
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#shared_atomic.atomic_uint.atomic_uint.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the value from atomic_uint,
+the int should be no longer than 8 bytes
+:return: the value</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="shared_atomic.atomic_uint.atomic_uint.set">
+<span class="sig-name descname"><span class="pre">set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#shared_atomic.atomic_uint.atomic_uint.set" title="Permalink to this definition">¶</a></dt>
+<dd><p>set the value from atomic_uint,
+the int should be no longer than 8 bytes</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="shared_atomic.atomic_uint.atomic_uint.uint_add_and_fetch">
+<span class="sig-name descname"><span class="pre">uint_add_and_fetch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#shared_atomic.atomic_uint.atomic_uint.uint_add_and_fetch" title="Permalink to this definition">¶</a></dt>
+<dd><p>increment and fetch atomically</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>n</strong> – data to add</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>sum of the 2 values</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="shared_atomic.atomic_uint.atomic_uint.uint_and_and_fetch">
+<span class="sig-name descname"><span class="pre">uint_and_and_fetch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#shared_atomic.atomic_uint.atomic_uint.uint_and_and_fetch" title="Permalink to this definition">¶</a></dt>
+<dd><p>bitwise AND and fetch the result atomically</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>n</strong> – data to AND</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>resulted value</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="shared_atomic.atomic_uint.atomic_uint.uint_compare_and_set">
+<span class="sig-name descname"><span class="pre">uint_compare_and_set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">e</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">self_atomic_uint</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#shared_atomic.atomic_uint.atomic_uint.uint_compare_and_set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compare and set atomically. This compares the contents of v
+with the contents of e. If equal, the operation is a read-modify-write
+operation that writes n into self. If they are not equal,
+the operation is a read and the current contents of v are written into e.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>e</strong> – pointer of e</p></li>
+<li><p><strong>n</strong> – value to be set</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>whether the contents of v and contents of e is the same</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="shared_atomic.atomic_uint.atomic_uint.uint_fetch_and_add">
+<span class="sig-name descname"><span class="pre">uint_fetch_and_add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#shared_atomic.atomic_uint.atomic_uint.uint_fetch_and_add" title="Permalink to this definition">¶</a></dt>
+<dd><p>increment and fetch atomically</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>n</strong> – data to add</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>original value in v</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="shared_atomic.atomic_uint.atomic_uint.uint_fetch_and_and">
+<span class="sig-name descname"><span class="pre">uint_fetch_and_and</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#shared_atomic.atomic_uint.atomic_uint.uint_fetch_and_and" title="Permalink to this definition">¶</a></dt>
+<dd><p>fetch then bitwise AND atomically</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>n</strong> – data to AND</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the result</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="shared_atomic.atomic_uint.atomic_uint.uint_fetch_and_nand">
+<span class="sig-name descname"><span class="pre">uint_fetch_and_nand</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#shared_atomic.atomic_uint.atomic_uint.uint_fetch_and_nand" title="Permalink to this definition">¶</a></dt>
+<dd><p>fetch then bitwise NAND atomically</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>n</strong> – data to NAND</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the result</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="shared_atomic.atomic_uint.atomic_uint.uint_fetch_and_or">
+<span class="sig-name descname"><span class="pre">uint_fetch_and_or</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#shared_atomic.atomic_uint.atomic_uint.uint_fetch_and_or" title="Permalink to this definition">¶</a></dt>
+<dd><p>fetch then bitwise OR atomically</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>n</strong> – data to OR</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the result</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="shared_atomic.atomic_uint.atomic_uint.uint_fetch_and_sub">
+<span class="sig-name descname"><span class="pre">uint_fetch_and_sub</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#shared_atomic.atomic_uint.atomic_uint.uint_fetch_and_sub" title="Permalink to this definition">¶</a></dt>
+<dd><p>subtract and fetch atomically</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n</strong> – data to subtract</p></li>
+<li><p><strong>encoding</strong> – character set</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>original value in v</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="shared_atomic.atomic_uint.atomic_uint.uint_fetch_and_xor">
+<span class="sig-name descname"><span class="pre">uint_fetch_and_xor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#shared_atomic.atomic_uint.atomic_uint.uint_fetch_and_xor" title="Permalink to this definition">¶</a></dt>
+<dd><p>fetch then bitwise XOR atomically</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>n</strong> – data to XOR</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the result</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="shared_atomic.atomic_uint.atomic_uint.uint_get_and_set">
+<span class="sig-name descname"><span class="pre">uint_get_and_set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#shared_atomic.atomic_uint.atomic_uint.uint_get_and_set" title="Permalink to this definition">¶</a></dt>
+<dd><p>get and set atomically</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>n</strong> – value to set</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>original value</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="shared_atomic.atomic_uint.atomic_uint.uint_nand_and_fetch">
+<span class="sig-name descname"><span class="pre">uint_nand_and_fetch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#shared_atomic.atomic_uint.atomic_uint.uint_nand_and_fetch" title="Permalink to this definition">¶</a></dt>
+<dd><p>bitwise NAND and fetch the result atomically</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>n</strong> – data to NAND</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>resulted value</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="shared_atomic.atomic_uint.atomic_uint.uint_or_and_fetch">
+<span class="sig-name descname"><span class="pre">uint_or_and_fetch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#shared_atomic.atomic_uint.atomic_uint.uint_or_and_fetch" title="Permalink to this definition">¶</a></dt>
+<dd><p>bitwise XOR and fetch the result atomically</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>n</strong> – data to XOR</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>resulted value</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="shared_atomic.atomic_uint.atomic_uint.uint_shift">
+<span class="sig-name descname"><span class="pre">uint_shift</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">self_atomic_uint</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">self_atomic_uint</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#shared_atomic.atomic_uint.atomic_uint.uint_shift" title="Permalink to this definition">¶</a></dt>
+<dd><p>value exchange between 3 pointers in 2 groups atomically, store n in v after store v in r</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n</strong> – pointer of n</p></li>
+<li><p><strong>r</strong> – pointer of r</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="shared_atomic.atomic_uint.atomic_uint.uint_store">
+<span class="sig-name descname"><span class="pre">uint_store</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">self_atomic_uint</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#shared_atomic.atomic_uint.atomic_uint.uint_store" title="Permalink to this definition">¶</a></dt>
+<dd><p>Store value atomically</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>n</strong> – the pointer from value to set</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="shared_atomic.atomic_uint.atomic_uint.uint_sub_and_fetch">
+<span class="sig-name descname"><span class="pre">uint_sub_and_fetch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#shared_atomic.atomic_uint.atomic_uint.uint_sub_and_fetch" title="Permalink to this definition">¶</a></dt>
+<dd><p>sub and fetch atomically</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>n</strong> – data to subtract</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>difference of the 2 values</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="shared_atomic.atomic_uint.atomic_uint.uint_xor_and_fetch">
+<span class="sig-name descname"><span class="pre">uint_xor_and_fetch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#shared_atomic.atomic_uint.atomic_uint.uint_xor_and_fetch" title="Permalink to this definition">¶</a></dt>
+<dd><p>bitwise XOR and fetch the result atomically</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>n</strong> – data to XOR</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>resulted value</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="shared_atomic.atomic_uint.atomic_uint.value">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">value</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#shared_atomic.atomic_uint.atomic_uint.value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the value from atomic_uint,
+the int should be no longer than 8 bytes
+:return: the value</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="shared_atomic.atomic_uint.uint_add_and_fetch">
+<span class="sig-prename descclassname"><span class="pre">shared_atomic.atomic_uint.</span></span><span class="sig-name descname"><span class="pre">uint_add_and_fetch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">_cffi_backend._CDataBase</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#shared_atomic.atomic_uint.uint_add_and_fetch" title="Permalink to this definition">¶</a></dt>
+<dd><p>increment and fetch atomically</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v</strong> – pointer of value to add to and get</p></li>
+<li><p><strong>n</strong> – data to add</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>sum of the 2 values</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="shared_atomic.atomic_uint.uint_and_and_fetch">
+<span class="sig-prename descclassname"><span class="pre">shared_atomic.atomic_uint.</span></span><span class="sig-name descname"><span class="pre">uint_and_and_fetch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">_cffi_backend._CDataBase</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#shared_atomic.atomic_uint.uint_and_and_fetch" title="Permalink to this definition">¶</a></dt>
+<dd><p>bitwise AND and fetch the result atomically</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v</strong> – pointer of value to AND to</p></li>
+<li><p><strong>n</strong> – data to AND</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>resulted value</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="shared_atomic.atomic_uint.uint_compare_and_set">
+<span class="sig-prename descclassname"><span class="pre">shared_atomic.atomic_uint.</span></span><span class="sig-name descname"><span class="pre">uint_compare_and_set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">_cffi_backend._CDataBase</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">_cffi_backend._CDataBase</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#shared_atomic.atomic_uint.uint_compare_and_set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compare and set atomically. This compares the contents of v
+with the contents of e. If equal, the operation is a read-modify-write
+operation that writes n into self. If they are not equal,
+the operation is a read and the current contents of v are written into e.
+:param v: pointer of v
+:param e: pointer of e
+:param n: value to be set
+:return: whether the contents of v and contents of e is the same</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="shared_atomic.atomic_uint.uint_fetch_and_add">
+<span class="sig-prename descclassname"><span class="pre">shared_atomic.atomic_uint.</span></span><span class="sig-name descname"><span class="pre">uint_fetch_and_add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">_cffi_backend._CDataBase</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#shared_atomic.atomic_uint.uint_fetch_and_add" title="Permalink to this definition">¶</a></dt>
+<dd><p>increment and fetch atomically</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v</strong> – pointer of value to add to</p></li>
+<li><p><strong>n</strong> – data to add</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>original value in v</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="shared_atomic.atomic_uint.uint_fetch_and_and">
+<span class="sig-prename descclassname"><span class="pre">shared_atomic.atomic_uint.</span></span><span class="sig-name descname"><span class="pre">uint_fetch_and_and</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">_cffi_backend._CDataBase</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#shared_atomic.atomic_uint.uint_fetch_and_and" title="Permalink to this definition">¶</a></dt>
+<dd><p>fetch then bitwise AND atomically</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v</strong> – pointer of value to AND to</p></li>
+<li><p><strong>n</strong> – data to AND</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the result</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="shared_atomic.atomic_uint.uint_fetch_and_nand">
+<span class="sig-prename descclassname"><span class="pre">shared_atomic.atomic_uint.</span></span><span class="sig-name descname"><span class="pre">uint_fetch_and_nand</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">_cffi_backend._CDataBase</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#shared_atomic.atomic_uint.uint_fetch_and_nand" title="Permalink to this definition">¶</a></dt>
+<dd><p>fetch then bitwise NAND atomically</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v</strong> – pointer of value to NAND to</p></li>
+<li><p><strong>n</strong> – data to NAND</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the result</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="shared_atomic.atomic_uint.uint_fetch_and_or">
+<span class="sig-prename descclassname"><span class="pre">shared_atomic.atomic_uint.</span></span><span class="sig-name descname"><span class="pre">uint_fetch_and_or</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">_cffi_backend._CDataBase</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#shared_atomic.atomic_uint.uint_fetch_and_or" title="Permalink to this definition">¶</a></dt>
+<dd><p>fetch then bitwise OR atomically</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v</strong> – pointer of value to OR to</p></li>
+<li><p><strong>n</strong> – data to OR</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the result</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="shared_atomic.atomic_uint.uint_fetch_and_sub">
+<span class="sig-prename descclassname"><span class="pre">shared_atomic.atomic_uint.</span></span><span class="sig-name descname"><span class="pre">uint_fetch_and_sub</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">_cffi_backend._CDataBase</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#shared_atomic.atomic_uint.uint_fetch_and_sub" title="Permalink to this definition">¶</a></dt>
+<dd><p>subtract and fetch atomically</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v</strong> – pointer of value to subtract from</p></li>
+<li><p><strong>n</strong> – data to subtract</p></li>
+<li><p><strong>encoding</strong> – character set</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>original value in v</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="shared_atomic.atomic_uint.uint_fetch_and_xor">
+<span class="sig-prename descclassname"><span class="pre">shared_atomic.atomic_uint.</span></span><span class="sig-name descname"><span class="pre">uint_fetch_and_xor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">_cffi_backend._CDataBase</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#shared_atomic.atomic_uint.uint_fetch_and_xor" title="Permalink to this definition">¶</a></dt>
+<dd><p>fetch then bitwise XOR atomically</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v</strong> – pointer of value to XOR to</p></li>
+<li><p><strong>n</strong> – data to XOR</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the result</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="shared_atomic.atomic_uint.uint_get_and_set">
+<span class="sig-prename descclassname"><span class="pre">shared_atomic.atomic_uint.</span></span><span class="sig-name descname"><span class="pre">uint_get_and_set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">_cffi_backend._CDataBase</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#shared_atomic.atomic_uint.uint_get_and_set" title="Permalink to this definition">¶</a></dt>
+<dd><p>get and set atomically</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v</strong> – pointer of value to get and set</p></li>
+<li><p><strong>n</strong> – value to set</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>original value</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="shared_atomic.atomic_uint.uint_nand_and_fetch">
+<span class="sig-prename descclassname"><span class="pre">shared_atomic.atomic_uint.</span></span><span class="sig-name descname"><span class="pre">uint_nand_and_fetch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">_cffi_backend._CDataBase</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#shared_atomic.atomic_uint.uint_nand_and_fetch" title="Permalink to this definition">¶</a></dt>
+<dd><p>bitwise NAND and fetch the result atomically</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v</strong> – pointer of value to NAND to</p></li>
+<li><p><strong>n</strong> – data to NAND</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>resulted value</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="shared_atomic.atomic_uint.uint_or_and_fetch">
+<span class="sig-prename descclassname"><span class="pre">shared_atomic.atomic_uint.</span></span><span class="sig-name descname"><span class="pre">uint_or_and_fetch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">_cffi_backend._CDataBase</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#shared_atomic.atomic_uint.uint_or_and_fetch" title="Permalink to this definition">¶</a></dt>
+<dd><p>bitwise XOR and fetch the result atomically</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v</strong> – pointer of value to XOR to</p></li>
+<li><p><strong>n</strong> – data to XOR</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>resulted value</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="shared_atomic.atomic_uint.uint_shift">
+<span class="sig-prename descclassname"><span class="pre">shared_atomic.atomic_uint.</span></span><span class="sig-name descname"><span class="pre">uint_shift</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">_cffi_backend._CDataBase</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">_cffi_backend._CDataBase</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">_cffi_backend._CDataBase</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#shared_atomic.atomic_uint.uint_shift" title="Permalink to this definition">¶</a></dt>
+<dd><p>value exchange between 3 pointers in 2 groups atomically, store n in v after store v in r</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v</strong> – pointer of v</p></li>
+<li><p><strong>n</strong> – pointer of n</p></li>
+<li><p><strong>r</strong> – pointer of r</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="shared_atomic.atomic_uint.uint_store">
+<span class="sig-prename descclassname"><span class="pre">shared_atomic.atomic_uint.</span></span><span class="sig-name descname"><span class="pre">uint_store</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">_cffi_backend._CDataBase</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">_cffi_backend._CDataBase</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#shared_atomic.atomic_uint.uint_store" title="Permalink to this definition">¶</a></dt>
+<dd><p>Store value atomically</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v</strong> – the pointer to set</p></li>
+<li><p><strong>n</strong> – the pointer from value to set</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="shared_atomic.atomic_uint.uint_sub_and_fetch">
+<span class="sig-prename descclassname"><span class="pre">shared_atomic.atomic_uint.</span></span><span class="sig-name descname"><span class="pre">uint_sub_and_fetch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">_cffi_backend._CDataBase</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#shared_atomic.atomic_uint.uint_sub_and_fetch" title="Permalink to this definition">¶</a></dt>
+<dd><p>sub and fetch atomically</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v</strong> – pointer of value to subtract and get</p></li>
+<li><p><strong>n</strong> – data to subtract</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>difference of the 2 values</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="shared_atomic.atomic_uint.uint_xor_and_fetch">
+<span class="sig-prename descclassname"><span class="pre">shared_atomic.atomic_uint.</span></span><span class="sig-name descname"><span class="pre">uint_xor_and_fetch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">_cffi_backend._CDataBase</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#shared_atomic.atomic_uint.uint_xor_and_fetch" title="Permalink to this definition">¶</a></dt>
+<dd><p>bitwise XOR and fetch the result atomically</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v</strong> – pointer of value to XOR to</p></li>
+<li><p><strong>n</strong> – data to XOR</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>resulted value</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">shared_atomic.atomic_uint.</span></span><span class="sig-name descname"><span class="pre">atomic_uint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'singleprocessing'</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Unsigned int provide atomic operations, the unsigned int should be no longer than 8 bytes</p>
+<p>constructor to initialize the atomic_uint,
+the int should be no longer than 8 bytes</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong> – initial value of the int, if the initial value is longer than 8 bytes, it would fail.</p></li>
+<li><p><strong>mode</strong> – the mode in which the int will be shared. ‘singleprocessing’ or ‘s’ for single process, ‘multiprocessing’ or ‘m’ for multiprocessing, on windows platform, only singleprocessing is supported, setting it to ‘m’ or ‘multiprocessing’ will be ignored.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span></dt>
+<dd><p>Get the value from atomic_uint,
+the int should be no longer than 8 bytes
+:return: the value</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>set the value from atomic_uint,
+the int should be no longer than 8 bytes</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">uint_add_and_fetch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span></dt>
+<dd><p>increment and fetch atomically</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>n</strong> – data to add</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>sum of the 2 values</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">uint_and_and_fetch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span></dt>
+<dd><p>bitwise AND and fetch the result atomically</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>n</strong> – data to AND</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>resulted value</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">uint_compare_and_set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">e</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">self_atomic_uint</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span></dt>
+<dd><p>Compare and set atomically. This compares the contents of v
+with the contents of e. If equal, the operation is a read-modify-write
+operation that writes n into self. If they are not equal,
+the operation is a read and the current contents of v are written into e.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>e</strong> – pointer of e</p></li>
+<li><p><strong>n</strong> – value to be set</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>whether the contents of v and contents of e is the same</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">uint_fetch_and_add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span></dt>
+<dd><p>increment and fetch atomically</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>n</strong> – data to add</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>original value in v</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">uint_fetch_and_and</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span></dt>
+<dd><p>fetch then bitwise AND atomically</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>n</strong> – data to AND</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the result</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">uint_fetch_and_nand</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span></dt>
+<dd><p>fetch then bitwise NAND atomically</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>n</strong> – data to NAND</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the result</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">uint_fetch_and_or</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span></dt>
+<dd><p>fetch then bitwise OR atomically</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>n</strong> – data to OR</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the result</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">uint_fetch_and_sub</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span></dt>
+<dd><p>subtract and fetch atomically</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n</strong> – data to subtract</p></li>
+<li><p><strong>encoding</strong> – character set</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>original value in v</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">uint_fetch_and_xor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span></dt>
+<dd><p>fetch then bitwise XOR atomically</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>n</strong> – data to XOR</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the result</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">uint_get_and_set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span></dt>
+<dd><p>get and set atomically</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>n</strong> – value to set</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>original value</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">uint_nand_and_fetch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span></dt>
+<dd><p>bitwise NAND and fetch the result atomically</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>n</strong> – data to NAND</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>resulted value</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">uint_or_and_fetch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span></dt>
+<dd><p>bitwise XOR and fetch the result atomically</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>n</strong> – data to XOR</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>resulted value</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">uint_shift</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">self_atomic_uint</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">self_atomic_uint</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>value exchange between 3 pointers in 2 groups atomically, store n in v after store v in r</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n</strong> – pointer of n</p></li>
+<li><p><strong>r</strong> – pointer of r</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">uint_store</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">self_atomic_uint</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Store value atomically</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>n</strong> – the pointer from value to set</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">uint_sub_and_fetch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span></dt>
+<dd><p>sub and fetch atomically</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>n</strong> – data to subtract</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>difference of the 2 values</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">uint_xor_and_fetch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span></dt>
+<dd><p>bitwise XOR and fetch the result atomically</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>n</strong> – data to XOR</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>resulted value</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">value</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em></dt>
+<dd><p>Get the value from atomic_uint,
+the int should be no longer than 8 bytes
+:return: the value</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+              <div class="related bottom">
+                &nbsp;
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="int_api.html" title="Previous document">Int API:</a>
+        </li>
+        <li>
+          <a href="boolfloat_api.html" title="Next document">Bool and Float API:</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+              </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">shared_atomic</a></h1>
+
+
+
+<p class="blurb">Shared atomicity with multiprocessing/multithreads shared ctypes</p>
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=irvinren&repo=shared_atomic&type=watch&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="ctypes_example.html">ctypes Example:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bytearray_example.html">atomic api Example:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="int_api.html">Int API:</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Unsigned int API:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="boolfloat_api.html">Bool and Float API:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bytearray_api.html">Bytearray API:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="list_api.html">List API:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="set_api.html">Set API:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="string_api.html">String API:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ctypes_api.html">ctypes API Referennce</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="int_api.html" title="previous chapter">Int API:</a></li>
+      <li>Next: <a href="boolfloat_api.html" title="next chapter">Bool and Float API:</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+<h3 class="donation">Donate/support</h3>
+
+
+
+<p>
+<a class="badge" href="https://paypal.me/xiquanren">
+<img src="https://img.shields.io/badge/donate-%E2%9D%A4%C2%A0-ff69b4.svg?style=flat" alt="Donate">
+</a>
+</p>
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Xiquan Ren <xiquanren@yandex.com>.
+      
+      |
+      <a href="_sources/uint_api.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

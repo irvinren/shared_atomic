@@ -1,0 +1,187 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>atomic api Example: &#8212; Documentation for shared_atomic</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="ctypes Example:" href="ctypes_example.html" />
+    <link rel="prev" title="Welcome to shared_atomic’s documentation!" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+              <div class="related top">
+                &nbsp;
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="index.html" title="Previous document">Welcome to shared_atomic’s documentation!</a>
+        </li>
+        <li>
+          <a href="ctypes_example.html" title="Next document">ctypes Example:</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+              </div>
+          
+
+          <div class="body" role="main">
+            
+  <div class="tex2jax_ignore mathjax_ignore section" id="atomic-api-example">
+<h1>atomic api Example:<a class="headerlink" href="#atomic-api-example" title="Permalink to this headline">¶</a></h1>
+<p>You need the following steps to utilize the module:</p>
+<ol class="arabic">
+<li><p>create function used by child processes, refer to <a class="reference internal" href="uint_api.html"><span class="doc std std-doc">UIntAPIs</span></a>, <a class="reference internal" href="int_api.html"><span class="doc std std-doc">IntAPIs</span></a>, <a class="reference internal" href="bytearray_api.html"><span class="doc std std-doc">BytearrayAPIs</span></a>, <a class="reference internal" href="string_api.html"><span class="doc std std-doc">StringAPIs</span></a>, <a class="reference internal" href="set_api.html"><span class="doc std std-doc">SetAPIs</span></a>, <a class="reference internal" href="list_api.html"><span class="doc std std-doc">ListAPIs</span></a>, in each process, you can create multiple threads.</p>
+<p><code class="docutils literal notranslate"><span class="pre">def</span> <span class="pre">process_run(a):</span></code></p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160;&#160; <span class="pre">def</span> <span class="pre">subthread_run(a):</span></code></p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">a.array_sub_and_fetch(b'\x0F')</span></code></p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160;&#160; <span class="pre">threadlist</span> <span class="pre">=</span> <span class="pre">[]</span></code></p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160;&#160; <span class="pre">for</span> <span class="pre">t</span> <span class="pre">in</span> <span class="pre">range(5000):</span></code></p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">threadlist.append(Thread(target=subthread_run,</span> <span class="pre">args=(a,)))</span></code></p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160;&#160; <span class="pre">for</span> <span class="pre">t</span> <span class="pre">in</span> <span class="pre">range(5000):</span></code></p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">threadlist[t].start()</span></code></p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160;&#160; <span class="pre">for</span> <span class="pre">t</span> <span class="pre">in</span> <span class="pre">range(5000):</span></code></p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">threadlist[t].join()</span></code></p>
+</li>
+<li><p>create the shared bytearray</p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">a</span> <span class="pre">=</span> <span class="pre">atomic_bytearray(b'ab',</span> <span class="pre">length=7,</span> <span class="pre">paddingdirection='r',</span> <span class="pre">paddingbytes=b'012',</span> <span class="pre">mode='m')</span></code></p>
+</li>
+<li><p>start processes/threads to utilize the shared bytearray</p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">processlist</span> <span class="pre">=</span> <span class="pre">[]</span></code></p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">for</span> <span class="pre">p</span> <span class="pre">in</span> <span class="pre">range(2):</span></code></p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">processlist.append(Process(target=process_run,</span> <span class="pre">args=(a,)))</span></code></p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">for</span> <span class="pre">p</span> <span class="pre">in</span> <span class="pre">range(2):</span></code></p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">processlist[p].start()</span></code></p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">for</span> <span class="pre">p</span> <span class="pre">in</span> <span class="pre">range(2):</span></code></p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">processlist[p].join()</span></code></p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">assert</span> <span class="pre">a.value</span> <span class="pre">==</span> <span class="pre">int.to_bytes(27411031864108609,length=8,byteorder='big')</span></code></p>
+</li>
+</ol>
+</div>
+
+
+          </div>
+              <div class="related bottom">
+                &nbsp;
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="index.html" title="Previous document">Welcome to shared_atomic’s documentation!</a>
+        </li>
+        <li>
+          <a href="ctypes_example.html" title="Next document">ctypes Example:</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+              </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">shared_atomic</a></h1>
+
+
+
+<p class="blurb">Shared atomicity with multiprocessing/multithreads shared ctypes</p>
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=irvinren&repo=shared_atomic&type=watch&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">atomic api Example:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ctypes_example.html">ctypes Example:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="int_api.html">Int API:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="uint_api.html">Unsigned int API:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="boolfloat_api.html">Bool and Float API:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bytearray_api.html">Bytearray API:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="list_api.html">List API:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="set_api.html">Set API:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="string_api.html">String API:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ctypes_api.html">ctypes API Referennce</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to shared_atomic’s documentation!</a></li>
+      <li>Next: <a href="ctypes_example.html" title="next chapter">ctypes Example:</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+<h3 class="donation">Donate/support</h3>
+
+
+
+<p>
+<a class="badge" href="https://paypal.me/xiquanren">
+<img src="https://img.shields.io/badge/donate-%E2%9D%A4%C2%A0-ff69b4.svg?style=flat" alt="Donate">
+</a>
+</p>
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Xiquan Ren <xiquanren@yandex.com>.
+      
+      |
+      <a href="_sources/atomic_api_example.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

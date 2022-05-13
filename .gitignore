@@ -1,11 +1,7 @@
-.DS_Store
+*.DS_Store
+*__pycache__
 .idea/
 MANIFEST
-build/
-dist/
-docs/build/.DS_Store
-shared_atomic/__pycache__
 shared_atomic.egg-info
 .project
 .pydevproject
-__pycache__
