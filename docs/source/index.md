@@ -4,14 +4,14 @@ Welcome to shared_atomic's documentation!
 <big> The module can be used for atomic operations under multiple processs and multiple threads conditions.
 
 Included datatypes:
-- - [atomic_int](./int_api.md)
-- - [atomic_uint](./uint_api.md)
-- - [atomic_float](./boolfloat_api.md)
-- - [atomic_bool](./boolfloat_api.md)
-- - [atomic_bytearray](./bytearray_api.md)
-- - [atomic_string](./string_api.md)
-- - [atomic_set](./set_api.md), package [bitarray>=2.4.0](https://pypi.org/project/bitarray/) is needed.
-- - [atomic_list](./list_api.md), package [bitarray>=2.4.0](https://pypi.org/project/bitarray/) is needed
+- - atomic_int
+- - atomic_uint
+- - atomic_float
+- - atomic_bool
+- - atomic_bytearray
+- - atomic_string
+- - atomic_set, package [bitarray>=2.4.0](https://pypi.org/project/bitarray/) is needed.
+- - atomic_list, package [bitarray>=2.4.0](https://pypi.org/project/bitarray/) is needed
 
 Ctypes APIs inherited from the old version continue to work.
 
@@ -37,13 +37,6 @@ For ctypes api references, please visit [ctypes api](./ctypes_api.md).</big>
 
    atomic_api_example.md
    ctypes_example.md
-   int_api.md
-   uint_api.md
-   boolfloat_api.md
-   bytearray_api.md
-   list_api.md
-   set_api.md
-   string_api.md
    ctypes_api.md
 
  ```

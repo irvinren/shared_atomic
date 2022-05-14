@@ -2,7 +2,7 @@
 
 You need the following steps to utilize the module:
 
-1) create function used by child processes, refer to [UIntAPIs](./uint_api.md), [IntAPIs](./int_api.md), [BytearrayAPIs](./bytearray_api.md), [StringAPIs](./string_api.md), [SetAPIs](./set_api.md), [ListAPIs](./list_api.md), in each process, you can create multiple threads.
+1) create function used by child processes, in each process, you can create multiple threads.
 
    `def process_run(a):`
 
