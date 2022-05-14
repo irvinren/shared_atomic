@@ -113,4 +113,7 @@ For documentation, please go to:
 
  https://shared-atomic.readthedocs.io/zh_CN/latest/
 
+繁體中文文檔，請參閲：
+ https://shared-atomic.readthedocs.io/zh_TW/latest/
+
 The project is licensed under GPL v3.0
