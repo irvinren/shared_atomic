@@ -3,7 +3,7 @@ Welcome to shared_atomic's documentation!
 
 <big> The module can be used for atomic operations under multiple processs and multiple threads conditions.
 
-Included datatypes:
+Included datatypes, detailed reference, please see docstring in the sourcecode
 - - atomic_int
 - - atomic_uint
 - - atomic_float

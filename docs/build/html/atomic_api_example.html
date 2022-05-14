@@ -51,7 +51,7 @@
 <h1>atomic api Example:<a class="headerlink" href="#atomic-api-example" title="Permalink to this headline">¶</a></h1>
 <p>You need the following steps to utilize the module:</p>
 <ol class="arabic">
-<li><p>create function used by child processes, refer to <a class="reference internal" href="uint_api.html"><span class="doc std std-doc">UIntAPIs</span></a>, <a class="reference internal" href="int_api.html"><span class="doc std std-doc">IntAPIs</span></a>, <a class="reference internal" href="bytearray_api.html"><span class="doc std std-doc">BytearrayAPIs</span></a>, <a class="reference internal" href="string_api.html"><span class="doc std std-doc">StringAPIs</span></a>, <a class="reference internal" href="set_api.html"><span class="doc std std-doc">SetAPIs</span></a>, <a class="reference internal" href="list_api.html"><span class="doc std std-doc">ListAPIs</span></a>, in each process, you can create multiple threads.</p>
+<li><p>create function used by child processes, in each process, you can create multiple threads.</p>
 <p><code class="docutils literal notranslate"><span class="pre">def</span> <span class="pre">process_run(a):</span></code></p>
 <p><code class="docutils literal notranslate">&#160;&#160;&#160;&#160; <span class="pre">def</span> <span class="pre">subthread_run(a):</span></code></p>
 <p><code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">a.array_sub_and_fetch(b'\x0F')</span></code></p>
@@ -123,13 +123,6 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">atomic api Example:</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ctypes_example.html">ctypes Example:</a></li>
-<li class="toctree-l1"><a class="reference internal" href="int_api.html">Int API:</a></li>
-<li class="toctree-l1"><a class="reference internal" href="uint_api.html">Unsigned int API:</a></li>
-<li class="toctree-l1"><a class="reference internal" href="boolfloat_api.html">Bool and Float API:</a></li>
-<li class="toctree-l1"><a class="reference internal" href="bytearray_api.html">Bytearray API:</a></li>
-<li class="toctree-l1"><a class="reference internal" href="list_api.html">List API:</a></li>
-<li class="toctree-l1"><a class="reference internal" href="set_api.html">Set API:</a></li>
-<li class="toctree-l1"><a class="reference internal" href="string_api.html">String API:</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ctypes_api.html">ctypes API Referennce</a></li>
 </ul>
 
